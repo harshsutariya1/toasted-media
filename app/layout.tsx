@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Outfit, Oswald, Syne, DM_Serif_Display } from "next/font/google"; // Frequently used fonts
 
 import "./globals.css";
+import ScrollToTop from "./components/ScrollToTop";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -58,6 +59,7 @@ export default function RootLayout({
         className={`${inter.variable} ${outfit.variable} ${oswald.variable} ${syne.variable} ${dmSerifDisplay.variable} antialiased bg-white text-neutral-900`}
       >
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );
