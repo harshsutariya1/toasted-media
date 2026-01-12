@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* 1. Define your Brand Identity directly in CSS */
+@theme {
+  /* Brand Colors from Logo */
+  --color-brand-blue: #2f72e7;
+  --color-brand-orange: #f78f2d;
+  --color-brand-yellow: #f7c73d;
+  --color-brand-purple: #7e3af1;
+  --color-brand-teal: #00c1a3;
+
+  /* Dark Mode specific backgrounds */
+  --color-dark-bg: #0a0a0a;
+  --color-dark-card: #121212;
+  --color-dark-border: #27272a;
+
+  /* Custom Gradients */
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-brand-mesh: radial-gradient(at 0% 0%, #2f72e7 0px, transparent 50%), radial-gradient(at 100% 0%, #7e3af1 0px, transparent 50%), radial-gradient(at 100% 100%, #f78f2d 0px, transparent 50%), radial-gradient(at 0% 100%, #00c1a3 0px, transparent 50%);
+}
+
+/* 2. Configure Dark Mode (Class Strategy for next-themes) */
+/* This overrides the default system-based dark mode to look for the "dark" class */
+@variant dark (&:where(.dark, .dark *));
+
+/* 3. Base Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    /* Use the new theme variables here */
+    @apply bg-dark-bg text-white transition-colors duration-300;
+  }
+}
+
+/* Custom Utilities for Hero Section */
+.grid-texture {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+}
+
+/* Flame Text Animation */
+@keyframes flame {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1.02);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(-2px) scale(1.04);
+    opacity: 0.8;
+  }
+}
+
+@keyframes flame-delayed {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1.02);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translateY(2px) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+.animate-flame {
+  animation: flame 3s ease-in-out infinite;
+}
+
+.animate-flame-delayed {
+  animation: flame-delayed 4s ease-in-out infinite reverse;
+}
