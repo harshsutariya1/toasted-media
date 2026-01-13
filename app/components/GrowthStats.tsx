@@ -40,16 +40,8 @@ export default function GrowthStats() {
     return (
         <section id="about" className="relative py-16 md:py-24 bg-neutral-900 border-y border-neutral-800 font-sans overflow-hidden">
             {/* Background Video */}
+            {/* Background Gradient */}
             <div className="absolute inset-0 w-full h-full z-0">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover opacity-100 pointer-events-none"
-                >
-                    <source src="/media/flame_particles_tiny.mp4" type="video/mp4" />
-                </video>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-900/30 to-neutral-900" />
             </div>
 

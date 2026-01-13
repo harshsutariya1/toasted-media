@@ -18,14 +18,12 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
         "https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da"
     ];
 
-    const videosToPreload = [
-        "/media/flame_particles_tiny.mp4"
-    ];
+
 
     useEffect(() => {
         let isMounted = true;
         let loadedCount = 0;
-        const totalAssets = imagesToPreload.length + videosToPreload.length;
+        const totalAssets = imagesToPreload.length;
         const startTime = Date.now();
         const minDuration = 1000; // Minimum splash duration in ms
 
@@ -54,32 +52,17 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
             });
         };
 
-        const preloadVideo = (src: string) => {
-            return new Promise<void>((resolve) => {
-                fetch(src)
-                    .then(() => {
-                        loadedCount++;
-                        updateProgress();
-                        resolve();
-                    })
-                    .catch(() => {
-                        // Even if error, count as loaded to avoid blocking
-                        loadedCount++;
-                        updateProgress();
-                        resolve();
-                    });
-            });
-        };
+
 
         const loadAllAssets = async () => {
             // Start preloading images and videos
             const imagePromises = imagesToPreload.map(preloadImage);
-            const videoPromises = videosToPreload.map(preloadVideo);
+
 
             // Wait for assets AND minimum time
             await Promise.all([
                 ...imagePromises,
-                ...videoPromises,
+
                 new Promise<void>(resolve => setTimeout(resolve, minDuration))
             ]);
 
