@@ -13,7 +13,7 @@ import ContactSection from "@/app/components/ContactSection";
 import { AnimatePresence, motion } from "framer-motion";
 import Footer from "@/app/components/Footer";
 
-import ToastedHero from "@/app/components/ToastedHero";
+import HeroZoomScroll from "@/app/components/HeroZoomScroll";
 import BriefIntro from "@/app/components/BriefIntro";
 
 import IndustriesGrid from "@/app/components/IndustriesGrid";
@@ -24,10 +24,10 @@ export default function Home() {
 
   const handleSplashFinish = () => {
     setShowSplash(false);
-    // Show navbar smoothly as splash ends (short delay for fade to start)
+    // Show navbar smoothly as splash ends
     setTimeout(() => {
       setShowNavbar(true);
-    }, 200);
+    }, 50);
   };
 
   return (
@@ -44,23 +44,18 @@ export default function Home() {
           <AnimatePresence>
             {showNavbar && (
               <motion.div
-                initial={{ y: -100, opacity: 0 }}
+                initial={{ y: -150, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-[100]"
               >
                 <Navbar />
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Hero Section - scroll reveal from bottom */}
-          <motion.div
-            initial={{ y: "100vh" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-          >
-            <ToastedHero />
-          </motion.div>
+          {/* Hero Section with Zoom Scroll Effect */}
+          <HeroZoomScroll />
 
           {/* Rest of the page */}
           <BriefIntro />
