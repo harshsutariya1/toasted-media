@@ -31,7 +31,7 @@ const industries = [
         desc: "Conversion-driven.",
         icon: ShoppingBag,
         color: "#FACC15", // Yellow from logo
-        image: "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=2340",
+        image: "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=2340",
         className: "md:col-span-1 md:row-span-1",
     },
     {
