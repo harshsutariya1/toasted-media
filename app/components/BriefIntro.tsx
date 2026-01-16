@@ -85,7 +85,7 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
     return (
         <section
             ref={containerRef}
-            className="relative w-full bg-stone-200 py-32 md:py-48 px-4 border-y border-white/5 overflow-hidden"
+            className="relative w-full bg-stone-200 py-32 md:py-48 px-4 border-b border-white/5 overflow-hidden"
         >
             {/* Background Layers from HeroZoomScroll (adapted for section flow) */}
             <div className="absolute inset-0 z-0 pointer-events-none">
