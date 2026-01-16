@@ -120,7 +120,7 @@ interface IndustryItem {
     id: number;
     title: string;
     desc: string;
-    icon: any;
+    icon: React.ElementType;
     color: string;
     image: string;
     className: string;

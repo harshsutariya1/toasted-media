@@ -108,7 +108,7 @@ interface Step {
     color: string;
     border: string;
     glow: string;
-    icon: any;
+    icon: React.ElementType;
 }
 
 function ProcessStep({ step, index }: { step: Step, index: number }) {

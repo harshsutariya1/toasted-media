@@ -5,7 +5,7 @@ import SplashScreen from "@/app/components/SplashScreen";
 import Navbar from "@/app/components/Navbar";
 import GrowthStats from "@/app/components/GrowthStats";
 import ServicesSection from "@/app/components/ServicesSection";
-import IndustriesSection from "@/app/components/IndustriesSection";
+
 import FoundersSection from "@/app/components/FoundersSection";
 import ProcessSection from "@/app/components/ProcessSection";
 import TestimonialsSection from "@/app/components/TestimonialsSection";
@@ -63,7 +63,7 @@ export default function Home() {
           <GrowthStats />
           <ServicesSection />
           <IndustriesGrid />
-          <IndustriesSection />
+
           <FoundersSection />
           <ProcessSection />
           <TestimonialsSection />

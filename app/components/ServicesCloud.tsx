@@ -88,7 +88,7 @@ export default function ServicesCloud() {
 }
 
 // Background/Floating Card Component
-function FloatingServiceCard({ item, x, y, z, mouseX, mouseY }: { item: { name: string; desc: string; icon: any }, x: number, y: number, z: number, mouseX: MotionValue<number>, mouseY: MotionValue<number> }) {
+function FloatingServiceCard({ item, x, y, z, mouseX, mouseY }: { item: { name: string; desc: string; icon: React.ElementType }, x: number, y: number, z: number, mouseX: MotionValue<number>, mouseY: MotionValue<number> }) {
     // Parallax strength depends on Depth (Z)
     const depthFactor = Math.abs(z) / 100;
     const moveX = useTransform(mouseX, (val: number) => val * (0.05 * (1 - depthFactor)));
