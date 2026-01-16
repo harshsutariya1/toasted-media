@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-const ToastedHero = () => {
+interface ToastedHeroProps {
+    pattern?: 'dots' | 'grid';
+}
+
+const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
     const [scrollY, setScrollY] = useState(0);
@@ -51,27 +55,25 @@ const ToastedHero = () => {
 
             {/* Static Squared Texture Background with Cursor Glow */}
             <div className="absolute inset-0 z-0 pointer-events-none">
-                {/* Base Grid - Faint */}
+                {/* Base Grid */}
                 <div
-                    className="absolute inset-0 z-0 opacity-[0.03]"
+                    className="absolute inset-0 z-0 opacity-[0.2]"
                     style={{
-                        backgroundImage: `
-                            linear-gradient(to right, #ffffff 1px, transparent 1px),
-                            linear-gradient(to bottom, #ffffff 1px, transparent 1px)
-                        `,
-                        backgroundSize: '40px 40px',
+                        backgroundImage: pattern === 'dots'
+                            ? `radial-gradient(circle, #ffffff 1.5px, transparent 1.5px)`
+                            : `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+                        backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
                     }}
                 />
 
                 {/* Glowing Grid - Masked */}
                 <div
-                    className="absolute inset-0 z-10 opacity-30 transition-opacity duration-75"
+                    className="absolute inset-0 z-10 opacity-40 transition-opacity duration-75"
                     style={{
-                        backgroundImage: `
-                            linear-gradient(to right, #ea580c 1px, transparent 1px),
-                            linear-gradient(to bottom, #ea580c 1px, transparent 1px)
-                        `,
-                        backgroundSize: '40px 40px',
+                        backgroundImage: pattern === 'dots'
+                            ? `radial-gradient(circle, #ea580c 2px, transparent 2px)`
+                            : `linear-gradient(to right, #ea580c 1px, transparent 1px), linear-gradient(to bottom, #ea580c 1px, transparent 1px)`,
+                        backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
                         maskImage: `radial-gradient(circle 300px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                         WebkitMaskImage: `radial-gradient(circle 300px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                     }}

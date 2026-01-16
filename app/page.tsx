@@ -21,6 +21,7 @@ import IndustriesGrid from "@/app/components/IndustriesGrid";
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [showNavbar, setShowNavbar] = useState(false);
+  const [pattern, setPattern] = useState<'dots' | 'grid'>('dots');
 
   const handleSplashFinish = () => {
     setShowSplash(false);
@@ -49,16 +50,16 @@ export default function Home() {
                 transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                 className="relative z-[100]"
               >
-                <Navbar />
+                <Navbar pattern={pattern} setPattern={setPattern} />
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Hero Section with Zoom Scroll Effect */}
-          <HeroZoomScroll />
+          <HeroZoomScroll pattern={pattern} />
 
           {/* Rest of the page */}
-          <BriefIntro />
+          <BriefIntro pattern={pattern} />
           <GrowthStats />
           <ServicesSection />
           <IndustriesGrid />

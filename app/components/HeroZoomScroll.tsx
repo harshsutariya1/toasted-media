@@ -4,7 +4,11 @@ import { useRef, useState, useEffect } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import ToastedHero from "./ToastedHero";
 
-export default function HeroZoomScroll() {
+interface HeroZoomScrollProps {
+    pattern: 'dots' | 'grid';
+}
+
+export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
@@ -83,7 +87,7 @@ export default function HeroZoomScroll() {
                 >
                     {/* Container for the Hero Component */}
                     <div className="w-full h-full bg-stone-950">
-                        <ToastedHero />
+                        <ToastedHero pattern={pattern} />
                     </div>
 
                     {/* Premium Glass/Border Overlay */}
@@ -112,38 +116,36 @@ export default function HeroZoomScroll() {
                     </p>
                 </motion.div>
 
-                {/* Standardized Squared Texture Background (Light Theme Adapted) */}
+                {/* Dynamic Background Texture (Light Theme Adapted) */}
                 <motion.div
                     style={{ opacity: textOpacity }}
                     className="absolute inset-0 z-0 pointer-events-none"
                 >
-                    {/* Faint Grid */}
+                    {/* Pattern Layer */}
                     <div
-                        className="absolute inset-0 opacity-[0.4]"
+                        className="absolute inset-0 opacity-[0.3]"
                         style={{
-                            backgroundImage: `
-                                linear-gradient(to right, #a8a29e 1px, transparent 1px),
-                                linear-gradient(to bottom, #a8a29e 1px, transparent 1px)
-                            `,
-                            backgroundSize: '40px 40px',
+                            backgroundImage: pattern === 'dots'
+                                ? `radial-gradient(circle, #a8a29e 1.5px, transparent 1.5px)`
+                                : `linear-gradient(to right, #a8a29e 1px, transparent 1px), linear-gradient(to bottom, #a8a29e 1px, transparent 1px)`,
+                            backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
                         }}
                     />
 
-                    {/* Interactive Glowing Grid (Orange Brand Color) */}
+                    {/* Interactive Glowing Layer */}
                     <div
                         className="absolute inset-0 opacity-100 transition-opacity duration-75"
                         style={{
-                            backgroundImage: `
-                                linear-gradient(to right, #f97316 1px, transparent 1px),
-                                linear-gradient(to bottom, #f97316 1px, transparent 1px)
-                            `,
-                            backgroundSize: '40px 40px',
+                            backgroundImage: pattern === 'dots'
+                                ? `radial-gradient(circle, #f97316 2px, transparent 2px)`
+                                : `linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)`,
+                            backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
                             maskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                             WebkitMaskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                         }}
                     />
 
-                    {/* Glowing Radial Effect (to match hero vibe but light) --> Kept minimal or removed bottom fade */}
+                    {/* Glowing Radial Effect (to match hero vibe but light) */}
                     <div className="absolute inset-0 bg-gradient-to-b from-stone-200/0 via-stone-200/0 to-stone-200/0" />
 
                     {/* Center Glow Area */}

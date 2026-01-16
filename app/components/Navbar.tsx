@@ -4,14 +4,22 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 
-export default function Navbar() {
+import { Grid3X3, CircleDot } from "lucide-react";
+
+interface NavbarProps {
+    pattern: 'dots' | 'grid';
+    setPattern: (pattern: 'dots' | 'grid') => void;
+}
+
+export default function Navbar({ pattern, setPattern }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
-    // Handle scroll for eventual aesthetic tweaks
+    // ... (rest of the component logic)
+
+    // Scroll effect logic (kept same as before)
     useEffect(() => {
         const handleScroll = () => {
-            // We can use this if we want to change style on scroll
             setScrolled(window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll);
@@ -23,6 +31,36 @@ export default function Navbar() {
         { name: "Industries", href: "#industries" },
         { name: "Process", href: "#process" },
     ];
+
+    // ... (render logic start remains same) ...
+
+    {/* Footer Links & Toggles */ }
+    <div className="px-6 pb-6 pt-2 flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs font-semibold text-neutral-500 uppercase tracking-widest border-t border-dashed border-white/10 mt-2 gap-4 md:gap-0">
+        <span>© 2025 Toasted Media</span>
+
+        {/* Pattern Toggle */}
+        <div className="flex items-center gap-3 bg-white/5 rounded-full p-1 border border-white/5">
+            <button
+                onClick={() => setPattern('dots')}
+                className={`p-2 rounded-full transition-all ${pattern === 'dots' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                title="Dot Pattern"
+            >
+                <CircleDot size={14} />
+            </button>
+            <button
+                onClick={() => setPattern('grid')}
+                className={`p-2 rounded-full transition-all ${pattern === 'grid' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                title="Grid Pattern"
+            >
+                <Grid3X3 size={14} />
+            </button>
+        </div>
+
+        <div className="flex gap-4">
+            <a href="#" className="hover:text-brand-orange transition-colors">Instagram</a>
+            <a href="#" className="hover:text-brand-orange transition-colors">Twitter</a>
+        </div>
+    </div>
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-6 px-4 pointer-events-none">
@@ -174,9 +212,28 @@ export default function Navbar() {
                                 </div>
                             </div>
 
-                            {/* Footer Links */}
-                            <div className="px-6 pb-6 pt-2 flex justify-between items-center text-[10px] md:text-xs font-semibold text-neutral-500 uppercase tracking-widest border-t border-dashed border-white/10 mt-2">
+                            {/* Footer Links & Toggles */}
+                            <div className="px-6 pb-6 pt-2 flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs font-semibold text-neutral-500 uppercase tracking-widest border-t border-dashed border-white/10 mt-2 gap-4 md:gap-0">
                                 <span>© 2025 Toasted Media</span>
+
+                                {/* Pattern Toggle */}
+                                <div className="flex items-center gap-3 bg-white/5 rounded-full p-1 border border-white/5">
+                                    <button
+                                        onClick={() => setPattern('dots')}
+                                        className={`p-2 rounded-full transition-all ${pattern === 'dots' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                        title="Dot Pattern"
+                                    >
+                                        <CircleDot size={14} />
+                                    </button>
+                                    <button
+                                        onClick={() => setPattern('grid')}
+                                        className={`p-2 rounded-full transition-all ${pattern === 'grid' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                        title="Grid Pattern"
+                                    >
+                                        <Grid3X3 size={14} />
+                                    </button>
+                                </div>
+
                                 <div className="flex gap-4">
                                     <a href="#" className="hover:text-brand-orange transition-colors">Instagram</a>
                                     <a href="#" className="hover:text-brand-orange transition-colors">Twitter</a>
