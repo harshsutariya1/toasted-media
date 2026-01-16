@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Linkedin, Twitter, ArrowUpRight } from "lucide-react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { Linkedin, Twitter, ArrowRight } from "lucide-react";
+import { useRef } from "react";
 
 const founders = [
     {
         name: "Suhani Panchal",
         role: "CEO & Co-Founder",
-        bio: "Strategist with a vision for disrupting the digital landscape. Guiding brands toward sustainable growth.",
+        bio: "Strategist with a vision for disrupting the digital landscape. Guiding brands toward sustainable growth through data-driven creativity.",
         image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1000",
         socials: {
             linkedin: "#",
@@ -18,8 +19,8 @@ const founders = [
     {
         name: "Rohan Mehta",
         role: "CTO & Co-Founder",
-        bio: "The technical backbone. Architecting scalable solutions that blend performance with aesthetic perfection.",
-        image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=1000", // Placeholder for Harsh if no real image
+        bio: "The technical backbone. Architecting scalable solutions that blend extreme performance with aesthetic perfection.",
+        image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=1000",
         socials: {
             linkedin: "#",
             twitter: "#"
@@ -28,7 +29,7 @@ const founders = [
     {
         name: "Aryan Sharma",
         role: "Creative Director",
-        bio: "Design maverick pushing the boundaries of visual storytelling. turning concepts into digital art.",
+        bio: "Design maverick pushing the boundaries of visual storytelling. Turning abstract concepts into tangible digital art.",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
         socials: {
             linkedin: "#",
@@ -38,52 +39,45 @@ const founders = [
 ];
 
 export default function FoundersSection() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
     return (
-        <section className="py-24 md:py-32 bg-neutral-900 border-t border-neutral-800 relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-orange/5 via-neutral-900 to-neutral-900 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand-blue/5 rounded-full blur-[100px] pointer-events-none" />
+        <section ref={containerRef} className="relative h-[300vh] bg-[#e7e5e4]">
+            {/* Header / Title Block */}
+            <div className="absolute top-0 left-0 w-full h-screen flex flex-col items-center justify-start pt-20 pointer-events-none z-10">
+                <span className="text-brand-orange font-mono text-xs tracking-[0.3em] uppercase mb-4">
+                    Leadership
+                </span>
+                <h2 className="text-4xl md:text-6xl font-black text-stone-900 font-[family-name:var(--font-syne)] uppercase tracking-tight">
+                    The Minds
+                </h2>
+            </div>
 
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-                    <div className="max-w-2xl">
-                        <motion.span
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="text-brand-orange font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-4 block"
-                        >
-                            The Visionaries
-                        </motion.span>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
-                            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white font-[family-name:var(--font-syne)]"
-                        >
-                            MEET THE <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-600">MINDS.</span>
-                        </motion.h2>
-                    </div>
+            {/* Sticky Scrolling Area */}
+            <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
+                <div className="relative w-full max-w-6xl h-[70vh] md:h-[600px] flex items-center justify-center">
+                    {founders.map((founder, index) => {
+                        // Calculate range for each card
+                        // Total scroll distance is 1. Each card takes up 1/3 roughly.
+                        const rangeStep = 1 / founders.length;
+                        const start = index * rangeStep;
+                        const end = start + rangeStep;
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="max-w-md"
-                    >
-                        <p className="text-neutral-400 text-lg leading-relaxed">
-                            We are a collective of strategists, designers, and engineers united by a single obsession: creating digital legacy.
-                        </p>
-                    </motion.div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {founders.map((founder, index) => (
-                        <FounderCard key={index} founder={founder} index={index} />
-                    ))}
+                        return (
+                            <FounderCard
+                                key={index}
+                                founder={founder}
+                                i={index}
+                                progress={scrollYProgress}
+                                range={[start, end]}
+                                total={founders.length}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         </section>
@@ -101,65 +95,94 @@ interface Founder {
     };
 }
 
-function FounderCard({ founder, index }: { founder: Founder, index: number }) {
+function FounderCard({ founder, i, progress, range, total }: { founder: Founder, i: number, progress: MotionValue<number>, range: [number, number], total: number }) {
+    // Parallax & Slide Logic
+    // Card should enter from bottom-right and settle. Then exit to top-left.
+
+    // Logic:
+    // 1. Entrance: Only relevant for i > 0 (first one is static or fades in)
+    // 2. Active Phase: Locked in center
+    // 3. Exit: Slides out to top-left
+
+    // We use a broader range to smooth transitions
+    const [start, end] = range;
+
+    // Entrance (From Bottom Right)
+    // For i=0, it starts in place. For i>0, it comes in as scroll progresses.
+    const enterStart = start - 0.1;
+    const enterEnd = start;
+
+    const x = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 0 : 1000, 0, 0, -1000]);
+    const y = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 0 : 500, 0, 0, -200]);
+    const rotate = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 0 : 15, 0, 0, -10]);
+    const scale = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 1 : 0.8, 1, 1, 0.9]);
+    const opacity = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 1 : 0, 1, 1, 0]);
+
+    // Z-Index is easy: higher index = on top
+    const zIndex = i;
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1, duration: 0.6 }}
-            className="group relative"
+            style={{ x, y, rotate, scale, opacity, zIndex }}
+            className="absolute w-full px-4 md:px-0 max-w-4xl"
         >
-            <div className="relative h-[500px] w-full rounded-[2rem] overflow-hidden bg-neutral-800 border border-white/5 shadow-2xl transition-all duration-500 hover:shadow-brand-orange/10 hover:border-white/10">
+            <div className="bg-white rounded-[2.5rem] p-4 md:p-6 shadow-2xl flex flex-col md:flex-row gap-6 md:gap-12 items-center overflow-hidden border border-stone-200">
 
-                {/* Image */}
-                <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700 ease-out">
+                {/* Image Section (Left) */}
+                <div className="w-full md:w-5/12 aspect-[3/4] md:aspect-[4/5] relative rounded-[2rem] overflow-hidden bg-stone-100 group">
                     <Image
                         src={founder.image}
                         alt={founder.name}
                         fill
-                        className="object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105 saturate-0 group-hover:saturate-100"
+                        sizes="(max-width: 768px) 100vw, 40vw"
                     />
+
+                    {/* Corner Decoration */}
+                    <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-white/50 rounded-tl-lg" />
+                    <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-white/50 rounded-br-lg" />
                 </div>
 
-                {/* Gradient Overlay - Always present but changes on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
+                {/* Content Section (Right) */}
+                <div className="w-full md:w-7/12 flex flex-col justify-center pr-0 md:pr-12 text-left pb-6 md:pb-0">
+                    <span className="text-brand-orange font-mono text-xs font-bold tracking-widest uppercase mb-3 inline-block bg-brand-orange/5 px-2 py-1 rounded">
+                        {founder.role}
+                    </span>
 
-                {/* Social Links (Top Right) */}
-                <div className="absolute top-6 right-6 flex flex-col gap-3 translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 delay-100">
-                    <a href={founder.socials.linkedin} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors border border-white/10">
-                        <Linkedin className="w-4 h-4" />
-                    </a>
-                    <a href={founder.socials.twitter} className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors border border-white/10">
-                        <Twitter className="w-4 h-4" />
-                    </a>
-                </div>
+                    <h3 className="text-4xl md:text-5xl font-bold text-stone-900 font-[family-name:var(--font-syne)] mb-6 leading-none">
+                        {founder.name}
+                    </h3>
 
-                {/* Content (Bottom) */}
-                <div className="absolute bottom-0 left-0 w-full p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <div className="overflow-hidden mb-2">
-                        <span className="text-brand-orange font-mono text-xs tracking-widest uppercase block mb-1">
-                            {founder.role}
-                        </span>
-                        <h3 className="text-3xl font-bold text-white font-[family-name:var(--font-syne)] mb-4">
-                            {founder.name}
-                        </h3>
-                    </div>
+                    <p className="text-stone-500 text-lg leading-relaxed mb-8 md:max-w-md">
+                        {founder.bio}
+                    </p>
 
-                    <div className="h-0 group-hover:h-auto overflow-hidden transition-all duration-500">
-                        <p className="text-neutral-300 text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                            {founder.bio}
-                        </p>
-                        <a href="#" className="inline-flex items-center gap-2 text-white text-xs font-bold uppercase tracking-wider group/link hover:text-brand-orange transition-colors">
-                            Read Profile <ArrowUpRight className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                        </a>
+                    <div className="flex items-center gap-6">
+                        <div className="flex gap-3">
+                            <a
+                                href={founder.socials.linkedin}
+                                className="w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:bg-stone-900 transition-all duration-300 group"
+                                aria-label="LinkedIn"
+                            >
+                                <Linkedin className="w-5 h-5 group-hover:scale-90 transition-transform" />
+                            </a>
+                            <a
+                                href={founder.socials.twitter}
+                                className="w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:bg-stone-900 transition-all duration-300 group"
+                                aria-label="Twitter"
+                            >
+                                <Twitter className="w-5 h-5 group-hover:scale-90 transition-transform" />
+                            </a>
+                        </div>
+
+                        <div className="h-px flex-1 bg-stone-200" />
+
+                        <div className="text-xs font-bold text-stone-300 tracking-widest uppercase">
+                            0{i + 1} &mdash; 0{total}
+                        </div>
                     </div>
                 </div>
             </div>
-
-            {/* Border Lines Decoration */}
-            <div className="absolute -inset-[1px] rounded-[2rem] border border-white/10 pointer-events-none group-hover:border-brand-orange/30 transition-colors duration-500" />
         </motion.div>
     );
 }
