@@ -1,17 +1,27 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import ToastedHero from "./ToastedHero";
 
 export default function HeroZoomScroll() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
     // Track scroll progress within this component container
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"],
     });
+
+    // Track mouse movement for glow effect
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setCursorPos({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
     // Optimize animations for performance:
     // 1. Shorter scroll interpolation ranges for snappier effect
@@ -102,12 +112,42 @@ export default function HeroZoomScroll() {
                     </p>
                 </motion.div>
 
-                {/* Background Ambient Elements (Light Theme) */}
+                {/* Standardized Squared Texture Background (Light Theme Adapted) */}
                 <motion.div
                     style={{ opacity: textOpacity }}
-                    className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-soft-light"
+                    className="absolute inset-0 z-0 pointer-events-none"
                 >
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
+                    {/* Faint Grid */}
+                    <div
+                        className="absolute inset-0 opacity-[0.4]"
+                        style={{
+                            backgroundImage: `
+                                linear-gradient(to right, #a8a29e 1px, transparent 1px),
+                                linear-gradient(to bottom, #a8a29e 1px, transparent 1px)
+                            `,
+                            backgroundSize: '40px 40px',
+                        }}
+                    />
+
+                    {/* Interactive Glowing Grid (Orange Brand Color) */}
+                    <div
+                        className="absolute inset-0 opacity-100 transition-opacity duration-75"
+                        style={{
+                            backgroundImage: `
+                                linear-gradient(to right, #f97316 1px, transparent 1px),
+                                linear-gradient(to bottom, #f97316 1px, transparent 1px)
+                            `,
+                            backgroundSize: '40px 40px',
+                            maskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
+                            WebkitMaskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
+                        }}
+                    />
+
+                    {/* Glowing Radial Effect (to match hero vibe but light) */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-stone-200/0 via-stone-200/50 to-stone-200" />
+
+                    {/* Center Glow Area */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-brand-orange/5 rounded-full blur-[120px]" />
                 </motion.div>
 
             </motion.div>
