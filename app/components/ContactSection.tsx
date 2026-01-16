@@ -68,7 +68,7 @@ export default function ContactSection() {
                         <span className="text-orange-500 font-sans text-sm tracking-widest uppercase mb-6 block font-bold">Contact Us</span>
                         <h2 className="text-5xl md:text-7xl font-serif font-medium leading-tight mb-8 text-white">
                             Got a vision? <br />
-                            Let’s <span className="italic text-neutral-500 font-serif">ignite</span> it.
+                            Let&apos;s <span className="italic text-neutral-500 font-serif">ignite</span> it.
                         </h2>
                         <p className="text-neutral-400 text-lg max-w-md mb-12 leading-relaxed">
                             We help ambitious brands scale through creative strategy and data-driven execution.
@@ -109,7 +109,7 @@ export default function ContactSection() {
                             <FloatingInput label="Company Website" />
 
                             <div>
-                                <label className="block text-sm text-neutral-400 mb-4 font-sans tracking-wide">I'm interested in...</label>
+                                <label className="block text-sm text-neutral-400 mb-4 font-sans tracking-wide">I&apos;m interested in...</label>
                                 <div className="flex flex-wrap gap-3">
                                     {interests.map((interest) => (
                                         <button

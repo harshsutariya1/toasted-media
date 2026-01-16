@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, BarChart, PenTool, Globe, Video, Mail, Target, ArrowUpRight } from 'lucide-react';
+import { Search, PenTool, Globe, Video, Mail, Target } from 'lucide-react';
+import Image from 'next/image';
 import ServicesCloud from './ServicesCloud';
 
 const ServicesSection = () => {
@@ -73,7 +74,7 @@ const ServicesSection = () => {
                         </h2>
                     </div>
                     <p className="text-neutral-400 max-w-md text-lg leading-relaxed">
-                        We don't just execute; we strategize. Our suite of services covers every touchpoint of the modern digital customer journey.
+                        We don&apos;t just execute; we strategize. Our suite of services covers every touchpoint of the modern digital customer journey.
                     </p>
                 </div>
 
@@ -92,7 +93,16 @@ const ServicesSection = () => {
     );
 };
 
-const ServiceCard = ({ service }: { service: any }) => {
+interface Service {
+    id: number;
+    title: string;
+    category: string;
+    description: string;
+    image: string;
+    icon: React.ReactNode;
+}
+
+const ServiceCard = ({ service }: { service: Service }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -109,10 +119,12 @@ const ServiceCard = ({ service }: { service: any }) => {
                 }}
                 transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }} // Bezier for smooth luxury feel
             >
-                <img
+                <Image
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
+                    fill
+                    className="object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500" />

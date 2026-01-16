@@ -1,15 +1,18 @@
 "use client";
 
+
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
 const KineticBar = ({ delay, color }: { delay: number; color: string }) => {
+    const randomDuration = useMemo(() => 4 + Math.random() * 2, []);
     return (
         <div className="relative w-12 h-64 md:w-16 md:h-80 bg-white/5 rounded-full overflow-hidden shadow-[inset_0_2px_10px_0_rgba(255,255,255,0.05)] border border-white/10 backdrop-blur-sm">
             {/* Liquid Fill */}
             <motion.div
                 animate={{ height: ["20%", "70%", "30%", "85%", "40%", "20%"] }}
                 transition={{
-                    duration: 4 + Math.random() * 2,
+                    duration: randomDuration,
                     ease: "easeInOut",
                     repeat: Infinity,
                     delay: delay,
@@ -97,7 +100,7 @@ export default function GrowthStats() {
                         </h2>
                         <div className="space-y-6 text-lg text-neutral-300 leading-relaxed font-light">
                             <p>
-                                <strong className="text-white font-bold">The Toasted Origin:</strong> Most agencies give you vanilla. Safe. Predictable. We realized that in a feed scrolling at 60mph, "safe" is invisible.
+                                <strong className="text-white font-bold">The Toasted Origin:</strong> Most agencies give you vanilla. Safe. Predictable. We realized that in a feed scrolling at 60mph, &quot;safe&quot; is invisible.
                             </p>
                             <p>
                                 We founded Toasted Media on a simple principle: <span className="bg-brand-yellow/30 px-1 font-medium text-white">Be bold or go home.</span> We layer strategy, creative, and data just like our logo layers color—creating a complex, rich, and undeniable presence for your brand.

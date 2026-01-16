@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React, { useState, useEffect, useRef } from 'react';
 
 interface ToastedHeroProps {
@@ -99,7 +100,7 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
                         }}
                     >
                         <div className="absolute inset-0 bg-gradient-to-tr from-orange-600 to-purple-600 opacity-80 mix-blend-overlay"></div>
-                        <img src="https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893" alt="Creative work 1" className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" />
+                        <Image src="https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893" alt="Creative work 1" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" sizes="(max-width: 768px) 192px, 256px" />
                         <div className="absolute bottom-4 left-4 font-bold text-sm tracking-widest uppercase">Strategy</div>
                     </div>
 
@@ -109,7 +110,7 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
                         style={getParallaxStyle(10)}
                     >
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10"></div>
-                        <img src="https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91" alt="Creative work 2" className="w-full h-full object-cover" />
+                        <Image src="https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91" alt="Creative work 2" fill className="object-cover" sizes="(max-width: 768px) 224px, 320px" />
                         <div className="absolute bottom-6 left-6 z-20">
                             <div className="text-orange-500 text-xs font-bold tracking-widest mb-1">FEATURED</div>
                             <div className="text-2xl font-black italic">Creative</div>
@@ -125,7 +126,7 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
                         }}
                     >
                         <div className="absolute inset-0 bg-gradient-to-bl from-blue-600 to-emerald-600 opacity-80 mix-blend-overlay"></div>
-                        <img src="https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da" alt="Creative work 3" className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" />
+                        <Image src="https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da" alt="Creative work 3" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" sizes="(max-width: 768px) 192px, 256px" />
                         <div className="absolute top-4 right-4 font-bold text-sm tracking-widest uppercase text-right">Data<br />Driven</div>
                     </div>
 

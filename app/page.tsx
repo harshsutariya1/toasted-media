@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SplashScreen from "@/app/components/SplashScreen";
 import Navbar from "@/app/components/Navbar";
 import GrowthStats from "@/app/components/GrowthStats";

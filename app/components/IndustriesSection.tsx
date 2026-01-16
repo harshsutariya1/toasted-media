@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
-import { Briefcase, ShoppingCart, Building2, Stethoscope, GraduationCap, Plane, Globe, Monitor, Landmark, Gamepad2, Car, Film, Heart, Tag } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform, MotionValue } from "framer-motion";
+import { useRef } from "react";
+import { ShoppingCart, Building2, Stethoscope, GraduationCap, Plane, Globe, Monitor, Landmark, Gamepad2, Car, Film, Heart, Tag } from "lucide-react";
 
 // Enriched data to match the card style
 const industries = [
@@ -93,7 +93,7 @@ export default function IndustriesSection() {
 }
 
 // Background/Floating Card Component
-function FloatingCard({ item, x, y, z, mouseX, mouseY }: { item: any, x: number, y: number, z: number, mouseX: any, mouseY: any }) {
+function FloatingCard({ item, x, y, z, mouseX, mouseY }: { item: { name: string; desc: string; icon: any }, x: number, y: number, z: number, mouseX: MotionValue<number>, mouseY: MotionValue<number> }) {
     // Parallax strength depends on Depth (Z)
     const depthFactor = Math.abs(z) / 100;
     const moveX = useTransform(mouseX, (val: number) => val * (0.05 * (1 - depthFactor)));

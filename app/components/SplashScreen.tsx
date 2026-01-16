@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface SplashScreenProps {
@@ -10,19 +11,22 @@ interface SplashScreenProps {
 export default function SplashScreen({ onFinish }: SplashScreenProps) {
     const [progress, setProgress] = useState(0);
 
-    // Images to preload
-    const imagesToPreload = [
-        "/logo/logo2.jpg",
-        "https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893",
-        "https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91",
-        "https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da"
-    ];
+
 
 
 
     useEffect(() => {
         let isMounted = true;
         let loadedCount = 0;
+
+        // Images to preload
+        const imagesToPreload = [
+            "/logo/logo2.jpg",
+            "https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893",
+            "https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91",
+            "https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da"
+        ];
+
         const totalAssets = imagesToPreload.length;
         const startTime = Date.now();
         const minDuration = 1000; // Minimum splash duration in ms
@@ -36,7 +40,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
 
         const preloadImage = (src: string) => {
             return new Promise<void>((resolve) => {
-                const img = new Image();
+                const img = new window.Image();
                 img.src = src;
                 img.onload = () => {
                     loadedCount++;
@@ -117,10 +121,11 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
                     className="relative"
                 >
                     <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl overflow-hidden shadow-2xl relative">
-                        <img
+                        <Image
                             src="/logo/logo2.jpg"
                             alt="Logo"
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
                         />
                         {/* Shine effect */}
                         <motion.div

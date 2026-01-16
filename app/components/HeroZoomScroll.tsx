@@ -35,7 +35,7 @@ export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
     const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.4]);
 
     // Keep opacity at 1, but maybe dim slightly if needed.
-    const opacity = useTransform(scrollYProgress, [0.8, 1], [1, 1]);
+    // const opacity = useTransform(scrollYProgress, [0.8, 1], [1, 1]);
 
     // Add slight rotation for 3D feel
     const rotateX = useTransform(scrollYProgress, [0, 0.5], [0, 10]);

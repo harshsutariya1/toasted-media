@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform, MotionValue } from "framer-motion";
+import { useRef } from "react";
 import {
     Search, Layout, TrendingUp, Palette, PenTool,
     Share2, Code, Target, Compass, BarChart2
@@ -88,7 +88,7 @@ export default function ServicesCloud() {
 }
 
 // Background/Floating Card Component
-function FloatingServiceCard({ item, x, y, z, mouseX, mouseY }: { item: any, x: number, y: number, z: number, mouseX: any, mouseY: any }) {
+function FloatingServiceCard({ item, x, y, z, mouseX, mouseY }: { item: { name: string; desc: string; icon: any }, x: number, y: number, z: number, mouseX: MotionValue<number>, mouseY: MotionValue<number> }) {
     // Parallax strength depends on Depth (Z)
     const depthFactor = Math.abs(z) / 100;
     const moveX = useTransform(mouseX, (val: number) => val * (0.05 * (1 - depthFactor)));

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { useRef } from "react";
 import { Search, Map, Zap, TrendingUp } from "lucide-react";
 
@@ -100,7 +100,18 @@ export default function ProcessSection() {
     );
 }
 
-function ProcessStep({ step, index }: { step: any, index: number }) {
+interface Step {
+    id: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    color: string;
+    border: string;
+    glow: string;
+    icon: any;
+}
+
+function ProcessStep({ step, index }: { step: Step, index: number }) {
     const isEven = index % 2 === 0;
 
     return (

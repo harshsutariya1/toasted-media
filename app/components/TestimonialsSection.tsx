@@ -2,6 +2,7 @@
 
 import { motion, useAnimationFrame, useMotionValue, animate } from "framer-motion";
 import { Star, Quote, ArrowLeft, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 
 const testimonials = [
@@ -107,9 +108,8 @@ export default function TestimonialsSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
-                    className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-syne)] text-white"
                 >
-                    DON'T TAKE OUR <br className="hidden md:block" />
+                    DON&apos;T TAKE OUR <br className="hidden md:block" />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 to-neutral-600">WORD FOR IT.</span>
                 </motion.h2>
             </div>
@@ -141,13 +141,13 @@ export default function TestimonialsSection() {
                                         ))}
                                     </div>
                                     <p className="text-xl md:text-2xl font-[family-name:var(--font-syne)] font-medium text-neutral-200 leading-normal mb-8">
-                                        "{t.quote}"
+                                        &quot;{t.quote}&quot;
                                     </p>
                                 </div>
 
                                 <div className="flex items-center gap-4 relative z-10 border-t border-white/5 pt-6 group-hover:border-white/10 transition-colors duration-500">
-                                    <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-brand-orange/50 transition-colors duration-500">
-                                        <img src={t.image} alt={t.author} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                    <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-brand-orange/50 transition-colors duration-500 relative">
+                                        <Image src={t.image} alt={t.author} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" sizes="48px" />
                                     </div>
                                     <div>
                                         <h4 className="text-white font-bold tracking-wide uppercase text-sm">{t.author}</h4>

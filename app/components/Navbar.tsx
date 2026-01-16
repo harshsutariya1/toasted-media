@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 import { Grid3X3, CircleDot } from "lucide-react";
 
@@ -84,8 +85,8 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
 
                     {/* Logo Section */}
                     <a href="#" className="flex items-center gap-3 group shrink-0">
-                        <div className="w-9 h-9 md:w-10 md:h-10 bg-neutral-800 rounded-full flex items-center justify-center overflow-hidden shadow-sm border border-neutral-700">
-                            <img src="/logo/logo2.jpg" alt="Logo" className="w-full h-full object-cover" />
+                        <div className="w-9 h-9 md:w-10 md:h-10 bg-neutral-800 rounded-full flex items-center justify-center overflow-hidden shadow-sm border border-neutral-700 relative">
+                            <Image src="/logo/logo2.jpg" alt="Logo" fill className="object-cover" />
                         </div>
                         <span className={`font-serif font-medium text-lg tracking-tight text-white group-hover:text-brand-orange transition-colors ${isMenuOpen ? "block" : "hidden sm:block"}`}>
                             The Toasted Media
@@ -120,7 +121,7 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                                     href="#contact"
                                     className="flex bg-white text-neutral-900 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold items-center gap-2 hover:bg-neutral-200 transition-colors mr-1 whitespace-nowrap"
                                 >
-                                    <span>Let's Talk</span>
+                                    <span>Let&apos;s Talk</span>
                                     <ArrowRight size={14} className="-rotate-45 md:rotate-0" />
                                 </motion.a>
                             )}
@@ -195,10 +196,12 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                                 {/* Promo / Feature Card (Desktop) */}
                                 <div className="hidden md:block w-full md:w-64 bg-neutral-800/50 rounded-3xl p-4 border border-white/5">
                                     <div className="h-full rounded-2xl relative overflow-hidden group cursor-pointer hover:shadow-sm transition-all flex flex-col justify-end p-5">
-                                        <img
+                                        <Image
                                             src="https://blobcdn.same.energy/b/7d/cc/7dcc619bf4e02669aabfc12b11b09f00f86e5d86"
                                             alt="Bakery Case Study"
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            fill
+                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                            sizes="(max-width: 768px) 100vw, 33vw"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 

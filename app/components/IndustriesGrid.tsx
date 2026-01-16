@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Building2, Globe, HeartPulse, Laptop, ShoppingBag, Wallet } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 // Industries with brand-specific colors based on the "T" logo palette
@@ -115,6 +116,16 @@ export default function IndustriesGrid() {
     );
 }
 
+interface IndustryItem {
+    id: number;
+    title: string;
+    desc: string;
+    icon: any;
+    color: string;
+    image: string;
+    className: string;
+}
+
 function BentoCard({
     item,
     index,
@@ -122,7 +133,7 @@ function BentoCard({
     onHover,
     onLeave
 }: {
-    item: any,
+    item: IndustryItem,
     index: number,
     activeId: number | null,
     onHover: (id: number) => void,
@@ -151,13 +162,15 @@ function BentoCard({
         >
             {/* Background Image Area */}
             <div className="absolute inset-0 z-0">
-                <img
+                <Image
                     src={item.image}
                     alt={item.title}
+                    fill
                     className={`
-                        w-full h-full object-cover transition-all duration-700 ease-out
+                        object-cover transition-all duration-700 ease-out
                         ${isActive ? 'scale-110 grayscale-0 opacity-40' : 'scale-100 grayscale-[100%] opacity-60'}
                     `}
+                    sizes="(max-width: 768px) 100vw, 25vw"
                 />
                 <div className={`
                     absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent transition-opacity duration-500

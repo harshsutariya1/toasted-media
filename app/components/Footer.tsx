@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Instagram, Linkedin, Twitter, Github, ArrowUpRight } from "lucide-react";
+import { Instagram, Linkedin, Twitter, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -28,13 +28,13 @@ export default function Footer() {
                     {/* Brand Column */}
                     <div className="space-y-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-                                <img src="/logo/logo.jpg" alt="Logo" className="w-full h-full object-cover" />
+                            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden relative">
+                                <Image src="/logo/logo.jpg" alt="Logo" fill className="object-cover" />
                             </div>
                             <span className="font-serif font-medium text-lg tracking-wide">THE TOASTED MEDIA</span>
                         </div>
                         <p className="text-neutral-400 text-sm leading-relaxed max-w-xs">
-                            Igniting brands with creative fire and data-driven precision. Let's toast to your success.
+                            Igniting brands with creative fire and data-driven precision. Let&apos;s toast to your success.
                         </p>
                         <div className="flex gap-4">
                             {[

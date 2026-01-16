@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Linkedin, Twitter, ArrowUpRight } from "lucide-react";
 
@@ -89,7 +90,18 @@ export default function FoundersSection() {
     );
 }
 
-function FounderCard({ founder, index }: { founder: any, index: number }) {
+interface Founder {
+    name: string;
+    role: string;
+    bio: string;
+    image: string;
+    socials: {
+        linkedin: string;
+        twitter: string;
+    };
+}
+
+function FounderCard({ founder, index }: { founder: Founder, index: number }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -102,10 +114,12 @@ function FounderCard({ founder, index }: { founder: any, index: number }) {
 
                 {/* Image */}
                 <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700 ease-out">
-                    <img
+                    <Image
                         src={founder.image}
                         alt={founder.name}
-                        className="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700"
+                        fill
+                        className="object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 </div>
 

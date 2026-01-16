@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, MotionValue } from "framer-motion";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 // Particle Component
-const Particle = ({ mouseX, mouseY }: { mouseX: any; mouseY: any }) => {
+const Particle = ({ mouseX, mouseY }: { mouseX: MotionValue<number>; mouseY: MotionValue<number> }) => {
     // Random initial configuration
     const [config] = useState(() => ({
         x: Math.random() * 100, // %
@@ -26,7 +27,7 @@ const Particle = ({ mouseX, mouseY }: { mouseX: any; mouseY: any }) => {
     const y = useTransform(mouseY, [-1, 1], [moveRange, -moveRange]);
 
     // Shrinking Effect Calculation
-    const scale = useTransform([mouseX, mouseY], ([currentX, currentY]: any) => {
+    const scale = useTransform([mouseX, mouseY], ([currentX, currentY]: number[]) => {
         // Normalize particle position to -1 to 1 range approx (assuming center screen is 50%, 50%)
         // This is an approximation since particles are % of container, but sufficient for effect
         const particleX = (config.x / 50) - 1;
@@ -90,6 +91,7 @@ export default function HeroSection() {
     const containerRotateY = useTransform(smoothX, [-1, 1], [-5, 5]);
 
     const [isMounted, setIsMounted] = useState(false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     useEffect(() => setIsMounted(true), []);
 
     const particles = Array.from({ length: 80 });
@@ -129,7 +131,7 @@ export default function HeroSection() {
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl border border-white/10 backdrop-blur-sm shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden">
                             <div className="absolute inset-0 bg-neutral-900/40 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                            <img src="https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893" alt="Strategy" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
+                            <Image src="https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893" alt="Strategy" fill className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" sizes="(max-width: 768px) 100vw, 33vw" />
 
                             {/* Glass Reflection */}
                             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none" />
@@ -153,7 +155,7 @@ export default function HeroSection() {
                         <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-2xl border border-white/20 backdrop-blur-md shadow-[0_30px_60px_rgba(0,0,0,0.6)] overflow-hidden">
                             <div className="absolute inset-0 bg-neutral-900/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
                             {/* <img src="https://blobcdn.same.energy/b/9b/9c/9b9c953237687a616a73ce49be7fcf0ea5f1fb24" alt="Creative" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" /> */}
-                            <img src="https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91" alt="Creative" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
+                            <Image src="https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91" alt="Creative" fill className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" sizes="(max-width: 768px) 100vw, 33vw" />
                             {/* <img src="https://blobcdn.same.energy/a/eb/a0/eba0abc699edc3b1ba1d198bf0fb0b744700c0c4" alt="Creative" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" /> */}
 
                             {/* Label */}
@@ -177,7 +179,7 @@ export default function HeroSection() {
                             <div className="absolute inset-0 bg-neutral-900/40 group-hover:bg-transparent transition-colors duration-500 z-10" />
                             {/* <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?q=80&w=1000&auto=format&fit=crop" alt="Data" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" /> */}
                             {/* <img src="https://blobcdn.same.energy/a/96/a0/96a0911070187bd8bce24357e341aba232180bdf" alt="Data" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" /> */}
-                            <img src="https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da" alt="Data" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
+                            <Image src="https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da" alt="Data" fill className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" sizes="(max-width: 768px) 100vw, 33vw" />
 
                             {/* Label */}
                             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">

@@ -18,22 +18,6 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
 
     // Track mouse movement for glow effect overlap
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            if (containerRef.current) {
-                const rect = containerRef.current.getBoundingClientRect();
-                setCursorPos({
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top
-                });
-            }
-        };
-        // Add listener to window so we can track even if slightly outside, 
-        // but calculating relative to the section is good for the mask. 
-        // Actually, for fixed global feels, we usually use window coords.
-        // Let's stick to consistent window coords like HeroZoomScroll if we want identical feel,
-        // BUT HeroZoomScroll used window coords directly for the mask. 
-        // Let's use relative coords for this section since it's in the flow.
-
         const updateMouse = (e: MouseEvent) => {
             if (containerRef.current) {
                 const rect = containerRef.current.getBoundingClientRect();
@@ -146,7 +130,6 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
                             accentColor={line.accentColor}
                             scrollProgress={scrollYProgress}
                             index={index}
-                            totalLines={textLines.length}
                         />
                     ))}
                 </div>
@@ -164,16 +147,17 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
     );
 }
 
+import { MotionValue } from "framer-motion";
+
 interface TextLineProps {
     text: string;
     accent: string;
     accentColor: string;
-    scrollProgress: any;
+    scrollProgress: MotionValue<number>;
     index: number;
-    totalLines: number;
 }
 
-function TextLine({ text, accent, accentColor, scrollProgress, index, totalLines }: TextLineProps) {
+function TextLine({ text, accent, accentColor, scrollProgress, index }: TextLineProps) {
     // Calculate scroll range for this line
     // Accelerate animations to ensure completion when section is fully visible
     const start = index * 0.08;
