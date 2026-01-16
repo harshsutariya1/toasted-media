@@ -1,175 +1,251 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+
+/**
+ * Toasted Media Agency - Splash Screen (Production Ready)
+ * 
+ * Logic:
+ * 1. Initial State: 'hover' (Bread hovers)
+ * 2. 0.5s: 'lowering' (Lever goes down)
+ * 3. 1.0s: 'toasting' (Heating up loop) -> STAYS HERE UNTIL ASSETS LOAD
+ * 4. Loaded & Min Time: 'popped' (Bread jumps up)
+ * 5. +1.5s: 'fading' (Screen fade out)
+ * 6. Finish
+ */
 
 interface SplashScreenProps {
     onFinish: () => void;
 }
 
-export default function SplashScreen({ onFinish }: SplashScreenProps) {
-    const [progress, setProgress] = useState(0);
-
-
-
-
+const SplashScreen = ({ onFinish }: SplashScreenProps) => {
+    const [phase, setPhase] = useState<'hover' | 'lowering' | 'toasting' | 'popped' | 'fading'>('hover');
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
-        let loadedCount = 0;
+        let imagesLoadedCount = 0;
 
-        // Images to preload
-        const imagesToPreload = [
+        // Critical assets to preload (Logo + Hero Images)
+        const criticalImages = [
             "/logo/logo2.jpg",
-            "https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893",
-            "https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91",
-            "https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da"
+            "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600",
+            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1600",
+            "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=1600",
+            "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1600"
         ];
 
-        const totalAssets = imagesToPreload.length;
-        const startTime = Date.now();
-        const minDuration = 1000; // Minimum splash duration in ms
-
-        const updateProgress = () => {
-            if (!isMounted) return;
-            const calculatedProgress = Math.round((loadedCount / totalAssets) * 100);
-            // Ensure progress doesn't jump backwards if we implemented a time-based fake progress before
-            setProgress(prev => Math.max(prev, calculatedProgress));
-        };
-
-        const preloadImage = (src: string) => {
-            return new Promise<void>((resolve) => {
-                const img = new window.Image();
-                img.src = src;
-                img.onload = () => {
-                    loadedCount++;
-                    updateProgress();
-                    resolve();
-                };
-                img.onerror = () => {
-                    // Even if error, count as loaded to avoid blocking
-                    loadedCount++;
-                    updateProgress();
-                    resolve();
-                };
-            });
-        };
-
-
-
-        const loadAllAssets = async () => {
-            // Start preloading images and videos
-            const imagePromises = imagesToPreload.map(preloadImage);
-
-
-            // Wait for assets AND minimum time
-            await Promise.all([
-                ...imagePromises,
-
-                new Promise<void>(resolve => setTimeout(resolve, minDuration))
-            ]);
-
-            if (isMounted) {
-                setProgress(100);
-                setTimeout(onFinish, 500); // Short delay at 100% before unmounting
+        const checkGlobalLoad = () => {
+            if (imagesLoadedCount >= criticalImages.length && document.readyState === 'complete') {
+                if (isMounted) setIsLoaded(true);
             }
         };
 
-        loadAllAssets();
+        // 1. Preload Images
+        criticalImages.forEach(src => {
+            const img = new window.Image();
+            img.src = src;
+            img.onload = () => {
+                imagesLoadedCount++;
+                checkGlobalLoad();
+            };
+            img.onerror = () => {
+                imagesLoadedCount++; // Count error as done to avoid blocking
+                checkGlobalLoad();
+            };
+        });
 
-        // Optional: Fake progress for visual feedback while waiting for minDuration
-        const fakeInterval = setInterval(() => {
-            if (!isMounted) return;
-            const elapsed = Date.now() - startTime;
-            const timeProgress = Math.min((elapsed / minDuration) * 90, 90); // Cap time progress at 90%
+        // 2. Window Load Fallback (in case cached or other assets)
+        const handleWindowLoad = () => {
+            checkGlobalLoad();
+        };
 
-            setProgress(prev => {
-                // Only update if time-based progress is greater than current image-based progress
-                // But generally image-based logic above will override this if images load fast.
-                // We want to show activity mainly.
-                return Math.max(prev, Math.floor(timeProgress));
-            });
-        }, 100);
+        if (document.readyState === 'complete') {
+            checkGlobalLoad();
+        } else {
+            window.addEventListener('load', handleWindowLoad);
+        }
+
+        // 3. Fallback Timeout (Force load after 8s if something gets stuck)
+        const fallbackTimer = setTimeout(() => {
+            if (isMounted) setIsLoaded(true);
+        }, 8000);
 
         return () => {
             isMounted = false;
-            clearInterval(fakeInterval);
+            window.removeEventListener('load', handleWindowLoad);
+            clearTimeout(fallbackTimer);
         };
-    }, [onFinish]);
+    }, []);
+
+    // Animation Sequence Controller
+    useEffect(() => {
+        // Start Sequence
+        const t1 = setTimeout(() => setPhase('lowering'), 500);
+        const t2 = setTimeout(() => setPhase('toasting'), 1000);
+
+        // Ensure user sees the toasting animation for at least a moment (2.5s total splash time minimum)
+        const tMin = setTimeout(() => setMinTimeElapsed(true), 2500);
+
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(tMin); };
+    }, []);
+
+    // Watch for Transition to Popped
+    useEffect(() => {
+        if (phase === 'toasting' && isLoaded && minTimeElapsed) {
+            setPhase('popped');
+        }
+    }, [phase, isLoaded, minTimeElapsed]);
+
+    // Cleanup Sequence
+    useEffect(() => {
+        if (phase === 'popped') {
+            const t3 = setTimeout(() => setPhase('fading'), 2000); // Look at the logo for 2s
+            return () => clearTimeout(t3);
+        }
+        if (phase === 'fading') {
+            const t4 = setTimeout(onFinish, 800); // Wait for fade transition
+            return () => clearTimeout(t4);
+        }
+    }, [phase, onFinish]);
 
     return (
-        <motion.div
-            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0a] text-white"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
-        >
-            {/* Background Texture */}
-            <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
-                style={{
-                    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)`,
-                    backgroundSize: '40px 40px'
-                }}
-            />
+        <div className={`fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900 transition-opacity duration-700 ${phase === 'fading' ? 'opacity-0' : 'opacity-100'}`}>
 
-            <div className="relative z-10 flex flex-col items-center gap-8">
-                {/* Logo Container with Pulse */}
-                <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="relative"
-                >
-                    <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl overflow-hidden shadow-2xl relative">
-                        <Image
-                            src="/logo/logo2.jpg"
-                            alt="Logo"
-                            fill
-                            className="object-cover"
-                        />
-                        {/* Shine effect */}
-                        <motion.div
-                            className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-25deg]"
-                            animate={{ left: "200%" }}
-                            transition={{ repeat: Infinity, duration: 1.5, ease: "linear", delay: 1 }}
-                        />
-                    </div>
-                </motion.div>
+            {/* Ambient Glow Background (Intensifies during toasting) */}
+            <div
+                className={`absolute inset-0 bg-radial-orange transition-opacity duration-1000 ease-in-out pointer-events-none ${phase === 'toasting' ? 'opacity-20' : 'opacity-0'}`}
+                style={{ background: 'radial-gradient(circle at center, #ea580c 0%, transparent 70%)' }}
+            ></div>
 
-                {/* Text & Progress */}
-                <div className="flex flex-col items-center gap-4">
-                    <motion.h1
-                        className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic"
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.3 }}
+            <div className="relative flex flex-col items-center">
+
+                {/* --- Animation Container --- */}
+                <div className="relative w-72 h-72">
+
+                    {/* Bread */}
+                    <div
+                        className={`
+              absolute left-1/2 -translate-x-1/2 w-36 h-32 rounded-t-3xl rounded-b-lg border-4 
+              flex items-center justify-center overflow-hidden shadow-lg
+              transition-all duration-500 ease-in-out
+              ${phase === 'hover' ? '-top-12 scale-100' : ''}
+              ${phase === 'lowering' || phase === 'toasting' ? 'top-20 scale-90 brightness-75' : ''} 
+              ${phase === 'popped' || phase === 'fading' ? '-top-16 scale-105' : ''}
+              ${phase === 'popped' || phase === 'fading' ? 'bg-[#f97316] border-[#c2410c] shadow-orange-500/50' : 'bg-[#fef3c7] border-[#dde5ed]'}
+            `}
+                        style={{
+                            transitionTimingFunction: phase === 'popped' ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-in-out',
+                            zIndex: 0
+                        }}
                     >
-                        The Toasted <span className="text-orange-500">Media</span>
-                    </motion.h1>
+                        {/* Bread Texture Details */}
+                        <div className="absolute inset-0 bg-white/10 opacity-50"></div>
 
-                    <div className="flex items-center gap-4 w-64">
-                        <div className="h-[2px] w-full bg-neutral-800 rounded-full overflow-hidden relative">
-                            <motion.div
-                                className="absolute left-0 top-0 h-full bg-orange-500"
-                                style={{ width: `${Math.min(progress, 100)}%` }}
-                            />
+                        {/* The Logo (Revealed when toasted) */}
+                        <div className={`
+              transform transition-all duration-300 relative z-10
+              ${phase === 'popped' || phase === 'fading' ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
+            `}>
+                            <div className="flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src="/logo/logo2.jpg"
+                                    alt="Toasted Media Logo"
+                                    className="w-full h-full object-contain"
+                                    onError={(e) => {
+                                        (e.target as HTMLElement).style.display = 'none';
+                                        (e.target as HTMLElement).parentElement?.classList.remove('p-2');
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <span className="font-mono text-sm text-neutral-500 tabular-nums w-12 text-right">
-                            {Math.min(progress, 100)}%
-                        </span>
                     </div>
 
-                    <motion.p
-                        className="text-neutral-500 text-xs uppercase tracking-[0.3em] animate-pulse"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                    >
-                        Turning up the heat...
-                    </motion.p>
-                </div>
-            </div>
+                    {/* Toaster Body (Back Layer) */}
+                    <div className="absolute top-20 left-1/2 -translate-x-1/2 w-56 h-36 bg-slate-800 rounded-2xl z-10 shadow-2xl border border-slate-700" />
 
-        </motion.div>
+                    {/* Toaster Body (Front Layer) */}
+                    <div
+                        className={`
+              absolute top-20 left-1/2 -translate-x-1/2 w-56 h-36 rounded-2xl z-20
+              flex flex-col items-center justify-center overflow-hidden
+              border-b-8 border-r-2 border-l-2 border-slate-950/50
+              shadow-2xl transition-all duration-300
+            `}
+                        style={{
+                            // Metallic Gradient
+                            background: 'linear-gradient(135deg, #475569 0%, #1e293b 100%)',
+                        }}
+                    >
+                        {/* Chrome Trim Top */}
+                        <div className="absolute top-0 w-full h-3 bg-gradient-to-r from-slate-400 via-slate-200 to-slate-400 opacity-80"></div>
+
+                        {/* Heating Glow (Internal) */}
+                        <div className={`absolute inset-0 bg-orange-500 mix-blend-color-dodge transition-opacity duration-1000 ${phase === 'toasting' ? 'opacity-60 animate-pulse' : 'opacity-0'}`}></div>
+
+                        {/* Toaster Design Elements */}
+                        <div className="relative w-full h-full p-4 flex flex-col justify-between items-center z-10">
+                            {/* Slot Shadow */}
+                            <div className="w-40 h-1 bg-slate-900/80 rounded-full blur-[1px]"></div>
+
+                            {/* Decorative Lines/Grill */}
+                            <div className="flex space-x-2 opacity-30">
+                                <div className="w-1 h-12 bg-slate-900 rounded-full"></div>
+                                <div className="w-1 h-12 bg-slate-900 rounded-full"></div>
+                                <div className="w-1 h-12 bg-slate-900 rounded-full"></div>
+                            </div>
+
+                            {/* Dial / Controls */}
+                            <div className="flex items-center space-x-8 w-full justify-center opacity-80 mt-2">
+                                <div className="w-3 h-3 rounded-full bg-slate-900 shadow-inner border border-slate-600"></div>
+                                <div className={`w-8 h-8 rounded-full border-2 border-slate-500 flex items-center justify-center transition-colors duration-500 ${phase === 'toasting' ? 'bg-orange-500/20 border-orange-500' : 'bg-slate-800'}`}>
+                                    <div className={`w-1 h-3 bg-slate-400 rounded-full transform transition-transform duration-1000 ${phase === 'toasting' ? 'rotate-180 bg-orange-200' : 'rotate-0'}`}></div>
+                                </div>
+                                <div className="w-3 h-3 rounded-full bg-slate-900 shadow-inner border border-slate-600"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Toaster Lever Track */}
+                    <div className="absolute top-24 right-2 w-5 h-28 bg-slate-800 rounded-full z-10 border border-slate-700 shadow-inner">
+                        <div className="absolute left-1/2 -translate-x-1/2 w-1.5 h-full bg-black/40 rounded-full"></div>
+                    </div>
+
+                    {/* The Lever Handle */}
+                    <div
+                        className={`
+              absolute -right-2 w-10 h-5 bg-gradient-to-r from-slate-700 to-slate-900 
+              rounded-md shadow-xl z-30 cursor-pointer border border-slate-600
+              transition-all duration-500 ease-in-out hover:brightness-110
+              ${phase === 'hover' ? 'top-24' : ''}
+              ${phase === 'lowering' || phase === 'toasting' ? 'top-44' : ''}
+              ${phase === 'popped' || phase === 'fading' ? 'top-24' : ''}
+            `}
+                    >
+                        {/* Handle Detail */}
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-3 bg-slate-500/50 rounded-l-sm"></div>
+                    </div>
+
+                    {/* Shadow underneath */}
+                    <div className="absolute top-56 left-1/2 -translate-x-1/2 w-48 h-6 bg-black/40 blur-md rounded-full z-0 transition-all duration-500"
+                        style={{
+                            transform: phase === 'toasting' ? 'translateX(-50%) scale(1.1)' : 'translateX(-50%) scale(1)',
+                            opacity: phase === 'toasting' ? 0.8 : 0.4
+                        }}
+                    ></div>
+
+                </div>
+
+                {/* Loading Text */}
+                <div className={`mt-16 font-mono text-orange-500 text-xs font-bold tracking-[0.3em] uppercase transition-opacity duration-500 ${phase === 'toasting' ? 'opacity-100 animate-pulse' : 'opacity-0'}`}>
+                    Heating Up...
+                </div>
+
+            </div>
+        </div>
     );
-}
+};
+
+export default SplashScreen;
