@@ -58,10 +58,10 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
             <div className="absolute inset-0 z-0 pointer-events-none">
                 {/* Base Grid */}
                 <div
-                    className="absolute inset-0 z-0 opacity-[0.2]"
+                    className="absolute inset-0 z-0 opacity-[0.3]"
                     style={{
                         backgroundImage: pattern === 'dots'
-                            ? `radial-gradient(circle, #ffffff 1.5px, transparent 1.5px)`
+                            ? `radial-gradient(circle, #ffffff 1.75px, transparent 1.75px)`
                             : `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
                         backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
                     }}

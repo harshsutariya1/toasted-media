@@ -75,10 +75,10 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
             <div className="absolute inset-0 z-0 pointer-events-none">
                 {/* Pattern Layer */}
                 <div
-                    className="absolute inset-0 opacity-[0.3]"
+                    className="absolute inset-0 opacity-[0.4]"
                     style={{
                         backgroundImage: pattern === 'dots'
-                            ? `radial-gradient(circle, #a8a29e 1.5px, transparent 1.5px)`
+                            ? `radial-gradient(circle, #a8a29e 1.75px, transparent 1.75px)`
                             : `linear-gradient(to right, #a8a29e 1px, transparent 1px), linear-gradient(to bottom, #a8a29e 1px, transparent 1px)`,
                         backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
                     }}
