@@ -1,14 +1,48 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function BriefIntro() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLElement>(null);
+    const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
     });
+
+    // Track mouse movement for glow effect overlap
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
+                setCursorPos({
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                });
+            }
+        };
+        // Add listener to window so we can track even if slightly outside, 
+        // but calculating relative to the section is good for the mask. 
+        // Actually, for fixed global feels, we usually use window coords.
+        // Let's stick to consistent window coords like HeroZoomScroll if we want identical feel,
+        // BUT HeroZoomScroll used window coords directly for the mask. 
+        // Let's use relative coords for this section since it's in the flow.
+
+        const updateMouse = (e: MouseEvent) => {
+            if (containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
+                setCursorPos({
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                });
+            }
+        };
+
+        window.addEventListener('mousemove', updateMouse);
+        return () => window.removeEventListener('mousemove', updateMouse);
+    }, []);
 
     // Create multiple text lines with different scroll-based animations
     const textLines = [
@@ -47,23 +81,43 @@ export default function BriefIntro() {
     return (
         <section
             ref={containerRef}
-            className="relative w-full bg-[#0a0a0a] py-32 md:py-48 px-4 border-y border-white/5 overflow-hidden"
+            className="relative w-full bg-stone-200 py-32 md:py-48 px-4 border-y border-white/5 overflow-hidden"
         >
-            {/* Background Texture - Enhanced */}
-            <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
-                <svg width="100%" height="100%">
-                    <pattern id="contour-new" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
-                        <path d="M0 120 C 30 0 60 0 120 120" fill="none" stroke="white" strokeWidth="0.8" />
-                        <path d="M0 0 C 60 120 90 120 120 0" fill="none" stroke="white" strokeWidth="0.8" />
-                        <circle cx="60" cy="60" r="2" fill="white" opacity="0.3" />
-                    </pattern>
-                    <rect width="100%" height="100%" fill="url(#contour-new)" />
-                </svg>
+            {/* Background Layers from HeroZoomScroll (adapted for section flow) */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                {/* Faint Grid */}
+                <div
+                    className="absolute inset-0 opacity-[0.4]"
+                    style={{
+                        backgroundImage: `
+                            linear-gradient(to right, #a8a29e 1px, transparent 1px),
+                            linear-gradient(to bottom, #a8a29e 1px, transparent 1px)
+                        `,
+                        backgroundSize: '40px 40px',
+                    }}
+                />
+
+                {/* Interactive Glowing Grid (Orange Brand Color) */}
+                <div
+                    className="absolute inset-0 opacity-100 transition-opacity duration-75"
+                    style={{
+                        backgroundImage: `
+                            linear-gradient(to right, #f97316 1px, transparent 1px),
+                            linear-gradient(to bottom, #f97316 1px, transparent 1px)
+                        `,
+                        backgroundSize: '40px 40px',
+                        maskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
+                        WebkitMaskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
+                    }}
+                />
+
+                {/* Glowing Radial Effect (to match hero vibe but light) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-stone-200/0 via-stone-200/50 to-stone-200" />
+
+                {/* Center Glow Area */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-brand-orange/5 rounded-full blur-[120px]" />
             </div>
 
-            {/* Gradient Orbs */}
-            <div className="absolute top-1/4 -right-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-brand-blue/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-[90rem] mx-auto relative z-10">
                 {/* Section Eyebrow */}
@@ -97,7 +151,7 @@ export default function BriefIntro() {
 
                 {/* Bottom Decorative Line */}
                 <motion.div
-                    className="mt-16 md:mt-24 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    className="mt-16 md:mt-24 h-[1px] bg-gradient-to-r from-transparent via-neutral-900/20 to-transparent"
                     style={{
                         scaleX: useTransform(scrollYProgress, [0.2, 0.6], [0, 1]),
                         opacity: useTransform(scrollYProgress, [0.2, 0.3, 0.9, 1], [0, 1, 1, 0])
@@ -137,7 +191,7 @@ function TextLine({ text, accent, accentColor, scrollProgress, index, totalLines
             className="flex flex-wrap items-center gap-3 md:gap-6"
             style={{ x, opacity, rotate }}
         >
-            <span className="font-[family-name:var(--font-syne)] font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-[#e4e4e0] uppercase">
+            <span className="font-[family-name:var(--font-syne)] font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-neutral-800 uppercase">
                 {text}
             </span>
             <span className={`font-[family-name:var(--font-dm-serif)] italic text-4xl md:text-6xl lg:text-7xl tracking-wide lowercase ${accentColor} relative`}>

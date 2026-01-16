@@ -143,8 +143,8 @@ export default function HeroZoomScroll() {
                         }}
                     />
 
-                    {/* Glowing Radial Effect (to match hero vibe but light) */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-stone-200/0 via-stone-200/50 to-stone-200" />
+                    {/* Glowing Radial Effect (to match hero vibe but light) --> Kept minimal or removed bottom fade */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-stone-200/0 via-stone-200/0 to-stone-200/0" />
 
                     {/* Center Glow Area */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-brand-orange/5 rounded-full blur-[120px]" />
