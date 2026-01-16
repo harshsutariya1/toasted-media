@@ -8,7 +8,7 @@ import { useRef } from "react";
 const founders = [
     {
         name: "Suhani Panchal",
-        role: "CEO & Co-Founder",
+        role: "Growth & Strategy",
         bio: "Strategist with a vision for disrupting the digital landscape. Guiding brands toward sustainable growth through data-driven creativity.",
         image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1000",
         socials: {
@@ -18,7 +18,7 @@ const founders = [
     },
     {
         name: "Rohan Mehta",
-        role: "CTO & Co-Founder",
+        role: "Desgin & Development",
         bio: "The technical backbone. Architecting scalable solutions that blend extreme performance with aesthetic perfection.",
         image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=1000",
         socials: {
@@ -28,7 +28,7 @@ const founders = [
     },
     {
         name: "Aryan Sharma",
-        role: "Creative Director",
+        role: "Brand Identity",
         bio: "Design maverick pushing the boundaries of visual storytelling. Turning abstract concepts into tangible digital art.",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
         socials: {
