@@ -39,38 +39,33 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {!showSplash && (
-        <>
-          {/* Navbar - appears after hero is visible */}
-          <AnimatePresence>
-            {showNavbar && (
-              <motion.div
-                initial={{ y: -150, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-[100]"
-              >
-                <Navbar pattern={pattern} setPattern={setPattern} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+      {/* Navbar - Always rendered for SEO, animates in */}
+      <motion.div
+        initial={{ y: -150, opacity: 0 }}
+        animate={{
+          y: showNavbar ? 0 : -150,
+          opacity: showNavbar ? 1 : 0
+        }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-[100]"
+      >
+        <Navbar pattern={pattern} setPattern={setPattern} />
+      </motion.div>
 
-          {/* Hero Section with Zoom Scroll Effect */}
-          <HeroZoomScroll pattern={pattern} />
+      {/* Hero Section with Zoom Scroll Effect */}
+      <HeroZoomScroll pattern={pattern} />
 
-          {/* Rest of the page */}
-          <BriefIntro pattern={pattern} />
-          <GrowthStats />
-          <ServicesSection />
-          <IndustriesGrid />
+      {/* Rest of the page */}
+      <BriefIntro pattern={pattern} />
+      <GrowthStats />
+      <ServicesSection />
+      <IndustriesGrid />
 
-          <FoundersSection />
-          <ProcessSection />
-          <TestimonialsSection />
-          <ContactSection />
-          <Footer />
-        </>
-      )}
+      <FoundersSection />
+      <ProcessSection />
+      <TestimonialsSection />
+      <ContactSection />
+      <Footer />
     </main>
   );
 }
