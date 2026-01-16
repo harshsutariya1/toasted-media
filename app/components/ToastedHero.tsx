@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 interface ToastedHeroProps {
     pattern?: 'dots' | 'grid';
@@ -88,48 +89,14 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
             {/* Hero Content */}
             <main ref={heroRef} className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-20 pb-12 px-4">
 
-                {/* Three Creatives Container */}
-                <div className="relative w-full max-w-6xl h-[40vh] md:h-[50vh] flex items-center justify-center mb-12 perspective-1000">
+                {/* Auto-Scrolling Landscape Carousel */}
+                <div className="relative w-full max-w-[90rem] h-[35vh] md:h-[50vh] flex items-center mb-12 overflow-hidden mask-linear-fade">
+                    {/* Gradient Masks for smooth fade edges */}
+                    <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 z-20 bg-gradient-to-r from-stone-950 to-transparent pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 z-20 bg-gradient-to-l from-stone-950 to-transparent pointer-events-none" />
 
-                    {/* Creative 1 (Left) */}
-                    <div
-                        className="absolute left-4 md:left-20 top-0 md:top-10 w-48 h-64 md:w-64 md:h-80 bg-stone-800 rounded-lg shadow-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-all duration-500 hover:z-20 hover:shadow-orange-500/20"
-                        style={{
-                            ...getParallaxStyle(-30),
-                            rotate: '-6deg',
-                        }}
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-tr from-orange-600 to-purple-600 opacity-80 mix-blend-overlay"></div>
-                        <Image src="https://blobcdn.same.energy/a/bb/6b/bb6b239b93c7208b8c83c34a03acb60da5f73893" alt="Creative work 1" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" sizes="(max-width: 768px) 192px, 256px" />
-                        <div className="absolute bottom-4 left-4 font-bold text-sm tracking-widest uppercase">Strategy</div>
-                    </div>
-
-                    {/* Creative 2 (Center - Main) */}
-                    <div
-                        className="relative z-10 w-56 h-72 md:w-80 md:h-96 bg-stone-800 rounded-lg shadow-2xl border border-white/20 overflow-hidden transform hover:scale-105 transition-all duration-500 hover:shadow-orange-500/30"
-                        style={getParallaxStyle(10)}
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10"></div>
-                        <Image src="https://blobcdn.same.energy/a/64/54/6454e1538fc392c0ea9fb164a0232b046c028b91" alt="Creative work 2" fill className="object-cover" sizes="(max-width: 768px) 224px, 320px" />
-                        <div className="absolute bottom-6 left-6 z-20">
-                            <div className="text-orange-500 text-xs font-bold tracking-widest mb-1">FEATURED</div>
-                            <div className="text-2xl font-black italic">Creative</div>
-                        </div>
-                    </div>
-
-                    {/* Creative 3 (Right) */}
-                    <div
-                        className="absolute right-4 md:right-20 bottom-0 md:bottom-10 w-48 h-64 md:w-64 md:h-80 bg-stone-800 rounded-lg shadow-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-all duration-500 hover:z-20 hover:shadow-orange-500/20"
-                        style={{
-                            ...getParallaxStyle(-20),
-                            rotate: '6deg',
-                        }}
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-bl from-blue-600 to-emerald-600 opacity-80 mix-blend-overlay"></div>
-                        <Image src="https://blobcdn.same.energy/a/fb/72/fb7257532ab1f1b79af35419571b4418338b79da" alt="Creative work 3" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" sizes="(max-width: 768px) 192px, 256px" />
-                        <div className="absolute top-4 right-4 font-bold text-sm tracking-widest uppercase text-right">Data<br />Driven</div>
-                    </div>
-
+                    {/* Scrolling Track */}
+                    <CarouselTrack />
                 </div>
 
                 {/* Bottom Center Text */}
@@ -157,6 +124,50 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
             </div>
 
         </div>
+    );
+};
+
+
+const CarouselTrack = () => {
+    // Landscape Images
+    const images = [
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600",
+        "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1600",
+        "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=1600",
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1600"
+    ];
+
+    // Duplicate for seamless loop
+    const carouselImages = [...images, ...images, ...images];
+
+    return (
+        <motion.div
+            className="flex gap-4 md:gap-8 min-w-max"
+            animate={{
+                x: ["0%", "-33.33%"]
+            }}
+            transition={{
+                duration: 25,
+                ease: "linear",
+                repeat: Infinity
+            }}
+        >
+            {carouselImages.map((src, index) => (
+                <div
+                    key={index}
+                    className="relative w-[300px] md:w-[500px] h-[200px] md:h-[320px] rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-2xl group"
+                >
+                    <Image
+                        src={src}
+                        alt={`Carousel ${index}`}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-0 group-hover:saturate-100 opacity-60 group-hover:opacity-100"
+                        sizes="(max-width: 768px) 300px, 500px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60" />
+                </div>
+            ))}
+        </motion.div>
     );
 };
 

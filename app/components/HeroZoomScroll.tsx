@@ -27,12 +27,22 @@ export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     // Optimize animations for performance:
     // 1. Shorter scroll interpolation ranges for snappier effect
     // 2. Hardware accelerated properties (transform, opacity)
 
-    // Scale down to 0.4 as requested (significantly smaller)
-    const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.4]);
+    // Scale down to 0.6 on mobile, 0.4 on desktop as requested
+    const targetZoom = isMobile ? 0.6 : 0.4;
+    const scale = useTransform(scrollYProgress, [0, 0.5], [1, targetZoom]);
 
     // Keep opacity at 1, but maybe dim slightly if needed.
     // const opacity = useTransform(scrollYProgress, [0.8, 1], [1, 1]);
