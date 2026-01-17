@@ -57,8 +57,7 @@ export default function ProcessSection() {
     return (
         <section id="process" ref={containerRef} className="py-20 md:py-32 bg-neutral-900 relative overflow-hidden">
 
-            {/* Background Noise/Texture */}
-            <div className="absolute inset-0 opacity-[0.4] pointer-events-none" style={{ backgroundImage: 'url("/noise.svg")' }}></div>
+
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
