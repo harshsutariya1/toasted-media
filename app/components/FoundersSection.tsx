@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { Linkedin, Twitter, ArrowRight } from "lucide-react";
+import { Linkedin, Twitter } from "lucide-react";
 import { useRef } from "react";
 
 const founders = [

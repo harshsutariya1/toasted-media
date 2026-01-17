@@ -46,11 +46,7 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
         };
     }, []);
 
-    // Parallax helper function
-    const getParallaxStyle = (depth = 20) => ({
-        transform: `translate(${mousePos.x * depth}px, ${mousePos.y * depth}px)`,
-        transition: 'transform 0.1s ease-out',
-    });
+
 
     return (
         <div ref={containerRef} className="relative min-h-screen bg-stone-950 text-white font-sans overflow-hidden selection:bg-orange-500 selection:text-white">
@@ -161,6 +157,7 @@ const CarouselTrack = () => {
                         src={src}
                         alt={`Carousel ${index}`}
                         fill
+                        priority={index < 4}
                         className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-0 group-hover:saturate-100 opacity-60 group-hover:opacity-100"
                         sizes="(max-width: 768px) 300px, 500px"
                     />

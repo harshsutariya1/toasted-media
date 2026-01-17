@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 /**
  * Toasted Media Agency - Splash Screen (Production Ready)
@@ -27,13 +28,9 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
         let isMounted = true;
         let imagesLoadedCount = 0;
 
-        // Critical assets to preload (Logo + Hero Images)
+        // Critical assets to preload (Logo only)
         const criticalImages = [
-            "/logo/logo2.jpg",
-            "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600",
-            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1600",
-            "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=1600",
-            "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1600"
+            "/logo/logo2.jpg"
         ];
 
         const checkGlobalLoad = () => {
@@ -149,14 +146,17 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
               ${phase === 'popped' || phase === 'fading' ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
             `}>
                             <div className="flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
+                                <Image
                                     src="/logo/logo2.jpg"
                                     alt="Toasted Media Logo"
-                                    className="w-full h-full object-contain"
+                                    fill
+                                    priority
+                                    className="object-contain"
                                     onError={(e) => {
-                                        (e.target as HTMLElement).style.display = 'none';
-                                        (e.target as HTMLElement).parentElement?.classList.remove('p-2');
+                                        // Next/Image onError handling
+                                        const target = e.target as HTMLElement;
+                                        target.style.display = 'none';
+                                        target.parentElement?.parentElement?.classList.remove('p-2');
                                     }}
                                 />
                             </div>
