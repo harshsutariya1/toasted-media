@@ -92,7 +92,7 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
 
                 {/* Bottom Center Text */}
                 <div className="relative z-20 mt-8 text-center pointer-events-none">
-                    <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-6 relative inline-block">
+                    <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-6 relative inline-block">
                         <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-b from-white to-stone-500 font-[family-name:var(--font-faculty)]">
                             IGNITING YOUR DIGITAL LEGACY
                         </span>
@@ -247,10 +247,6 @@ const HeroCarousel = () => {
                         {/* Parallax Image Effect container */}
                         <motion.div
                             className="relative w-full h-full"
-                            animate={{
-                                scale: isCenter ? 1.05 : 1.2, // Zoom in slightly when active
-                            }}
-                            transition={{ duration: 3, ease: "linear" }} // Slow breathe effect
                         >
                             <Image
                                 src={slide.src}
@@ -291,22 +287,8 @@ const HeroCarousel = () => {
 
             {/* Custom Progress Bar */}
             <div className="absolute bottom-6 right-6 md:right-10 z-50 flex items-center gap-4">
-                {/* Index Indicator */}
-                <span className="text-xs font-mono text-stone-400">
-                    {String(index + 1).padStart(2, '0')} — {String(slides.length).padStart(2, '0')}
-                </span>
-
-                {/* Bar */}
-                <div className="w-24 h-1 bg-white/10 rounded-full overflow-hidden">
-                    <motion.div
-                        className="h-full bg-orange-500 rounded-full"
-                        animate={{ width: `${((index + 1) / slides.length) * 100}%` }}
-                        transition={{ duration: 0.5 }}
-                    />
-                </div>
-
                 {/* Arrow Controls */}
-                <div className="flex gap-2 ml-4">
+                <div className="flex gap-2">
                     <button
                         onClick={handlePrev}
                         className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all"

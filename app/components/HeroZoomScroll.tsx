@@ -114,7 +114,7 @@ export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
                         scale: textScale,
                         y: textY
                     }}
-                    className="absolute bottom-[10%] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none text-center px-4"
+                    className="absolute bottom-[8%] md:bottom-[10%] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none text-center px-4"
                 >
                     <h1 className="text-6xl md:text-9xl font-black leading-none tracking-tighter select-none drop-shadow-2xl">
                         <span className="bg-gradient-to-r from-[var(--color-brand-orange)] via-[var(--color-brand-purple)] to-[var(--color-brand-blue)] bg-clip-text text-transparent animate-gradient-x bg-[length:200%_auto]">
