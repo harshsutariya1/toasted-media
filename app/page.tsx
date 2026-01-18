@@ -21,7 +21,7 @@ import IndustriesGrid from "@/app/components/IndustriesGrid";
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [showNavbar, setShowNavbar] = useState(false);
-  const [pattern, setPattern] = useState<'dots' | 'grid'>('dots');
+  const [pattern, setPattern] = useState<'dots' | 'grid'>('grid');
 
   const handleSplashFinish = () => {
     setShowSplash(false);
