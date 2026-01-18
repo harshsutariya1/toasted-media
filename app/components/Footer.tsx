@@ -31,7 +31,7 @@ export default function Footer() {
                             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden relative">
                                 <Image src="/logo/logo.jpg" alt="Logo" fill className="object-cover" />
                             </div>
-                            <span className="font-serif font-medium text-lg tracking-wide">THE TOASTED MEDIA</span>
+                            <span className="font-[family-name:var(--font-faculty)] font-medium text-lg tracking-wide">THE TOASTED MEDIA</span>
                         </div>
                         <p className="text-neutral-400 text-sm leading-relaxed max-w-xs">
                             Igniting brands with creative fire and data-driven precision. Let&apos;s toast to your success.

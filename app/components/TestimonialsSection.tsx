@@ -7,7 +7,7 @@ import { useEffect, useState, useRef } from "react";
 
 const testimonials = [
     {
-        quote: "The Toasted Media turned our vague vision into a digital masterpiece. The ROI has been undeniable.",
+        quote: <><span className="font-[family-name:var(--font-faculty)]">The Toasted Media</span> turned our vague vision into a digital masterpiece. The ROI has been undeniable.</>,
         author: "Sarah Johnson",
         role: "CMO @ TechFlow",
         image: "https://randomuser.me/api/portraits/women/32.jpg"

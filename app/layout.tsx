@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit, Oswald, Syne, DM_Serif_Display } from "next/font/google"; // Frequently used fonts
+import { Inter, Outfit, Oswald, Syne, DM_Serif_Display, Faculty_Glyphic } from "next/font/google"; // Frequently used fonts
 
 import "./globals.css";
 import ScrollToTop from "./components/ScrollToTop";
@@ -31,6 +31,12 @@ const dmSerifDisplay = DM_Serif_Display({
   style: ["normal", "italic"],
 });
 
+const facultyGlyphic = Faculty_Glyphic({
+  variable: "--font-faculty",
+  weight: "400",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "The Toasted Media | Digital Marketing & Social Media Agency",
   description: "A full-service social media and digital marketing agency dedicated to transforming brands into industry icons through creative storytelling and data-driven strategies.",
@@ -56,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${outfit.variable} ${oswald.variable} ${syne.variable} ${dmSerifDisplay.variable} antialiased bg-white text-neutral-900`}
+        className={`${inter.variable} ${outfit.variable} ${oswald.variable} ${syne.variable} ${dmSerifDisplay.variable} ${facultyGlyphic.variable} antialiased bg-white text-neutral-900`}
       >
         {children}
         <ScrollToTop />

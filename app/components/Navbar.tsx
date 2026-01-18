@@ -88,7 +88,7 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                         <div className="w-9 h-9 md:w-10 md:h-10 bg-neutral-800 rounded-full flex items-center justify-center overflow-hidden shadow-sm border border-neutral-700 relative">
                             <Image src="/logo/logo2.jpg" alt="Logo" fill className="object-cover" />
                         </div>
-                        <span className={`font-serif font-medium text-lg tracking-tight text-white group-hover:text-brand-orange transition-colors ${isMenuOpen ? "block" : "hidden sm:block"}`}>
+                        <span className={`font-[family-name:var(--font-faculty)] font-medium text-lg tracking-tight text-white group-hover:text-brand-orange transition-colors ${isMenuOpen ? "block" : "hidden sm:block"}`}>
                             The Toasted Media
                         </span>
                     </a>

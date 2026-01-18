@@ -103,7 +103,7 @@ export default function GrowthStats() {
                                 <strong className="text-white font-bold">The Toasted Origin:</strong> Most agencies give you vanilla. Safe. Predictable. We realized that in a feed scrolling at 60mph, &quot;safe&quot; is invisible.
                             </p>
                             <p>
-                                We founded Toasted Media on a simple principle: <span className="bg-brand-yellow/30 px-1 font-medium text-white">Be bold or go home.</span> We layer strategy, creative, and data just like our logo layers color—creating a complex, rich, and undeniable presence for your brand.
+                                We founded <span className="font-[family-name:var(--font-faculty)]">Toasted Media</span> on a simple principle: <span className="bg-brand-yellow/30 px-1 font-medium text-white">Be bold or go home.</span> We layer strategy, creative, and data just like our logo layers color—creating a complex, rich, and undeniable presence for your brand.
                             </p>
                             <div className="pt-6 grid grid-cols-2 gap-y-8 gap-x-4 md:gap-x-8">
                                 <div className="flex flex-col">
