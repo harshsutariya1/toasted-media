@@ -1,188 +1,98 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { Linkedin, Twitter } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 const founders = [
     {
         name: "Suhani Panchal",
         role: "Growth & Strategy",
-        bio: "Strategist with a vision for disrupting the digital landscape. Guiding brands toward sustainable growth through data-driven creativity.",
         image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1000",
-        socials: {
-            linkedin: "#",
-            twitter: "#"
-        }
+        bio: "Visionary strategist crafting sustainable growth through data-driven creativity."
     },
     {
         name: "Rohan Mehta",
-        role: "Desgin & Development",
-        bio: "The technical backbone. Architecting scalable solutions that blend extreme performance with aesthetic perfection.",
+        role: "Design & Tech",
         image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=1000",
-        socials: {
-            linkedin: "#",
-            twitter: "#"
-        }
+        bio: "Architecting scalable solutions that blend extreme performance with aesthetic perfection."
     },
     {
         name: "Aryan Sharma",
         role: "Brand Identity",
-        bio: "Design maverick pushing the boundaries of visual storytelling. Turning abstract concepts into tangible digital art.",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
-        socials: {
-            linkedin: "#",
-            twitter: "#"
-        }
+        bio: "Design maverick turning abstract concepts into tangible, digital art forms."
     }
 ];
 
 export default function FoundersSection() {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const targetRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end end"]
+        target: targetRef,
     });
 
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-65%"]);
+
     return (
-        <section ref={containerRef} className="relative h-[300vh] bg-[#e7e5e4]">
-            {/* Header / Title Block */}
-            <div className="absolute top-0 left-0 w-full h-screen flex flex-col items-center justify-start pt-20 pointer-events-none z-10">
-                <span className="text-brand-orange font-mono text-xs tracking-[0.3em] uppercase mb-4">
-                    Leadership
-                </span>
-                <h2 className="text-4xl md:text-6xl font-black text-stone-900 font-[family-name:var(--font-syne)] uppercase tracking-tight">
-                    The Minds
-                </h2>
-            </div>
+        <section ref={targetRef} className="relative h-[300vh] bg-neutral-950">
+            {/* Sticky Container */}
+            <div className="sticky top-0 flex h-screen items-center overflow-hidden">
 
-            {/* Sticky Scrolling Area */}
-            <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
-                <div className="relative w-full max-w-6xl h-[70vh] md:h-[600px] flex items-center justify-center">
-                    {founders.map((founder, index) => {
-                        // Calculate range for each card
-                        // Total scroll distance is 1. Each card takes up 1/3 roughly.
-                        const rangeStep = 1 / founders.length;
-                        const start = index * rangeStep;
-                        const end = start + rangeStep;
+                {/* Horizontal Scroll Track */}
+                <motion.div style={{ x }} className="flex gap-12 md:gap-20 p-20 pl-10 md:pl-32 items-center">
 
-                        return (
-                            <FounderCard
-                                key={index}
-                                founder={founder}
-                                i={index}
-                                progress={scrollYProgress}
-                                range={[start, end]}
-                                total={founders.length}
-                            />
-                        );
-                    })}
-                </div>
+                    {/* Title Slide */}
+                    <div className="flex flex-col justify-center min-w-[80vw] md:min-w-[30vw] pr-10">
+                        <h2 className="text-6xl md:text-8xl font-black text-white leading-tight font-[family-name:var(--font-faculty)]">
+                            THE<br />
+                            <span className="text-stone-700">MINDS</span>
+                        </h2>
+                        <div className="mt-8 h-px w-32 bg-orange-500" />
+                        <p className="mt-8 text-stone-400 text-lg md:text-xl max-w-sm">
+                            Meet the visionaries behind the screen. Architects of the digital future.
+                        </p>
+                    </div>
+
+                    {/* Founder Cards - Refined & Scaled Down */}
+                    {founders.map((founder, i) => (
+                        <div key={i} className="group relative min-w-[85vw] md:min-w-[25vw] flex flex-col transition-all duration-500">
+
+                            {/* Glass Card Container */}
+                            <div className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-orange-500/30 hover:bg-white/10 transition-colors duration-500">
+                                {/* Image Container - Scaled Down */}
+                                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg bg-stone-900 mb-6 group-hover:scale-[1.02] transition-all duration-700 ease-out">
+                                    <Image
+                                        src={founder.image}
+                                        alt={founder.name}
+                                        fill
+                                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 80vw, 25vw"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-40" />
+                                </div>
+
+                                {/* Text Info - Compact */}
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <span className="block text-orange-500 text-[10px] font-mono uppercase tracking-[0.2em] mb-2">
+                                            0{i + 1} &bull; {founder.role}
+                                        </span>
+                                        <h3 className="text-2xl md:text-3xl font-bold text-white font-[family-name:var(--font-faculty)] leading-none">
+                                            {founder.name}
+                                        </h3>
+                                        <p className="mt-4 text-xs text-stone-400 leading-relaxed max-w-[90%] font-mono opacity-60 group-hover:opacity-100 transition-opacity">
+                                            {founder.bio}
+                                        </p>
+                                    </div>
+                                    <ArrowUpRight className="text-stone-600 group-hover:text-orange-500 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300 w-6 h-6" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                </motion.div>
             </div>
         </section>
-    );
-}
-
-interface Founder {
-    name: string;
-    role: string;
-    bio: string;
-    image: string;
-    socials: {
-        linkedin: string;
-        twitter: string;
-    };
-}
-
-function FounderCard({ founder, i, progress, range, total }: { founder: Founder, i: number, progress: MotionValue<number>, range: [number, number], total: number }) {
-    // Parallax & Slide Logic
-    // Card should enter from bottom-right and settle. Then exit to top-left.
-
-    // Logic:
-    // 1. Entrance: Only relevant for i > 0 (first one is static or fades in)
-    // 2. Active Phase: Locked in center
-    // 3. Exit: Slides out to top-left
-
-    // We use a broader range to smooth transitions
-    const [start, end] = range;
-
-    // Entrance (From Bottom Right)
-    // For i=0, it starts in place. For i>0, it comes in as scroll progresses.
-    const enterStart = start - 0.1;
-    const enterEnd = start;
-
-    const x = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 0 : 1000, 0, 0, -1000]);
-    const y = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 0 : 500, 0, 0, -200]);
-    const rotate = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 0 : 15, 0, 0, -10]);
-    const scale = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 1 : 0.8, 1, 1, 0.9]);
-    const opacity = useTransform(progress, [enterStart, enterEnd, end, end + 0.2], [i === 0 ? 1 : 0, 1, 1, 0]);
-
-    // Z-Index is easy: higher index = on top
-    const zIndex = i;
-
-    return (
-        <motion.div
-            style={{ x, y, rotate, scale, opacity, zIndex }}
-            className="absolute w-full px-4 md:px-0 max-w-4xl"
-        >
-            <div className="bg-white rounded-[2.5rem] p-4 md:p-6 shadow-2xl flex flex-col md:flex-row gap-6 md:gap-12 items-center overflow-hidden border border-stone-200">
-
-                {/* Image Section (Left) */}
-                <div className="w-full md:w-5/12 aspect-[3/4] md:aspect-[4/5] relative rounded-[2rem] overflow-hidden bg-stone-100 group">
-                    <Image
-                        src={founder.image}
-                        alt={founder.name}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105 saturate-0 group-hover:saturate-100"
-                        sizes="(max-width: 768px) 100vw, 40vw"
-                    />
-
-                    {/* Corner Decoration */}
-                    <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-white/50 rounded-tl-lg" />
-                    <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-white/50 rounded-br-lg" />
-                </div>
-
-                {/* Content Section (Right) */}
-                <div className="w-full md:w-7/12 flex flex-col justify-center pr-0 md:pr-12 text-left pb-6 md:pb-0">
-                    <span className="text-brand-orange font-mono text-xs font-bold tracking-widest uppercase mb-3 inline-block bg-brand-orange/5 px-2 py-1 rounded">
-                        {founder.role}
-                    </span>
-
-                    <h3 className="text-4xl md:text-5xl font-bold text-stone-900 font-[family-name:var(--font-syne)] mb-6 leading-none">
-                        {founder.name}
-                    </h3>
-
-                    <p className="text-stone-500 text-lg leading-relaxed mb-8 md:max-w-md">
-                        {founder.bio}
-                    </p>
-
-                    <div className="flex items-center gap-6">
-                        <div className="flex gap-3">
-                            <a
-                                href={founder.socials.linkedin}
-                                className="w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:bg-stone-900 transition-all duration-300 group"
-                                aria-label="LinkedIn"
-                            >
-                                <Linkedin className="w-5 h-5 group-hover:scale-90 transition-transform" />
-                            </a>
-                            <a
-                                href={founder.socials.twitter}
-                                className="w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:text-white hover:bg-stone-900 transition-all duration-300 group"
-                                aria-label="Twitter"
-                            >
-                                <Twitter className="w-5 h-5 group-hover:scale-90 transition-transform" />
-                            </a>
-                        </div>
-
-                        <div className="h-px flex-1 bg-stone-200" />
-
-                        <div className="text-xs font-bold text-stone-300 tracking-widest uppercase">
-                            0{i + 1} &mdash; 0{total}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </motion.div>
     );
 }

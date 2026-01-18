@@ -188,7 +188,7 @@ const HeroCarousel = () => {
             left: "0%",
             width: "10%",
             zIndex: 20,
-            opacity: 0.5,
+            opacity: 0.8,
             scale: 0.9,
             x: "-2%", // Slight pull-away
             filter: "brightness(0.4) saturate(0) blur(2px)"
@@ -197,7 +197,7 @@ const HeroCarousel = () => {
             left: "90%",
             width: "10%",
             zIndex: 20,
-            opacity: 0.5,
+            opacity: 0.8,
             scale: 0.9,
             x: "2%", // Slight pull-away
             filter: "brightness(0.4) saturate(0) blur(2px)"
