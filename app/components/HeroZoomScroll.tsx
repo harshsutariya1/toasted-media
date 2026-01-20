@@ -5,7 +5,7 @@ import { useScroll, useTransform, motion } from "framer-motion";
 import ToastedHero from "./ToastedHero";
 
 interface HeroZoomScrollProps {
-    pattern: 'dots' | 'grid';
+    pattern: 'dots' | 'grid' | 'lines';
 }
 
 export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
@@ -137,8 +137,10 @@ export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
                         style={{
                             backgroundImage: pattern === 'dots'
                                 ? `radial-gradient(circle, #a8a29e 1.75px, transparent 1.75px)`
-                                : `linear-gradient(to right, #a8a29e 1px, transparent 1px), linear-gradient(to bottom, #a8a29e 1px, transparent 1px)`,
-                            backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
+                                : pattern === 'lines'
+                                    ? `linear-gradient(to right, #a8a29e 1px, transparent 1px)`
+                                    : `linear-gradient(to right, #a8a29e 1px, transparent 1px), linear-gradient(to bottom, #a8a29e 1px, transparent 1px)`,
+                            backgroundSize: pattern === 'lines' ? '40px 100%' : '40px 40px',
                         }}
                     />
 
@@ -148,8 +150,10 @@ export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
                         style={{
                             backgroundImage: pattern === 'dots'
                                 ? `radial-gradient(circle, #f97316 2px, transparent 2px)`
-                                : `linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)`,
-                            backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
+                                : pattern === 'lines'
+                                    ? `linear-gradient(to right, #f97316 1px, transparent 1px)`
+                                    : `linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)`,
+                            backgroundSize: pattern === 'lines' ? '40px 100%' : '40px 40px',
                             maskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                             WebkitMaskImage: `radial-gradient(circle 350px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                         }}

@@ -60,7 +60,7 @@ const projects = [
 ];
 
 export default function PortfolioPage() {
-    const [pattern, setPattern] = useState<'dots' | 'grid'>('grid');
+    const [pattern, setPattern] = useState<'dots' | 'grid' | 'lines'>('grid');
 
     return (
         <main className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-brand-orange/30">

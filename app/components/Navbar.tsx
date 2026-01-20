@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-import { Grid3X3, CircleDot } from "lucide-react";
+import { Grid3X3, CircleDot, Minus } from "lucide-react";
 
 interface NavbarProps {
-    pattern: 'dots' | 'grid';
-    setPattern: (pattern: 'dots' | 'grid') => void;
+    pattern: 'dots' | 'grid' | 'lines';
+    setPattern: (pattern: 'dots' | 'grid' | 'lines') => void;
 }
 
 export default function Navbar({ pattern, setPattern }: NavbarProps) {
@@ -189,6 +189,34 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                                             </div>
                                         </motion.a>
                                     ))}
+
+                                    {/* Pattern Toggle Mobile Location */}
+                                    <div className="flex items-center gap-3 mt-4 pl-4">
+                                        <span className="text-xs font-mono text-neutral-500 uppercase tracking-widest mr-2">Theme</span>
+                                        <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/5">
+                                            <button
+                                                onClick={() => setPattern('dots')}
+                                                className={`p-2 rounded-full transition-all ${pattern === 'dots' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                                title="Dot Pattern"
+                                            >
+                                                <CircleDot size={14} />
+                                            </button>
+                                            <button
+                                                onClick={() => setPattern('grid')}
+                                                className={`p-2 rounded-full transition-all ${pattern === 'grid' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                                title="Grid Pattern"
+                                            >
+                                                <Grid3X3 size={14} />
+                                            </button>
+                                            <button
+                                                onClick={() => setPattern('lines')}
+                                                className={`p-2 rounded-full transition-all ${pattern === 'lines' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                                title="Lines Pattern"
+                                            >
+                                                <Minus size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* Promo / Feature Card (Desktop) */}
@@ -216,24 +244,6 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                             {/* Footer Links & Toggles */}
                             <div className="px-6 pb-6 pt-2 flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs font-semibold text-neutral-500 uppercase tracking-widest border-t border-dashed border-white/10 mt-2 gap-4 md:gap-0">
                                 <span>© 2025 Toasted Media</span>
-
-                                {/* Pattern Toggle */}
-                                <div className="flex items-center gap-3 bg-white/5 rounded-full p-1 border border-white/5">
-                                    <button
-                                        onClick={() => setPattern('dots')}
-                                        className={`p-2 rounded-full transition-all ${pattern === 'dots' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
-                                        title="Dot Pattern"
-                                    >
-                                        <CircleDot size={14} />
-                                    </button>
-                                    <button
-                                        onClick={() => setPattern('grid')}
-                                        className={`p-2 rounded-full transition-all ${pattern === 'grid' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
-                                        title="Grid Pattern"
-                                    >
-                                        <Grid3X3 size={14} />
-                                    </button>
-                                </div>
 
                                 <div className="flex gap-4">
                                     <a href="#" className="hover:text-brand-orange transition-colors">Instagram</a>

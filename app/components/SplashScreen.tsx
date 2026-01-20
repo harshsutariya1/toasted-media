@@ -145,7 +145,7 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
               transform transition-all duration-300 relative z-10
               ${phase === 'popped' || phase === 'fading' ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
             `}>
-                            <div className="flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
+                            <div className="flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
                                 <Image
                                     src="/logo/logo2.jpg"
                                     alt="Toasted Media Logo"

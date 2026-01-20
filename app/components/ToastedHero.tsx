@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 interface ToastedHeroProps {
-    pattern?: 'dots' | 'grid';
+    pattern?: 'dots' | 'grid' | 'lines';
 }
 
 const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
@@ -59,8 +59,10 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
                     style={{
                         backgroundImage: pattern === 'dots'
                             ? `radial-gradient(circle, #ffffff 1.75px, transparent 1.75px)`
-                            : `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
-                        backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
+                            : pattern === 'lines'
+                                ? `linear-gradient(to right, #ffffff 1px, transparent 1px)`
+                                : `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+                        backgroundSize: pattern === 'lines' ? '40px 100%' : '40px 40px',
                     }}
                 />
 
@@ -70,8 +72,10 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
                     style={{
                         backgroundImage: pattern === 'dots'
                             ? `radial-gradient(circle, #ea580c 2px, transparent 2px)`
-                            : `linear-gradient(to right, #ea580c 1px, transparent 1px), linear-gradient(to bottom, #ea580c 1px, transparent 1px)`,
-                        backgroundSize: pattern === 'dots' ? '30px 30px' : '40px 40px',
+                            : pattern === 'lines'
+                                ? `linear-gradient(to right, #ea580c 1px, transparent 1px)`
+                                : `linear-gradient(to right, #ea580c 1px, transparent 1px), linear-gradient(to bottom, #ea580c 1px, transparent 1px)`,
+                        backgroundSize: pattern === 'lines' ? '40px 100%' : '40px 40px',
                         maskImage: `radial-gradient(circle 300px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                         WebkitMaskImage: `radial-gradient(circle 300px at ${cursorPos.x}px ${cursorPos.y}px, black, transparent)`,
                     }}
