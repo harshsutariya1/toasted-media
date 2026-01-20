@@ -108,11 +108,7 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
 
             </main>
 
-            {/* Decorative Grid Overlay for texture details */}
-            <div className="fixed bottom-10 left-10 hidden md:block z-0 opacity-30 font-mono text-xs">
-                <div>COORDS: {Math.round(mousePos.x * 100)} / {Math.round(mousePos.y * 100)}</div>
-                <div>SCROLL: {Math.round(scrollY)}</div>
-            </div>
+
 
         </div>
     );
@@ -285,24 +281,7 @@ const HeroCarousel = () => {
                 );
             })}
 
-            {/* Custom Progress Bar */}
-            <div className="absolute bottom-6 right-6 md:right-10 z-50 flex items-center gap-4">
-                {/* Arrow Controls */}
-                <div className="flex gap-2">
-                    <button
-                        onClick={handlePrev}
-                        className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all"
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                    </button>
-                    <button
-                        onClick={handleNext}
-                        className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all"
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                    </button>
-                </div>
-            </div>
+
         </div>
     );
 };

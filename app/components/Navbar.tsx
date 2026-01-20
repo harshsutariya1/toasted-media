@@ -28,12 +28,10 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
     }, []);
 
     const links = [
-        { name: "Services", href: "#services" },
-        { name: "Industries", href: "#industries" },
-        { name: "Process", href: "#process" },
+        { name: "Services", href: "/#services" },
+        { name: "Portfolio", href: "/portfolio" },
+        { name: "Process", href: "/#process" },
     ];
-
-    // ... (render logic start remains same) ...
 
     {/* Footer Links & Toggles */ }
     <div className="px-6 pb-6 pt-2 flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs font-semibold text-neutral-500 uppercase tracking-widest border-t border-dashed border-white/10 mt-2 gap-4 md:gap-0">
@@ -84,7 +82,7 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                 <div className={`flex items-center justify-between ${isMenuOpen ? "p-3 pr-4" : "pl-3 pr-1 md:pr-0 p-0"}`}>
 
                     {/* Logo Section */}
-                    <a href="#" className="flex items-center gap-3 group shrink-0">
+                    <a href="/" className="flex items-center gap-3 group shrink-0">
                         <div className="w-9 h-9 md:w-10 md:h-10 bg-neutral-800 rounded-full flex items-center justify-center overflow-hidden shadow-sm border border-neutral-700 relative">
                             <Image src="/logo/logo2.jpg" alt="Logo" fill className="object-cover" />
                         </div>
@@ -118,7 +116,7 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.8 }}
-                                    href="#contact"
+                                    href="/#contact"
                                     className="flex bg-white text-neutral-900 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold items-center gap-2 hover:bg-neutral-200 transition-colors mr-1 whitespace-nowrap"
                                 >
                                     <span>Let&apos;s Talk</span>
@@ -173,7 +171,7 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                             <div className="p-4 pt-2 flex flex-col md:flex-row gap-6">
                                 {/* Navigation Links List */}
                                 <div className="flex flex-col gap-2 flex-1">
-                                    {[...links, { name: "Contact", href: "#contact" }].map((link, i) => (
+                                    {[...links, { name: "Contact", href: "/#contact" }].map((link, i) => (
                                         <motion.a
                                             key={link.name}
                                             href={link.href}

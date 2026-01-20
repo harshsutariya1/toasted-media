@@ -85,8 +85,10 @@ const ServicesSection = () => {
                     ))}
                 </div>
 
-                {/* Interactive Services Cloud */}
-                <ServicesCloud />
+                {/* Interactive Services Cloud - Only PC/Laptops */}
+                <div className="hidden md:block">
+                    <ServicesCloud />
+                </div>
             </div>
 
         </section>
