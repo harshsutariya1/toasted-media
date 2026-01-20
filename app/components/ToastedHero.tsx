@@ -6,9 +6,10 @@ import { motion } from 'framer-motion';
 
 interface ToastedHeroProps {
     pattern?: 'dots' | 'grid' | 'lines';
+    layout?: 'cinematic' | 'classic' | 'columns';
 }
 
-const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
+const ToastedHero = ({ pattern = 'dots', layout = 'cinematic' }: ToastedHeroProps) => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
     const [scrollY, setScrollY] = useState(0);
@@ -89,9 +90,9 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
             {/* Hero Content */}
             <main ref={heroRef} className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-20 pb-12 px-4">
 
-                {/* High-Performance 80-10-10 Carousel */}
+                {/* High-Performance Flexible Carousel */}
                 <div className="relative w-full max-w-[95rem] mx-auto mb-12 h-[50vh] md:h-[60vh]">
-                    <HeroCarousel />
+                    <HeroCarousel layout={layout} />
                 </div>
 
                 {/* Bottom Center Text */}
@@ -118,7 +119,7 @@ const ToastedHero = ({ pattern = 'dots' }: ToastedHeroProps) => {
     );
 };
 
-const HeroCarousel = () => {
+const HeroCarousel = ({ layout = 'cinematic' }: { layout?: 'cinematic' | 'classic' | 'columns' }) => {
     const slides = [
         {
             src: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1600",
@@ -131,7 +132,7 @@ const HeroCarousel = () => {
             category: "Workspace"
         },
         {
-            src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1600",
+            src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1600",
             title: "Data Driven",
             category: "Analytics"
         },
@@ -173,11 +174,11 @@ const HeroCarousel = () => {
         return diff < slides.length / 2 ? "hiddenRight" : "hiddenLeft";
     };
 
-    // Refined Motion Variants
+    // Refined Motion Variants based on Layout
     const variants = {
         center: {
-            left: "12%",
-            width: "76%",
+            left: layout === 'cinematic' ? "12%" : layout === 'columns' ? "33.33%" : "25%",
+            width: layout === 'cinematic' ? "76%" : layout === 'columns' ? "33.33%" : "50%",
             zIndex: 30,
             opacity: 1,
             scale: 1,
@@ -186,24 +187,24 @@ const HeroCarousel = () => {
         },
         left: {
             left: "0%",
-            width: "10%",
+            width: layout === 'cinematic' ? "10%" : layout === 'columns' ? "33.33%" : "23%",
             zIndex: 20,
-            opacity: 0.8,
-            scale: 0.9,
-            x: "-2%", // Slight pull-away
-            filter: "brightness(0.4) saturate(0) blur(2px)"
+            opacity: layout === 'columns' ? 1 : 0.8,
+            scale: layout === 'columns' ? 1 : 0.9,
+            x: layout === 'cinematic' ? "-2%" : "0%",
+            filter: layout === 'columns' ? "brightness(1) saturate(1) blur(0px)" : "brightness(0.4) saturate(0) blur(2px)"
         },
         right: {
-            left: "90%",
-            width: "10%",
+            left: layout === 'cinematic' ? "90%" : layout === 'columns' ? "66.66%" : "77%",
+            width: layout === 'cinematic' ? "10%" : layout === 'columns' ? "33.33%" : "23%",
             zIndex: 20,
-            opacity: 0.8,
-            scale: 0.9,
-            x: "2%", // Slight pull-away
-            filter: "brightness(0.4) saturate(0) blur(2px)"
+            opacity: layout === 'columns' ? 1 : 0.8,
+            scale: layout === 'columns' ? 1 : 0.9,
+            x: layout === 'cinematic' ? "2%" : "0%",
+            filter: layout === 'columns' ? "brightness(1) saturate(1) blur(0px)" : "brightness(0.4) saturate(0) blur(2px)"
         },
         hiddenLeft: {
-            left: "-20%",
+            left: "-33.33%",
             width: "10%",
             zIndex: 10,
             opacity: 0,
@@ -212,7 +213,7 @@ const HeroCarousel = () => {
             filter: "brightness(0) blur(10px)"
         },
         hiddenRight: {
-            left: "120%",
+            left: "133.33%",
             width: "10%",
             zIndex: 10,
             opacity: 0,

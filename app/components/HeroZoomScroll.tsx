@@ -6,9 +6,10 @@ import ToastedHero from "./ToastedHero";
 
 interface HeroZoomScrollProps {
     pattern: 'dots' | 'grid' | 'lines';
+    layout?: 'cinematic' | 'classic' | 'columns';
 }
 
-export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
+export default function HeroZoomScroll({ pattern, layout = 'cinematic' }: HeroZoomScrollProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
@@ -97,7 +98,7 @@ export default function HeroZoomScroll({ pattern }: HeroZoomScrollProps) {
                 >
                     {/* Container for the Hero Component */}
                     <div className="w-full h-full bg-stone-950">
-                        <ToastedHero pattern={pattern} />
+                        <ToastedHero pattern={pattern} layout={layout} />
                     </div>
 
                     {/* Premium Glass/Border Overlay */}

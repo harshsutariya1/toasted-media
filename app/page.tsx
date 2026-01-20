@@ -22,6 +22,7 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [showNavbar, setShowNavbar] = useState(false);
   const [pattern, setPattern] = useState<'dots' | 'grid' | 'lines'>('grid');
+  const [carouselLayout, setCarouselLayout] = useState<'cinematic' | 'classic' | 'columns'>('cinematic');
 
   const handleSplashFinish = () => {
     setShowSplash(false);
@@ -49,11 +50,16 @@ export default function Home() {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-[100]"
       >
-        <Navbar pattern={pattern} setPattern={setPattern} />
+        <Navbar
+          pattern={pattern}
+          setPattern={setPattern}
+          carouselLayout={carouselLayout}
+          setCarouselLayout={setCarouselLayout}
+        />
       </motion.div>
 
       {/* Hero Section with Zoom Scroll Effect */}
-      <HeroZoomScroll pattern={pattern} />
+      <HeroZoomScroll pattern={pattern} layout={carouselLayout} />
 
       {/* Rest of the page */}
       <BriefIntro pattern={pattern} />

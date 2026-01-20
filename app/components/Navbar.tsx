@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, GalleryHorizontal, LayoutTemplate, Columns } from "lucide-react";
 import Image from "next/image";
 
 import { Grid3X3, CircleDot, Minus } from "lucide-react";
@@ -10,9 +10,11 @@ import { Grid3X3, CircleDot, Minus } from "lucide-react";
 interface NavbarProps {
     pattern: 'dots' | 'grid' | 'lines';
     setPattern: (pattern: 'dots' | 'grid' | 'lines') => void;
+    carouselLayout?: 'cinematic' | 'classic' | 'columns';
+    setCarouselLayout?: (layout: 'cinematic' | 'classic' | 'columns') => void;
 }
 
-export default function Navbar({ pattern, setPattern }: NavbarProps) {
+export default function Navbar({ pattern, setPattern, carouselLayout = 'cinematic', setCarouselLayout }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -217,6 +219,36 @@ export default function Navbar({ pattern, setPattern }: NavbarProps) {
                                             </button>
                                         </div>
                                     </div>
+
+                                    {/* Layout Toggle (Only if setCarouselLayout is provided) */}
+                                    {setCarouselLayout && (
+                                        <div className="flex items-center gap-3 mt-4 pl-4">
+                                            <span className="text-xs font-mono text-neutral-500 uppercase tracking-widest mr-2">Layout</span>
+                                            <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/5">
+                                                <button
+                                                    onClick={() => setCarouselLayout('cinematic')}
+                                                    className={`p-2 rounded-full transition-all ${carouselLayout === 'cinematic' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                                    title="Cinematic Layout"
+                                                >
+                                                    <GalleryHorizontal size={14} />
+                                                </button>
+                                                <button
+                                                    onClick={() => setCarouselLayout('classic')}
+                                                    className={`p-2 rounded-full transition-all ${carouselLayout === 'classic' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                                    title="Classic Layout"
+                                                >
+                                                    <LayoutTemplate size={14} />
+                                                </button>
+                                                <button
+                                                    onClick={() => setCarouselLayout('columns')}
+                                                    className={`p-2 rounded-full transition-all ${carouselLayout === 'columns' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                                    title="Columns Layout"
+                                                >
+                                                    <Columns size={14} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Promo / Feature Card (Desktop) */}
