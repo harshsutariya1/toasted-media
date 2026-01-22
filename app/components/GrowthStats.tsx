@@ -41,7 +41,7 @@ const KineticBar = ({ delay, color }: { delay: number; color: string }) => {
 
 export default function GrowthStats() {
     return (
-        <section id="about" className="relative py-16 md:py-24 bg-neutral-900 border-y border-neutral-800 font-sans overflow-hidden">
+        <section id="about" className="relative py-16 md:py-24 bg-neutral-900 font-sans overflow-hidden">
             {/* Background Video */}
             {/* Background Gradient */}
             <div className="absolute inset-0 w-full h-full z-0">

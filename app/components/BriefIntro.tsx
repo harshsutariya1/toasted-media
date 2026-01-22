@@ -69,7 +69,7 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
     return (
         <section
             ref={containerRef}
-            className="relative w-full bg-stone-200 py-32 md:py-48 px-4 border-b border-white/5 overflow-hidden"
+            className="relative w-full bg-stone-200 py-32 md:py-48 px-4 overflow-hidden"
         >
             {/* Background Layers from HeroZoomScroll (adapted for section flow) */}
             <div className="absolute inset-0 z-0 pointer-events-none">
@@ -151,6 +151,42 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
                         opacity: useTransform(scrollYProgress, [0.2, 0.3, 0.9, 1], [0, 1, 1, 0])
                     }}
                 />
+            </div>
+
+            {/* Scroll-Controlled Theme Transition Overlay */}
+            {/* Creates a pixel-like wipe effect from light to dark */}
+            <motion.div
+                className="absolute inset-0 z-30 pointer-events-none"
+                style={{
+                    background: 'linear-gradient(to bottom, transparent, #171717)',
+                    opacity: useTransform(scrollYProgress, [0.6, 0.9], [0, 1])
+                }}
+            />
+
+            {/* Pixel Columns Reveal Effect */}
+            <div className="absolute bottom-0 left-0 right-0 h-48 z-40 pointer-events-none overflow-hidden">
+                <motion.div
+                    className="w-full h-full flex"
+                    style={{
+                        opacity: useTransform(scrollYProgress, [0.5, 0.7], [0, 1])
+                    }}
+                >
+                    {/* Generate pixel columns for animated reveal */}
+                    {Array.from({ length: 20 }).map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="flex-1 bg-neutral-900"
+                            style={{
+                                transformOrigin: 'bottom',
+                                scaleY: useTransform(
+                                    scrollYProgress,
+                                    [0.5 + (i * 0.015), 0.7 + (i * 0.015)],
+                                    [0, 1]
+                                )
+                            }}
+                        />
+                    ))}
+                </motion.div>
             </div>
         </section>
     );
