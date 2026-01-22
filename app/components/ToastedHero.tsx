@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 interface ToastedHeroProps {
     pattern?: 'dots' | 'grid' | 'lines';
-    layout?: 'cinematic' | 'classic' | 'columns';
+    layout?: 'cinematic' | 'classic' | 'columns' | 'seamless';
 }
 
 const ToastedHero = ({ pattern = 'dots', layout = 'cinematic' }: ToastedHeroProps) => {
@@ -119,7 +119,7 @@ const ToastedHero = ({ pattern = 'dots', layout = 'cinematic' }: ToastedHeroProp
     );
 };
 
-const HeroCarousel = ({ layout = 'cinematic' }: { layout?: 'cinematic' | 'classic' | 'columns' }) => {
+const HeroCarousel = ({ layout = 'cinematic' }: { layout?: 'cinematic' | 'classic' | 'columns' | 'seamless' }) => {
     const slides = [
         {
             src: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1600",
@@ -177,8 +177,8 @@ const HeroCarousel = ({ layout = 'cinematic' }: { layout?: 'cinematic' | 'classi
     // Refined Motion Variants based on Layout
     const variants = {
         center: {
-            left: layout === 'cinematic' ? "12%" : layout === 'columns' ? "33.33%" : "25%",
-            width: layout === 'cinematic' ? "76%" : layout === 'columns' ? "33.33%" : "50%",
+            left: layout === 'cinematic' ? "12%" : layout === 'columns' ? "33.33%" : layout === 'seamless' ? "10%" : "25%",
+            width: layout === 'cinematic' ? "76%" : layout === 'columns' ? "33.33%" : layout === 'seamless' ? "80%" : "50%",
             zIndex: 30,
             opacity: 1,
             scale: 1,
@@ -187,24 +187,24 @@ const HeroCarousel = ({ layout = 'cinematic' }: { layout?: 'cinematic' | 'classi
         },
         left: {
             left: "0%",
-            width: layout === 'cinematic' ? "10%" : layout === 'columns' ? "33.33%" : "23%",
+            width: layout === 'cinematic' ? "10%" : layout === 'columns' ? "33.33%" : layout === 'seamless' ? "10%" : "23%",
             zIndex: 20,
-            opacity: layout === 'columns' ? 1 : 0.8,
-            scale: layout === 'columns' ? 1 : 0.9,
+            opacity: layout === 'columns' || layout === 'seamless' ? 1 : 0.8,
+            scale: layout === 'columns' || layout === 'seamless' ? 1 : 0.9,
             x: layout === 'cinematic' ? "-2%" : "0%",
-            filter: layout === 'columns' ? "brightness(1) saturate(1) blur(0px)" : "brightness(0.4) saturate(0) blur(2px)"
+            filter: layout === 'columns' ? "brightness(1) saturate(1) blur(0px)" : layout === 'seamless' ? "brightness(0.9) saturate(0.8) blur(2px)" : "brightness(0.4) saturate(0) blur(2px)"
         },
         right: {
-            left: layout === 'cinematic' ? "90%" : layout === 'columns' ? "66.66%" : "77%",
-            width: layout === 'cinematic' ? "10%" : layout === 'columns' ? "33.33%" : "23%",
+            left: layout === 'cinematic' ? "90%" : layout === 'columns' ? "66.66%" : layout === 'seamless' ? "90%" : "77%",
+            width: layout === 'cinematic' ? "10%" : layout === 'columns' ? "33.33%" : layout === 'seamless' ? "10%" : "23%",
             zIndex: 20,
-            opacity: layout === 'columns' ? 1 : 0.8,
-            scale: layout === 'columns' ? 1 : 0.9,
+            opacity: layout === 'columns' || layout === 'seamless' ? 1 : 0.8,
+            scale: layout === 'columns' || layout === 'seamless' ? 1 : 0.9,
             x: layout === 'cinematic' ? "2%" : "0%",
-            filter: layout === 'columns' ? "brightness(1) saturate(1) blur(0px)" : "brightness(0.4) saturate(0) blur(2px)"
+            filter: layout === 'columns' ? "brightness(1) saturate(1) blur(0px)" : layout === 'seamless' ? "brightness(0.9) saturate(0.8) blur(2px)" : "brightness(0.4) saturate(0) blur(2px)"
         },
         hiddenLeft: {
-            left: "-33.33%",
+            left: layout === 'seamless' ? "-10%" : "-33.33%",
             width: "10%",
             zIndex: 10,
             opacity: 0,
@@ -213,7 +213,7 @@ const HeroCarousel = ({ layout = 'cinematic' }: { layout?: 'cinematic' | 'classi
             filter: "brightness(0) blur(10px)"
         },
         hiddenRight: {
-            left: "133.33%",
+            left: layout === 'seamless' ? "110%" : "133.33%",
             width: "10%",
             zIndex: 10,
             opacity: 0,
@@ -237,7 +237,7 @@ const HeroCarousel = ({ layout = 'cinematic' }: { layout?: 'cinematic' | 'classi
                         key={i}
                         animate={position}
                         variants={variants}
-                        transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+                        transition={{ duration: layout === 'seamless' ? 1.2 : 0.7, ease: [0.32, 0.72, 0, 1] }}
                         className="absolute top-0 bottom-0 overflow-hidden rounded-xl border border-white/10 bg-stone-950"
                         style={{ transformOrigin: "center" }}
                         onClick={() => {

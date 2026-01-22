@@ -6,7 +6,7 @@ import ToastedHero from "./ToastedHero";
 
 interface HeroZoomScrollProps {
     pattern: 'dots' | 'grid' | 'lines';
-    layout?: 'cinematic' | 'classic' | 'columns';
+    layout?: 'cinematic' | 'classic' | 'columns' | 'seamless';
 }
 
 export default function HeroZoomScroll({ pattern, layout = 'cinematic' }: HeroZoomScrollProps) {

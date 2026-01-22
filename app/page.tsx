@@ -22,7 +22,7 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [showNavbar, setShowNavbar] = useState(false);
   const [pattern, setPattern] = useState<'dots' | 'grid' | 'lines'>('grid');
-  const [carouselLayout, setCarouselLayout] = useState<'cinematic' | 'classic' | 'columns'>('cinematic');
+  const [carouselLayout, setCarouselLayout] = useState<'cinematic' | 'classic' | 'columns' | 'seamless'>('cinematic');
 
   const handleSplashFinish = () => {
     setShowSplash(false);

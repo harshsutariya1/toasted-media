@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, GalleryHorizontal, LayoutTemplate, Columns } from "lucide-react";
+import { Menu, X, ArrowRight, GalleryHorizontal, LayoutTemplate, Columns, Film } from "lucide-react";
 import Image from "next/image";
 
 import { Grid3X3, CircleDot, Minus } from "lucide-react";
@@ -10,8 +10,8 @@ import { Grid3X3, CircleDot, Minus } from "lucide-react";
 interface NavbarProps {
     pattern: 'dots' | 'grid' | 'lines';
     setPattern: (pattern: 'dots' | 'grid' | 'lines') => void;
-    carouselLayout?: 'cinematic' | 'classic' | 'columns';
-    setCarouselLayout?: (layout: 'cinematic' | 'classic' | 'columns') => void;
+    carouselLayout?: 'cinematic' | 'classic' | 'columns' | 'seamless';
+    setCarouselLayout?: (layout: 'cinematic' | 'classic' | 'columns' | 'seamless') => void;
 }
 
 export default function Navbar({ pattern, setPattern, carouselLayout = 'cinematic', setCarouselLayout }: NavbarProps) {
@@ -245,6 +245,13 @@ export default function Navbar({ pattern, setPattern, carouselLayout = 'cinemati
                                                     title="Columns Layout"
                                                 >
                                                     <Columns size={14} />
+                                                </button>
+                                                <button
+                                                    onClick={() => setCarouselLayout('seamless')}
+                                                    className={`p-2 rounded-full transition-all ${carouselLayout === 'seamless' ? 'bg-neutral-700 text-brand-orange shadow-sm' : 'hover:bg-white/5 text-neutral-500 hover:text-white'}`}
+                                                    title="Seamless Layout"
+                                                >
+                                                    <Film size={14} />
                                                 </button>
                                             </div>
                                         </div>
