@@ -112,16 +112,21 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
             <div className="max-w-[90rem] mx-auto relative z-10">
                 {/* Section Eyebrow */}
                 <motion.div
-                    className="mb-12 md:mb-16 flex items-center gap-4"
+                    className="mb-12 md:mb-16 flex justify-start"
                     style={{
                         opacity: useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]),
-                        x: useTransform(scrollYProgress, [0, 0.1], [100, 0])
+                        x: useTransform(scrollYProgress, [0, 0.1], [50, 0])
                     }}
                 >
-                    <div className="h-[1px] w-12 bg-brand-orange" />
-                    <span className="text-brand-orange font-mono text-xs md:text-sm tracking-[0.3em] uppercase">
-                        Who We Are
-                    </span>
+                    <div className="group flex items-center gap-3 px-5 py-2.5 rounded-full bg-stone-100/50 backdrop-blur-md border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300 hover:border-orange-500/30 hover:bg-white/80">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-orange"></span>
+                        </span>
+                        <span className="text-stone-500 font-mono text-xs font-bold tracking-[0.25em] uppercase group-hover:text-brand-orange transition-colors duration-300">
+                            Who We Are
+                        </span>
+                    </div>
                 </motion.div>
 
                 {/* Animated Text Lines */}
