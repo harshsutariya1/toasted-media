@@ -119,7 +119,7 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
             <div className="relative flex flex-col items-center">
 
                 {/* --- Animation Container --- */}
-                <div className="relative w-72 h-72">
+                <div className="relative w-72 h-72 scale-75 origin-center">
 
                     {/* Bread */}
                     <div
@@ -145,13 +145,13 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
               transform transition-all duration-300 relative z-10
               ${phase === 'popped' || phase === 'fading' ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
             `}>
-                            <div className="flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
+                            <div className="flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
                                 <Image
                                     src="/logo/logo2.jpg"
                                     alt="Toasted Media Logo"
                                     fill
                                     priority
-                                    className="object-contain"
+                                    className="object-contain rounded-3xl"
                                     onError={(e) => {
                                         // Next/Image onError handling
                                         const target = e.target as HTMLElement;
