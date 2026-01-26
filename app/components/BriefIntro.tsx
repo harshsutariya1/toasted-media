@@ -102,14 +102,14 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
                 />
 
                 {/* Glowing Radial Effect (to match hero vibe but light) */}
-                <div className="absolute inset-0 bg-gradient-to-b from-stone-200/0 via-stone-200/50 to-stone-200" />
+                <div className="absolute inset-0 bg-linear-to-b from-stone-200/0 via-stone-200/50 to-stone-200" />
 
                 {/* Center Glow Area */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-brand-orange/5 rounded-full blur-[120px]" />
             </div>
 
 
-            <div className="max-w-[90rem] mx-auto relative z-10">
+            <div className="max-w-360 mx-auto relative z-10">
                 {/* Section Eyebrow */}
                 <motion.div
                     className="mb-12 md:mb-16 flex justify-start"
@@ -145,7 +145,7 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
 
                 {/* Bottom Decorative Line */}
                 <motion.div
-                    className="mt-16 md:mt-24 h-[1px] bg-gradient-to-r from-transparent via-neutral-900/20 to-transparent"
+                    className="mt-16 md:mt-24 h-px bg-linear-to-r from-transparent via-neutral-900/20 to-transparent"
                     style={{
                         scaleX: useTransform(scrollYProgress, [0.2, 0.6], [0, 1]),
                         opacity: useTransform(scrollYProgress, [0.2, 0.3, 0.9, 1], [0, 1, 1, 0])
@@ -173,18 +173,7 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
                 >
                     {/* Generate pixel columns for animated reveal */}
                     {Array.from({ length: 20 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="flex-1 bg-neutral-900"
-                            style={{
-                                transformOrigin: 'bottom',
-                                scaleY: useTransform(
-                                    scrollYProgress,
-                                    [0.5 + (i * 0.015), 0.7 + (i * 0.015)],
-                                    [0, 1]
-                                )
-                            }}
-                        />
+                        <PixelColumn key={i} index={i} scrollProgress={scrollYProgress} />
                     ))}
                 </motion.div>
             </div>
@@ -193,6 +182,29 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
 }
 
 import { MotionValue } from "framer-motion";
+
+interface PixelColumnProps {
+    index: number;
+    scrollProgress: MotionValue<number>;
+}
+
+function PixelColumn({ index, scrollProgress }: PixelColumnProps) {
+    const scaleY = useTransform(
+        scrollProgress,
+        [0.5 + (index * 0.015), 0.7 + (index * 0.015)],
+        [0, 1]
+    );
+
+    return (
+        <motion.div
+            className="flex-1 bg-neutral-900"
+            style={{
+                transformOrigin: 'bottom',
+                scaleY
+            }}
+        />
+    );
+}
 
 interface TextLineProps {
     text: string;
@@ -222,14 +234,14 @@ function TextLine({ text, accent, accentColor, scrollProgress, index }: TextLine
             className="flex flex-wrap items-center gap-3 md:gap-6"
             style={{ x, opacity, rotate }}
         >
-            <span className="font-[family-name:var(--font-syne)] font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-neutral-800 uppercase">
+            <span className="font-(family-name:--font-syne) font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-neutral-800 uppercase">
                 {text}
             </span>
-            <span className={`font-[family-name:var(--font-dm-serif)] italic text-4xl md:text-6xl lg:text-7xl tracking-wide lowercase ${accentColor} relative`}>
+            <span className={`font-(family-name:--font-dm-serif) italic text-4xl md:text-6xl lg:text-7xl tracking-wide lowercase ${accentColor} relative`}>
                 {accent}
                 {/* Underline decoration */}
                 <motion.span
-                    className={`absolute -bottom-2 left-0 h-[2px] ${accentColor.replace('text-', 'bg-')}`}
+                    className={`absolute -bottom-2 left-0 h-0.5 ${accentColor.replace('text-', 'bg-')}`}
                     style={{
                         width: useTransform(scrollProgress, [start + 0.1, start + 0.2], ["0%", "100%"])
                     }}
