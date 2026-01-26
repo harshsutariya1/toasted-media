@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Instagram, Send, TrendingUp } from "lucide-react";
+import { ArrowRight, Instagram, Send, TrendingUp, Mail, Phone } from "lucide-react";
 import { useState } from "react";
 
 const interests = [
@@ -12,6 +12,34 @@ const interests = [
     "Brand Strategy",
     "Other"
 ];
+
+const ContactDetail = ({ icon, label, value, href }: { icon: React.ReactNode, label: string, value: string, href?: string }) => {
+    const Component = href ? 'a' : 'div';
+    return (
+        <Component 
+            href={href}
+            className={`group relative flex items-center gap-5 p-5 pr-6 rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 hover:border-orange-500/40 transition-all duration-500 w-full max-w-md overflow-hidden ${href ? 'cursor-pointer' : ''}`}
+        >
+            {/* Hover Glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative z-10 w-12 h-12 rounded-xl bg-neutral-950 border border-white/10 flex items-center justify-center text-neutral-400 group-hover:text-orange-500 group-hover:border-orange-500/50 group-hover:scale-105 transition-all duration-500 shadow-lg">
+                {icon}
+            </div>
+            
+            <div className="relative z-10 flex-1 min-w-0">
+                <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em] mb-1.5 group-hover:text-orange-400 transition-colors">{label}</div>
+                <div className="text-lg font-medium text-white truncate font-serif group-hover:translate-x-1 transition-transform duration-300">{value}</div>
+            </div>
+
+            {href && (
+                <div className="relative z-10 text-neutral-600 group-hover:text-white transform opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                    <ArrowRight className="w-5 h-5" />
+                </div>
+            )}
+        </Component>
+    );
+};
 
 const SocialLink = ({ icon, href }: { icon: React.ReactNode; href: string }) => (
     <a
@@ -68,18 +96,41 @@ export default function ContactSection() {
                         <span className="text-orange-500 font-sans text-sm tracking-widest uppercase mb-6 block font-bold">Contact Us</span>
                         <h2 className="text-5xl md:text-7xl font-serif font-medium leading-tight mb-8 text-white">
                             Got a vision? <br />
-                            Let&apos;s <span className="italic text-neutral-500 font-serif">ignite</span> it.
+                            Let&apos;s <span className="relative inline-block group">
+                                <span className="relative z-10 italic bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent font-serif pr-2">ignite</span>
+                                <motion.span 
+                                    className="absolute bottom-1 left-0 w-full h-3 bg-orange-500/20 -rotate-1 rounded-full -z-0"
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: '100%' }}
+                                    transition={{ duration: 0.8, delay: 0.5 }}
+                                />
+                                <span className="absolute -top-1 -right-1 flex">
+                                    <motion.span 
+                                        initial={{ opacity: 0, scale: 0 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 0.5, delay: 0.8 }}
+                                        className="text-orange-500 text-2xl"
+                                    >✦</motion.span>
+                                </span>
+                            </span> it.
                         </h2>
                         <p className="text-neutral-400 text-lg max-w-md mb-12 leading-relaxed">
                             We help ambitious brands scale through creative strategy and data-driven execution.
                             Ready to start?
                         </p>
 
-                        <div className="flex flex-col gap-6">
-                            <a href="mailto:hello@toastedmediaagency.com" className="text-3xl md:text-4xl text-white hover:text-orange-500 transition-colors font-serif border-b border-white/20 hover:border-orange-500 pb-2 w-fit">
-                                hello@toastedmediaagency.com
-                            </a>
-                            <p className="text-neutral-500 text-xl font-sans">+91 987-654-3210</p>
+                        <div className="flex flex-col gap-4">
+                            <ContactDetail 
+                                icon={<Mail className="w-5 h-5" />} 
+                                label="Email Us" 
+                                value="hello@toastedmediaagency.com" 
+                                href="mailto:hello@toastedmediaagency.com" 
+                            />
+                            <ContactDetail 
+                                icon={<Phone className="w-5 h-5" />} 
+                                label="Call Us" 
+                                value="+91 987-654-3210" 
+                            />
                         </div>
                     </motion.div>
 

@@ -3,26 +3,26 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Linkedin, Twitter } from "lucide-react";
 
 const founders = [
     {
-        name: "Suhani Panchal",
+        name: "Elena Vance",
         role: "Growth & Strategy",
         image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1000",
-        bio: "Visionary strategist crafting sustainable growth through data-driven creativity."
+        bio: "Visionary strategist crafting sustainable growth through data-driven creativity. Elena bridges the gap between raw metrics and human connection."
     },
     {
-        name: "Rohan Mehta",
+        name: "Marcus Chen",
         role: "Design & Tech",
         image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=1000",
-        bio: "Architecting scalable solutions that blend extreme performance with aesthetic perfection."
+        bio: "Architecting scalable solutions that blend extreme performance with aesthetic perfection. Marcus ensures every pixel serves a purpose."
     },
     {
-        name: "Aryan Sharma",
+        name: "Sarah Jenkins",
         role: "Brand Identity",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
-        bio: "Design maverick turning abstract concepts into tangible, digital art forms."
+        bio: "Design maverick turning abstract concepts into tangible, digital art forms. Sarah defines the visual language that makes brands unforgettable."
     }
 ];
 
@@ -32,7 +32,7 @@ export default function FoundersSection() {
         target: targetRef,
     });
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-65%"]);
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
     return (
         <section ref={targetRef} className="relative h-[300vh] bg-neutral-950">
@@ -40,56 +40,89 @@ export default function FoundersSection() {
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
 
                 {/* Horizontal Scroll Track */}
-                <motion.div style={{ x }} className="flex gap-12 md:gap-20 p-20 pl-10 md:pl-32 items-center">
+                <motion.div 
+                    style={{ x }} 
+                    className="flex gap-8 md:gap-16 items-center pl-8 md:pl-24 pr-8"
+                >
 
                     {/* Title Slide */}
-                    <div className="flex flex-col justify-center min-w-[80vw] md:min-w-[30vw] pr-10">
-                        <h2 className="text-6xl md:text-8xl font-black text-white leading-tight font-[family-name:var(--font-faculty)]">
+                    <div className="flex flex-col justify-center min-w-[300px] md:min-w-[400px] shrink-0 z-10 pr-8 md:pr-0">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="h-px w-12 bg-white/30" />
+                            <span className="text-brand-orange text-sm uppercase tracking-widest font-bold">The Leadership</span>
+                        </div>
+                        <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.9] font-[family-name:var(--font-faculty)] mb-8">
                             THE<br />
-                            <span className="text-stone-700">MINDS</span>
+                            <span className="text-neutral-800 text-stroke-1 text-stroke-white/20">MINDS.</span>
                         </h2>
-                        <div className="mt-8 h-px w-32 bg-orange-500" />
-                        <p className="mt-8 text-stone-400 text-lg md:text-xl max-w-sm">
-                            Meet the visionaries behind the screen. Architects of the digital future.
+                        <p className="text-neutral-400 text-lg max-w-xs leading-relaxed font-light border-l border-white/10 pl-6">
+                            The architects behind the screen. Blending creativity, data, and obsession.
                         </p>
                     </div>
 
-                    {/* Founder Cards - Refined & Scaled Down */}
+                    {/* Founder Cards - Modern Horizontal Layout */}
                     {founders.map((founder, i) => (
-                        <div key={i} className="group relative min-w-[85vw] md:min-w-[25vw] flex flex-col transition-all duration-500">
+                        <div 
+                            key={i} 
+                            className="group relative shrink-0 w-[90vw] md:w-[60vw] lg:w-[50vw] xl:w-[45vw] h-[65vh] md:h-[55vh] flex flex-col md:flex-row bg-neutral-900/50 border border-white/10 rounded-[2rem] overflow-hidden hover:border-brand-orange/50 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-orange/5"
+                        >
+                            {/* Image Side (Left on Desktop) */}
+                            <div className="relative w-full md:w-5/12 h-1/2 md:h-full overflow-hidden">
+                                <Image
+                                    src={founder.image}
+                                    alt={founder.name}
+                                    fill
+                                    className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+                                    sizes="(max-width: 768px) 100vw, 40vw"
+                                    priority={i === 0}
+                                />
+                                {/* Modern gradient overlay only for text legibility at bottom/edges */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-neutral-950/80 opacity-60" />
+                                
+                                {/* Floating Index */}
+                                <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10">
+                                    <span className="text-xs font-mono text-white/80 px-2 py-1 rounded bg-black/30 backdrop-blur-md border border-white/10">
+                                        0{i + 1}
+                                    </span>
+                                </div>
+                            </div>
 
-                            {/* Glass Card Container */}
-                            <div className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-orange-500/30 hover:bg-white/10 transition-colors duration-500">
-                                {/* Image Container - Scaled Down */}
-                                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg bg-stone-900 mb-6 group-hover:scale-[1.02] transition-all duration-700 ease-out">
-                                    <Image
-                                        src={founder.image}
-                                        alt={founder.name}
-                                        fill
-                                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                                        sizes="(max-width: 768px) 80vw, 25vw"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-40" />
+                            {/* Content Side (Right on Desktop) */}
+                            <div className="w-full md:w-7/12 p-6 md:p-10 flex flex-col justify-between relative z-10 bg-neutral-900/40 backdrop-blur-sm">
+                                <div>
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="flex flex-col">
+                                            <span className="text-xs md:text-sm text-brand-orange font-bold uppercase tracking-wider mb-2">
+                                                {founder.role}
+                                            </span>
+                                            <h3 className="text-3xl md:text-4xl font-bold text-white font-[family-name:var(--font-faculty)] leading-tight">
+                                                {founder.name}
+                                            </h3>
+                                        </div>
+                                        <ArrowUpRight className="w-6 h-6 text-neutral-600 group-hover:text-brand-orange group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300" />
+                                    </div>
+                                    <div className="w-12 h-0.5 bg-white/10 group-hover:bg-brand-orange/50 transition-colors my-4" />
+                                    <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light group-hover:text-neutral-300 transition-colors">
+                                        {founder.bio}
+                                    </p>
                                 </div>
 
-                                {/* Text Info - Compact */}
-                                <div className="flex justify-between items-start">
-                                    <div>
-                                        <span className="block text-orange-500 text-[10px] font-mono uppercase tracking-[0.2em] mb-2">
-                                            0{i + 1} &bull; {founder.role}
-                                        </span>
-                                        <h3 className="text-2xl md:text-3xl font-bold text-white font-[family-name:var(--font-faculty)] leading-none">
-                                            {founder.name}
-                                        </h3>
-                                        <p className="mt-4 text-xs text-stone-400 leading-relaxed max-w-[90%] font-mono opacity-60 group-hover:opacity-100 transition-opacity">
-                                            {founder.bio}
-                                        </p>
-                                    </div>
-                                    <ArrowUpRight className="text-stone-600 group-hover:text-orange-500 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300 w-6 h-6" />
+                                <div className="flex gap-4 pt-6 mt-auto border-t border-white/5">
+                                     <button className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-500 hover:text-white transition-colors group/btn">
+                                        <Linkedin className="w-4 h-4" />
+                                        <span className="hidden md:inline">LinkedIn</span>
+                                     </button>
+                                     <button className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-500 hover:text-white transition-colors group/btn">
+                                        <Twitter className="w-4 h-4" />
+                                        <span className="hidden md:inline">Twitter</span>
+                                     </button>
                                 </div>
                             </div>
                         </div>
                     ))}
+                    
+                    {/* End Spacer */}
+                    <div className="w-20 shrink-0" />
 
                 </motion.div>
             </div>
