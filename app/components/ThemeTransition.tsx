@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
-import { useRef, ReactNode, useState } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, ReactNode } from "react";
 
 interface ThemeTransitionProps {
     lightSection: ReactNode;
@@ -90,14 +90,14 @@ export default function ThemeTransition({
                     >
                         {/* The Curve/Wave SVG */}
                         <div className="relative w-full h-24 md:h-32 -mb-1 scale-y-[-1] z-20 pointer-events-none select-none">
-                            <svg className="w-full h-full fill-[#0a0a0a]" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                            <svg className="w-full h-full fill-dark-bg" viewBox="0 0 1440 320" preserveAspectRatio="none">
                                 {/* Organic wave path */}
                                 <path fillOpacity="1" d="M0,224L60,213.3C120,203,240,181,360,181.3C480,181,600,203,720,224C840,245,960,267,1080,261.3C1200,256,1320,224,1380,208L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
                             </svg>
                         </div>
 
                         {/* Solid Dark Content Area */}
-                        <div className="relative w-full h-full bg-[#0a0a0a]">
+                        <div className="relative w-full h-full bg-dark-bg">
                             {darkSection}
                         </div>
                     </motion.div>
@@ -133,7 +133,7 @@ export function SimpleClipTransition({
                     {lightSection}
                 </div>
                 <motion.div
-                    className="absolute inset-0 z-10 overflow-hidden bg-[#0a0a0a]"
+                    className="absolute inset-0 z-10 overflow-hidden bg-dark-bg"
                     style={{ clipPath }}
                 >
                     {darkSection}

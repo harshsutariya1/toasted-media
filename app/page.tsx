@@ -48,7 +48,7 @@ export default function Home() {
           opacity: showNavbar ? 1 : 0
         }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-[100]"
+        className="relative z-100"
       >
         <Navbar
           pattern={pattern}
