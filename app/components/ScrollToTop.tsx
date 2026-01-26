@@ -47,7 +47,7 @@ export default function ScrollToTop() {
                     transition={{ duration: 0.3 }}
                     onClick={scrollToTop}
                     aria-label="Scroll to top"
-                    className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[100] group outline-none"
+                    className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-100 group outline-none"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                 >
@@ -61,7 +61,7 @@ export default function ScrollToTop() {
                         <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md rounded-full shadow-lg border border-white/10 overflow-hidden" />
 
                         {/* Progress Circle SVG */}
-                        <svg className="absolute inset-0 w-full h-full -rotate-90 p-[2px]" viewBox="0 0 100 100">
+                        <svg className="absolute inset-0 w-full h-full -rotate-90 p-0.5" viewBox="0 0 100 100">
                             {/* Track */}
                             <circle
                                 cx="50"
