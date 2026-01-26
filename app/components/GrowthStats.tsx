@@ -1,40 +1,146 @@
 "use client";
 
-
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const KineticBar = ({ delay, color }: { delay: number; color: string }) => {
-    const [randomDuration] = useState(() => 4 + Math.random() * 2);
+// --- Components for the Visualization ---
+
+const FloatingBadge = ({ 
+    icon, 
+    label, 
+    value, 
+    trend, 
+    delay, 
+    x, 
+    y 
+}: { 
+    icon: React.ReactNode, 
+    label: string, 
+    value: string, 
+    trend?: string, 
+    delay: number,
+    x: string,
+    y: string
+}) => (
+    <motion.div
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ delay, duration: 0.5, type: "spring" }}
+        className={`absolute ${x} ${y} z-20 flex items-center gap-3 p-3 pr-5 bg-neutral-900/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/50`}
+    >
+        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10">
+            {icon}
+        </div>
+        <div>
+            <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">{label}</div>
+            <div className="text-sm font-bold text-white flex items-center gap-2">
+                {value}
+                {trend && <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-full">{trend}</span>}
+            </div>
+        </div>
+    </motion.div>
+);
+
+const ModernGrowthGraph = () => {
     return (
-        <div className="relative w-12 h-64 md:w-16 md:h-80 bg-white/5 rounded-full overflow-hidden shadow-[inset_0_2px_10px_0_rgba(255,255,255,0.05)] border border-white/10 backdrop-blur-sm">
-            {/* Liquid Fill */}
-            <motion.div
-                animate={{ height: ["20%", "70%", "30%", "85%", "40%", "20%"] }}
-                transition={{
-                    duration: randomDuration,
-                    ease: "easeInOut",
-                    repeat: Infinity,
-                    delay: delay,
-                    times: [0, 0.2, 0.4, 0.6, 0.8, 1]
-                }}
-                className={`absolute bottom-0 left-0 right-0 ${color} rounded-full opacity-90 blur-[0.5px]`}
-            />
-            {/* Bubbles effect inside liquid */}
-            <motion.div
-                animate={{ y: [0, -200], opacity: [0, 1, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: delay + 0.5, ease: "linear" }}
-                className="absolute bottom-0 left-1/2 w-2 h-2 bg-white/40 rounded-full"
-            />
-            <motion.div
-                animate={{ y: [0, -200], opacity: [0, 1, 0] }}
-                transition={{ duration: 4, repeat: Infinity, delay: delay + 1.5, ease: "linear" }}
-                className="absolute bottom-4 left-1/3 w-3 h-3 bg-white/30 rounded-full"
+        <div className="relative w-full aspect-[4/3] md:aspect-square max-w-[500px] flex items-center justify-center">
+             {/* Background Aura */}
+             <div className="absolute inset-0 bg-brand-orange/20 blur-[100px] rounded-full opacity-40 animate-pulse-slow" />
+             
+             {/* Main Card Container */}
+             <div className="relative w-full h-full bg-neutral-900/80 backdrop-blur-2xl rounded-[2.5rem] border border-white/10 shadow-2xl overflow-hidden flex flex-col">
+                
+                {/* Header-like top bar */}
+                <div className="p-6 border-b border-white/5 flex justify-between items-center">
+                    <div className="flex gap-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500/50" />
+                        <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                        <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                    </div>
+                    <div className="text-xs font-mono text-neutral-500">Live Analytics</div>
+                </div>
+
+                {/* Grid Background */}
+                <div className="absolute inset-0 top-16 z-0 opacity-20 pointer-events-none" 
+                    style={{ 
+                        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                        backgroundSize: '40px 40px'
+                    }} 
+                />
+
+                {/* The Chart Area */}
+                <div className="relative flex-1 w-full h-full p-8 pt-12">
+                     <svg className="w-full h-full visible overflow-visible" viewBox="0 0 300 200">
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#2f72e7" />
+                                <stop offset="50%" stopColor="#7e3af1" />
+                                <stop offset="100%" stopColor="#f78f2d" />
+                            </linearGradient>
+                            <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#f78f2d" stopOpacity="0.15" />
+                                <stop offset="100%" stopColor="#f78f2d" stopOpacity="0" />
+                            </linearGradient>
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        {/* Area under curve */}
+                        <motion.path 
+                            d="M0,200 L0,150 C40,150 70,180 120,130 C170,80 220,100 300,20 L300,200 Z"
+                            fill="url(#areaGradient)"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 1.5, delay: 0.5 }}
+                        />
+
+                        {/* The Stroke Line */}
+                        <motion.path 
+                            d="M0,150 C40,150 70,180 120,130 C170,80 220,100 300,20"
+                            fill="none"
+                            stroke="url(#lineGradient)"
+                            strokeWidth="4"
+                            strokeLinecap="round"
+                            filter="url(#glow)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            whileInView={{ pathLength: 1, opacity: 1 }}
+                            transition={{ duration: 2, ease: "easeInOut" }}
+                        />
+                        
+                        {/* Animated Points */}
+                        <motion.circle cx="120" cy="130" r="4" fill="#7e3af1" 
+                            initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 1, type:'spring' }} />
+                        <motion.circle cx="300" cy="20" r="6" fill="#f78f2d" stroke="white" strokeWidth="2"
+                             initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 1.8, type:'spring' }} />
+                     </svg>
+                </div>
+             </div>
+
+            {/* Floating Widgets */}
+            <FloatingBadge 
+                icon={<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>}
+                label="Efficiency"
+                value="98.5%"
+                trend="+12%"
+                delay={0.8}
+                x="-left-4 md:-left-12"
+                y="bottom-8 md:bottom-16"
             />
 
-            {/* Glass Shine */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-30 pointer-events-none rounded-full" />
-            <div className="absolute top-2 left-2 w-1/3 h-16 bg-gradient-to-b from-white to-transparent opacity-40 rounded-full blur-[2px]" />
+            <FloatingBadge 
+                icon={<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>}
+                label="Conversion"
+                value="3.2x"
+                trend="HIGH"
+                delay={1.2}
+                x="-right-2 md:-right-8"
+                y="top-32"
+            />
         </div>
     );
 };
@@ -42,54 +148,28 @@ const KineticBar = ({ delay, color }: { delay: number; color: string }) => {
 export default function GrowthStats() {
     return (
         <section id="about" className="relative py-16 md:py-24 bg-neutral-900 font-sans overflow-hidden">
-            {/* Background Video */}
             {/* Background Gradient */}
             <div className="absolute inset-0 w-full h-full z-0">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-900/30 to-neutral-900" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
-                <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-                    {/* Artistic "Heat" Visualization */}
+                <div className="flex flex-col md:flex-row items-center gap-12 md:gap-24">
+                    {/* LEFT SIDE: New Modern Visualization */}
                     <motion.div
-                        className="w-full md:w-1/2 relative flex items-center justify-center"
-                        initial={{ opacity: 0, x: -100 }}
+                        className="w-full md:w-1/2 relative flex items-center justify-center p-4"
+                        initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         viewport={{ once: true }}
                     >
-                        <div className="relative p-6 md:p-10 bg-black/40 backdrop-blur-3xl rounded-[2rem] md:rounded-[3rem] border border-white/10 shadow-2xl shadow-brand-orange/5 flex gap-3 md:gap-6 transform scale-90 md:scale-100 origin-center">
-                            {/* Decorative Background Glow */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-brand-blue/10 via-brand-purple/5 to-brand-orange/10 blur-3xl -z-10 rounded-full animate-pulse-slow" />
-
-                            <KineticBar delay={0} color="bg-gradient-to-t from-brand-blue to-cyan-400" />
-                            <KineticBar delay={0.5} color="bg-gradient-to-t from-brand-purple to-fuchsia-400" />
-                            <KineticBar delay={0.2} color="bg-gradient-to-t from-brand-orange to-amber-300" />
-                            <KineticBar delay={0.7} color="bg-gradient-to-t from-brand-yellow to-yellow-200" />
-
-                            {/* Floating "Result" Card */}
-                            <motion.div
-                                animate={{ y: [0, -10, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -right-2 top-4 md:-right-4 md:top-12 bg-neutral-900/80 backdrop-blur-xl border border-white/20 p-3 md:p-4 rounded-xl md:rounded-2xl shadow-xl z-20 scale-90 md:scale-100 origin-top-right"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M16 12l-4-4-4 4" /><path d="M12 16V8" /></svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest leading-none mb-1">Potential</p>
-                                        <p className="text-xl font-bold text-white leading-none">Limitless</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </div>
+                        <ModernGrowthGraph />
                     </motion.div>
 
-                    {/* Text Content */}
+                    {/* RIGHT SIDE: Text Content */}
                     <motion.div
                         className="w-full md:w-1/2"
-                        initial={{ opacity: 0, x: 100 }}
+                        initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                         viewport={{ once: true }}
