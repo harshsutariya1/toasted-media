@@ -44,7 +44,7 @@ export default function ServicesCloud() {
         <section
             id="services"
             ref={containerRef}
-            className="relative h-[120vh] bg-neutral-900 overflow-hidden border-t border-neutral-800 flex items-center justify-center"
+            className="relative h-[120vh] bg-neutral-900 overflow-hidden flex items-center justify-center"
             onMouseMove={handleMouseMove}
         >
             {/* Ambient Background Gradient */}
