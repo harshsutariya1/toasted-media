@@ -82,20 +82,20 @@ export default function IndustriesGrid() {
             />
 
             {/* Soft Gradient Blob Accent */}
-            <div className="absolute -top-24 right-[-80px] h-72 w-72 rounded-full bg-gradient-to-br from-white/10 via-brand-orange/20 to-transparent blur-3xl opacity-50 pointer-events-none" />
+            <div className="absolute -top-24 -right-20 h-72 w-72 rounded-full bg-linear-to-br from-white/10 via-brand-orange/20 to-transparent blur-3xl opacity-50 pointer-events-none" />
 
             <div className="container mx-auto px-6 relative z-10">
-                <div className={`mb-16 md:mb-20 flex flex-col md:flex-row items-end justify-between gap-6 transition-opacity duration-300 ${activeId ? 'opacity-0 pointer-events-none translate-y-[-10px]' : 'opacity-100'}`}>
+                <div className={`mb-16 md:mb-20 flex flex-col md:flex-row items-end justify-between gap-6 transition-opacity duration-300 ${activeId ? 'opacity-0 pointer-events-none -translate-y-2.5' : 'opacity-100'}`}>
                     <div>
                         <span className="text-brand-orange font-mono text-xs tracking-[0.2em] uppercase block mb-3">
                             Our Playground
                         </span>
-                        <h2 className="text-3xl md:text-5xl font-bold text-white font-[family-name:var(--font-syne)] leading-tight">
+                        <h2 className="text-3xl md:text-5xl font-bold text-white font-(family-name:--font-syne) leading-tight">
                             Industries We Design For <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-600">Digital-first experiences.</span>
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-white to-neutral-600">Digital-first experiences.</span>
                         </h2>
                     </div>
-                    <div className="hidden md:block h-[1px] flex-1 bg-white/10 mx-10 mb-6" />
+                    <div className="hidden md:block h-px flex-1 bg-white/10 mx-10 mb-6" />
                     <p className="text-neutral-500 text-sm md:text-base max-w-xs">
                         Tailored strategies for high-impact sectors.
                     </p>
@@ -161,7 +161,7 @@ function BentoCard({
                 ${item.className}
                 transition-all duration-500 ease-out
                 ${isOtherActive ? 'opacity-0 scale-90 blur-sm pointer-events-none' : 'opacity-100 scale-100'}
-                ${isActive ? 'z-50 shadow-2xl scale-[1.02] !bg-transparent border-white/20' : ''}
+                ${isActive ? 'z-50 shadow-2xl scale-[1.02] bg-transparent! border-white/20' : ''}
                 hover:shadow-[0_0_60px_rgba(255,255,255,0.12)]
             `}
         >
@@ -173,12 +173,12 @@ function BentoCard({
                     fill
                     className={`
                         object-cover transition-all duration-700 ease-out
-                        ${isActive ? 'scale-110 grayscale-0 opacity-40' : 'scale-100 grayscale-[100%] opacity-60'}
+                        ${isActive ? 'scale-110 grayscale-0 opacity-40' : 'scale-100 grayscale-100 opacity-60'}
                     `}
                     sizes="(max-width: 768px) 100vw, 25vw"
                 />
                 <div className={`
-                    absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent transition-opacity duration-500
+                    absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent transition-opacity duration-500
                     ${isActive ? 'opacity-30' : 'opacity-100'}
                 `} />
             </div>
@@ -207,7 +207,7 @@ function BentoCard({
 
                 {/* Bottom Row */}
                 <div className={`transform transition-transform duration-500 ${isActive ? 'translate-y-0' : 'translate-y-2'}`}>
-                    <h3 className="text-xl md:text-3xl font-bold text-white mb-2 font-[family-name:var(--font-syne)] tracking-tight">
+                    <h3 className="text-xl md:text-3xl font-bold text-white mb-2 font-(family-name:--font-syne) tracking-tight">
                         {item.title}
                     </h3>
                     <p className={`
