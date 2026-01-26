@@ -81,6 +81,9 @@ export default function IndustriesGrid() {
                 style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }}
             />
 
+            {/* Soft Gradient Blob Accent */}
+            <div className="absolute -top-24 right-[-80px] h-72 w-72 rounded-full bg-gradient-to-br from-white/10 via-brand-orange/20 to-transparent blur-3xl opacity-50 pointer-events-none" />
+
             <div className="container mx-auto px-6 relative z-10">
                 <div className={`mb-16 md:mb-20 flex flex-col md:flex-row items-end justify-between gap-6 transition-opacity duration-300 ${activeId ? 'opacity-0 pointer-events-none translate-y-[-10px]' : 'opacity-100'}`}>
                     <div>
@@ -88,8 +91,8 @@ export default function IndustriesGrid() {
                             Our Playground
                         </span>
                         <h2 className="text-3xl md:text-5xl font-bold text-white font-[family-name:var(--font-syne)] leading-tight">
-                            Industries We <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-600">Transform.</span>
+                            Industries We Design For <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-600">Digital-first experiences.</span>
                         </h2>
                     </div>
                     <div className="hidden md:block h-[1px] flex-1 bg-white/10 mx-10 mb-6" />
@@ -154,10 +157,12 @@ function BentoCard({
             onMouseLeave={onLeave}
             className={`
                 group relative overflow-hidden rounded-3xl cursor-pointer bg-neutral-900 border border-white/5
+                ring-1 ring-white/5 hover:ring-white/20
                 ${item.className}
                 transition-all duration-500 ease-out
                 ${isOtherActive ? 'opacity-0 scale-90 blur-sm pointer-events-none' : 'opacity-100 scale-100'}
                 ${isActive ? 'z-50 shadow-2xl scale-[1.02] !bg-transparent border-white/20' : ''}
+                hover:shadow-[0_0_60px_rgba(255,255,255,0.12)]
             `}
         >
             {/* Background Image Area */}
