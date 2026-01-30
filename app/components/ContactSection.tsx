@@ -16,17 +16,17 @@ const interests = [
 const ContactDetail = ({ icon, label, value, href }: { icon: React.ReactNode, label: string, value: string, href?: string }) => {
     const Component = href ? 'a' : 'div';
     return (
-        <Component 
+        <Component
             href={href}
             className={`group relative flex items-center gap-5 p-5 pr-6 rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 hover:border-orange-500/40 transition-all duration-500 w-full max-w-md overflow-hidden ${href ? 'cursor-pointer' : ''}`}
         >
             {/* Hover Glow */}
             <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             <div className="relative z-10 w-12 h-12 rounded-xl bg-neutral-950 border border-white/10 flex items-center justify-center text-neutral-400 group-hover:text-orange-500 group-hover:border-orange-500/50 group-hover:scale-105 transition-all duration-500 shadow-lg">
                 {icon}
             </div>
-            
+
             <div className="relative z-10 flex-1 min-w-0">
                 <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em] mb-1.5 group-hover:text-orange-400 transition-colors">{label}</div>
                 <div className="text-lg font-medium text-white truncate font-serif group-hover:translate-x-1 transition-transform duration-300">{value}</div>
@@ -52,17 +52,17 @@ const SocialLink = ({ icon, href }: { icon: React.ReactNode; href: string }) => 
     </a>
 );
 
-const FloatingInput = ({ 
-    label, 
-    type = "text", 
+const FloatingInput = ({
+    label,
+    type = "text",
     textarea = false,
     name,
     value,
     onChange,
     required = false
-}: { 
-    label: string; 
-    type?: string; 
+}: {
+    label: string;
+    type?: string;
     textarea?: boolean;
     name: string;
     value: string;
@@ -157,14 +157,14 @@ export default function ContactSection() {
                             Got a vision? <br />
                             Let&apos;s <span className="relative inline-block group">
                                 <span className="relative z-10 italic bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent font-serif pr-2">ignite</span>
-                                <motion.span 
+                                <motion.span
                                     className="absolute bottom-1 left-0 w-full h-3 bg-orange-500/20 -rotate-1 rounded-full -z-0"
                                     initial={{ width: 0 }}
                                     whileInView={{ width: '100%' }}
                                     transition={{ duration: 0.8, delay: 0.5 }}
                                 />
                                 <span className="absolute -top-1 -right-1 flex">
-                                    <motion.span 
+                                    <motion.span
                                         initial={{ opacity: 0, scale: 0 }}
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.5, delay: 0.8 }}
@@ -179,16 +179,17 @@ export default function ContactSection() {
                         </p>
 
                         <div className="flex flex-col gap-4">
-                            <ContactDetail 
-                                icon={<Mail className="w-5 h-5" />} 
-                                label="Email Us" 
-                                value="hello@toastedmediaagency.com" 
-                                href="mailto:hello@toastedmediaagency.com" 
+                            <ContactDetail
+                                icon={<Mail className="w-5 h-5" />}
+                                label="Email Us"
+                                value="hello@toastedmediaagency.com"
+                                href="mailto:hello@toastedmediaagency.com"
                             />
-                            <ContactDetail 
-                                icon={<Phone className="w-5 h-5" />} 
-                                label="Call Us" 
-                                value="+91 987-654-3210" 
+                            <ContactDetail
+                                icon={<Phone className="w-5 h-5" />}
+                                label="Call Us"
+                                value="+91 987-654-3210"
+                                href="tel:+919876543210"
                             />
                         </div>
                     </motion.div>
@@ -211,7 +212,7 @@ export default function ContactSection() {
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-orange-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
 
                     {status === 'success' ? (
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             className="h-full flex flex-col items-center justify-center text-center py-12"
@@ -223,7 +224,7 @@ export default function ContactSection() {
                             <p className="text-neutral-400 mb-8 max-w-sm">
                                 Thanks for reaching out. We&apos;ll analyze your request and get back to you within 24 hours.
                             </p>
-                            <button 
+                            <button
                                 onClick={() => setStatus('idle')}
                                 className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white rounded-full transition-colors font-medium text-sm"
                             >
@@ -233,39 +234,39 @@ export default function ContactSection() {
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-8">
                             {/* Security: Honeypot Field (Hidden) */}
-                            <input 
-                                type="text" 
-                                name="honeypot" 
-                                value={formData.honeypot} 
-                                onChange={handleChange} 
-                                style={{ display: 'none' }} 
-                                tabIndex={-1} 
+                            <input
+                                type="text"
+                                name="honeypot"
+                                value={formData.honeypot}
+                                onChange={handleChange}
+                                style={{ display: 'none' }}
+                                tabIndex={-1}
                                 autoComplete="off"
                             />
 
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <FloatingInput 
-                                        label="Your Name" 
-                                        name="name" 
-                                        value={formData.name} 
-                                        onChange={handleChange} 
-                                        required 
+                                    <FloatingInput
+                                        label="Your Name"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
                                     />
-                                    <FloatingInput 
-                                        label="Email Address" 
-                                        type="email" 
-                                        name="email" 
-                                        value={formData.email} 
-                                        onChange={handleChange} 
-                                        required 
+                                    <FloatingInput
+                                        label="Email Address"
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
                                     />
                                 </div>
-                                <FloatingInput 
-                                    label="Company Website" 
-                                    name="website" 
-                                    value={formData.website} 
-                                    onChange={handleChange} 
+                                <FloatingInput
+                                    label="Company Website"
+                                    name="website"
+                                    value={formData.website}
+                                    onChange={handleChange}
                                 />
 
                                 <div>
@@ -287,12 +288,12 @@ export default function ContactSection() {
                                     </div>
                                 </div>
 
-                                <FloatingInput 
-                                    label="Tell us about your project" 
-                                    textarea 
-                                    name="message" 
-                                    value={formData.message} 
-                                    onChange={handleChange} 
+                                <FloatingInput
+                                    label="Tell us about your project"
+                                    textarea
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
                                     required
                                 />
                             </div>
@@ -304,8 +305,8 @@ export default function ContactSection() {
                                 </div>
                             )}
 
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 disabled={status === 'loading'}
                                 className="w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-orange-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn disabled:opacity-70 disabled:cursor-not-allowed"
                             >
@@ -316,7 +317,7 @@ export default function ContactSection() {
                                     </>
                                 ) : (
                                     <>
-                                        Send Message 
+                                        Send Message
                                         <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                                     </>
                                 )}
