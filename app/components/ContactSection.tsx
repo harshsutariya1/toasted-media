@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Instagram, Send, TrendingUp, Mail, Phone } from "lucide-react";
+import { ArrowRight, Instagram, Send, TrendingUp, Mail, Phone, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { useState } from "react";
 
 const interests = [
@@ -52,17 +52,41 @@ const SocialLink = ({ icon, href }: { icon: React.ReactNode; href: string }) => 
     </a>
 );
 
-const FloatingInput = ({ label, type = "text", textarea = false }: { label: string; type?: string; textarea?: boolean }) => {
+const FloatingInput = ({ 
+    label, 
+    type = "text", 
+    textarea = false,
+    name,
+    value,
+    onChange,
+    required = false
+}: { 
+    label: string; 
+    type?: string; 
+    textarea?: boolean;
+    name: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    required?: boolean;
+}) => {
     return (
         <div className="relative group">
             {textarea ? (
                 <textarea
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    required={required}
                     placeholder=" "
                     className="block w-full px-4 py-4 bg-transparent border border-white/20 rounded-xl text-white outline-none focus:border-orange-500 transition-colors peer resize-none h-32"
                 />
             ) : (
                 <input
                     type={type}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    required={required}
                     placeholder=" "
                     className="block w-full px-4 py-4 bg-transparent border border-white/20 rounded-xl text-white outline-none focus:border-orange-500 transition-colors peer"
                 />
@@ -76,6 +100,41 @@ const FloatingInput = ({ label, type = "text", textarea = false }: { label: stri
 
 export default function ContactSection() {
     const [activeInterest, setActiveInterest] = useState<string | null>(null);
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        website: "",
+        message: "",
+        honeypot: "" // Hidden field for security
+    });
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...formData, interest: activeInterest || "Not specified" }),
+            });
+
+            if (!response.ok) throw new Error('Failed to send message');
+
+            setStatus('success');
+            // Reset form
+            setFormData({ name: "", email: "", website: "", message: "", honeypot: "" });
+            setActiveInterest(null);
+        } catch (error) {
+            console.error(error);
+            setStatus('error');
+        }
+    };
 
     return (
         <section id="contact" className="py-24 bg-neutral-900 relative overflow-hidden font-sans">
@@ -151,40 +210,119 @@ export default function ContactSection() {
                 >
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-orange-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
 
-                    <form className="space-y-8">
-                        <div className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <FloatingInput label="Your Name" />
-                                <FloatingInput label="Email Address" type="email" />
+                    {status === 'success' ? (
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="h-full flex flex-col items-center justify-center text-center py-12"
+                        >
+                            <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6 text-green-500">
+                                <CheckCircle2 className="w-10 h-10" />
                             </div>
-                            <FloatingInput label="Company Website" />
+                            <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+                            <p className="text-neutral-400 mb-8 max-w-sm">
+                                Thanks for reaching out. We&apos;ll analyze your request and get back to you within 24 hours.
+                            </p>
+                            <button 
+                                onClick={() => setStatus('idle')}
+                                className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white rounded-full transition-colors font-medium text-sm"
+                            >
+                                Send another message
+                            </button>
+                        </motion.div>
+                    ) : (
+                        <form onSubmit={handleSubmit} className="space-y-8">
+                            {/* Security: Honeypot Field (Hidden) */}
+                            <input 
+                                type="text" 
+                                name="honeypot" 
+                                value={formData.honeypot} 
+                                onChange={handleChange} 
+                                style={{ display: 'none' }} 
+                                tabIndex={-1} 
+                                autoComplete="off"
+                            />
 
-                            <div>
-                                <label className="block text-sm text-neutral-400 mb-4 font-sans tracking-wide">I&apos;m interested in...</label>
-                                <div className="flex flex-wrap gap-3">
-                                    {interests.map((interest) => (
-                                        <button
-                                            key={interest}
-                                            type="button"
-                                            onClick={() => setActiveInterest(interest)}
-                                            className={`px-4 py-2 rounded-full text-sm border transition-all duration-300 ${activeInterest === interest
-                                                ? 'bg-white text-black border-white'
-                                                : 'bg-transparent text-neutral-400 border-white/20 hover:border-white/50'
-                                                }`}
-                                        >
-                                            {interest}
-                                        </button>
-                                    ))}
+                            <div className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <FloatingInput 
+                                        label="Your Name" 
+                                        name="name" 
+                                        value={formData.name} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                    <FloatingInput 
+                                        label="Email Address" 
+                                        type="email" 
+                                        name="email" 
+                                        value={formData.email} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
                                 </div>
+                                <FloatingInput 
+                                    label="Company Website" 
+                                    name="website" 
+                                    value={formData.website} 
+                                    onChange={handleChange} 
+                                />
+
+                                <div>
+                                    <label className="block text-sm text-neutral-400 mb-4 font-sans tracking-wide">I&apos;m interested in...</label>
+                                    <div className="flex flex-wrap gap-3">
+                                        {interests.map((interest) => (
+                                            <button
+                                                key={interest}
+                                                type="button"
+                                                onClick={() => setActiveInterest(interest)}
+                                                className={`px-4 py-2 rounded-full text-sm border transition-all duration-300 ${activeInterest === interest
+                                                    ? 'bg-white text-black border-white'
+                                                    : 'bg-transparent text-neutral-400 border-white/20 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                {interest}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <FloatingInput 
+                                    label="Tell us about your project" 
+                                    textarea 
+                                    name="message" 
+                                    value={formData.message} 
+                                    onChange={handleChange} 
+                                    required
+                                />
                             </div>
 
-                            <FloatingInput label="Tell us about your project" textarea />
-                        </div>
+                            {status === 'error' && (
+                                <div className="flex items-center gap-2 text-red-500 text-sm bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                                    <AlertCircle className="w-4 h-4" />
+                                    <span>Something went wrong. Please try again or email us directly.</span>
+                                </div>
+                            )}
 
-                        <button type="submit" className="w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-orange-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                            Send Message <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </button>
-                    </form>
+                            <button 
+                                type="submit" 
+                                disabled={status === 'loading'}
+                                className="w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-orange-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn disabled:opacity-70 disabled:cursor-not-allowed"
+                            >
+                                {status === 'loading' ? (
+                                    <>
+                                        <Loader2 className="w-5 h-5 animate-spin" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    <>
+                                        Send Message 
+                                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                                    </>
+                                )}
+                            </button>
+                        </form>
+                    )}
                 </motion.div>
 
             </div>

@@ -90,27 +90,42 @@ export default function TestimonialsSection() {
     };
 
     return (
-        <section className="py-24 md:py-32 bg-neutral-900 relative overflow-hidden border-t border-neutral-800">
+        <section className="py-24 md:py-32 bg-neutral-900 relative overflow-hidden">
             {/* Background Atmosphere */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-800/30 via-neutral-900/0 to-neutral-900 pointer-events-none" />
 
-            <div className="container mx-auto px-6 relative z-10 mb-20 text-center">
-                <motion.span
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+            <div className="container mx-auto px-6 relative z-10 mb-24 flex flex-col items-center text-center">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="text-brand-orange font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-4 block"
+                    className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8"
                 >
-                    Social Proof
-                </motion.span>
+                    <Star className="w-3 h-3 text-brand-orange fill-brand-orange" />
+                    <span className="text-brand-orange font-mono text-xs tracking-widest uppercase">
+                        Success Stories
+                    </span>
+                </motion.div>
+                
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
+                    className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-syne)] text-white leading-[1.1] tracking-tight"
                 >
-                    DON&apos;T TAKE OUR <br className="hidden md:block" />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 to-neutral-600">WORD FOR IT.</span>
+                    Don&apos;t just take our <br className="hidden md:block" />
+                    <span className="relative inline-block">
+                        <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-200">word for it.</span>
+                        {/* Underline decoration */}
+                        <motion.span 
+                            initial={{ width: 0 }}
+                            whileInView={{ width: '100%' }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.5, duration: 0.8, ease: "circOut" }}
+                            className="absolute bottom-2 left-0 h-3 bg-brand-orange/20 -z-0 rounded-full"
+                        />
+                    </span>
                 </motion.h2>
             </div>
 
@@ -147,7 +162,15 @@ export default function TestimonialsSection() {
 
                                 <div className="flex items-center gap-4 relative z-10 border-t border-white/5 pt-6 group-hover:border-white/10 transition-colors duration-500">
                                     <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-brand-orange/50 transition-colors duration-500 relative">
-                                        <Image src={t.image} alt={t.author} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" sizes="48px" />
+                                        <Image 
+                                            src={t.image} 
+                                            alt={t.author} 
+                                            fill 
+                                            className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
+                                            sizes="48px"
+                                            // Fixes Netlify image loading issue by bypassing server-side optimization
+                                            unoptimized
+                                        />
                                     </div>
                                     <div>
                                         <h4 className="text-white font-bold tracking-wide uppercase text-sm">{t.author}</h4>
