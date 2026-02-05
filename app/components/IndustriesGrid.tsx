@@ -173,7 +173,7 @@ function BentoCard({
                     fill
                     className={`
                         object-cover transition-all duration-700 ease-out
-                        ${isActive ? 'scale-110 grayscale-0 opacity-40' : 'scale-100 grayscale-100 opacity-60'}
+                        ${isActive ? 'scale-110 opacity-80' : 'scale-100 opacity-60'}
                     `}
                     sizes="(max-width: 768px) 100vw, 25vw"
                 />

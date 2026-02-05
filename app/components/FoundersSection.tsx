@@ -33,6 +33,7 @@ export default function FoundersSection() {
     });
 
     const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+    const y = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
 
     return (
         <section ref={targetRef} className="relative h-[300vh] bg-neutral-950">
@@ -40,8 +41,8 @@ export default function FoundersSection() {
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
 
                 {/* Horizontal Scroll Track */}
-                <motion.div 
-                    style={{ x }} 
+                <motion.div
+                    style={{ x, y }}
                     className="flex gap-8 md:gap-16 items-center pl-8 md:pl-24 pr-8"
                 >
 
@@ -62,8 +63,8 @@ export default function FoundersSection() {
 
                     {/* Founder Cards - Modern Horizontal Layout */}
                     {founders.map((founder, i) => (
-                        <div 
-                            key={i} 
+                        <div
+                            key={i}
                             className="group relative shrink-0 w-[90vw] md:w-[60vw] lg:w-[50vw] xl:w-[45vw] h-[65vh] md:h-[55vh] flex flex-col md:flex-row bg-neutral-900/50 border border-white/10 rounded-[2rem] overflow-hidden hover:border-brand-orange/50 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-orange/5"
                         >
                             {/* Image Side (Left on Desktop) */}
@@ -78,7 +79,7 @@ export default function FoundersSection() {
                                 />
                                 {/* Modern gradient overlay only for text legibility at bottom/edges */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-neutral-950/80 opacity-60" />
-                                
+
                                 {/* Floating Index */}
                                 <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10">
                                     <span className="text-xs font-mono text-white/80 px-2 py-1 rounded bg-black/30 backdrop-blur-md border border-white/10">
@@ -108,19 +109,19 @@ export default function FoundersSection() {
                                 </div>
 
                                 <div className="flex gap-4 pt-6 mt-auto border-t border-white/5">
-                                     <button className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-500 hover:text-white transition-colors group/btn">
+                                    <button className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-500 hover:text-white transition-colors group/btn">
                                         <Linkedin className="w-4 h-4" />
                                         <span className="hidden md:inline">LinkedIn</span>
-                                     </button>
-                                     <button className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-500 hover:text-white transition-colors group/btn">
+                                    </button>
+                                    <button className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-500 hover:text-white transition-colors group/btn">
                                         <Twitter className="w-4 h-4" />
                                         <span className="hidden md:inline">Twitter</span>
-                                     </button>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    
+
                     {/* End Spacer */}
                     <div className="w-20 shrink-0" />
 
