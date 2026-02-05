@@ -2,6 +2,7 @@
 
 import { Instagram, Linkedin, Twitter, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -9,15 +10,29 @@ export default function Footer() {
     const footerLinks = [
         {
             title: "Company",
-            links: ["About Us", "Our Team", "Careers", "Contact"]
+            links: [
+                { name: "About Us", href: "/#about" },
+                { name: "Our Team", href: "/#founders" },
+                { name: "Careers", href: "#" },
+                { name: "Contact", href: "/contact" }
+            ]
         },
         {
             title: "Services",
-            links: ["Social Media", "Performance Marketing", "Content Creation", "Web Development"]
+            links: [
+                { name: "Social Media", href: "/#services" },
+                { name: "Performance Marketing", href: "/#services" },
+                { name: "Content Creation", href: "/#services" },
+                { name: "Web Development", href: "/#services" }
+            ]
         },
         {
             title: "Legal",
-            links: ["Privacy Policy", "Terms of Service", "Cookie Policy"]
+            links: [
+                { name: "Privacy Policy", href: "#" },
+                { name: "Terms of Service", href: "#" },
+                { name: "Cookie Policy", href: "#" }
+            ]
         }
     ];
 
@@ -60,13 +75,13 @@ export default function Footer() {
                             <ul className="space-y-4">
                                 {column.links.map((link, linkIdx) => (
                                     <li key={linkIdx}>
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href={link.href}
                                             className="text-neutral-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit"
                                         >
-                                            {link}
+                                            {link.name}
                                             <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-x-0.5 transition-all" />
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

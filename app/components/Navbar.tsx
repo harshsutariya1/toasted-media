@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, GalleryHorizontal, LayoutTemplate, Columns, Film } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Grid3X3, CircleDot, Minus } from "lucide-react";
 
@@ -17,8 +18,6 @@ interface NavbarProps {
 export default function Navbar({ pattern, setPattern, carouselLayout = 'cinematic', setCarouselLayout }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-
-    // ... (rest of the component logic)
 
     // Scroll effect logic (kept same as before)
     useEffect(() => {
@@ -84,26 +83,26 @@ export default function Navbar({ pattern, setPattern, carouselLayout = 'cinemati
                 <div className={`flex items-center justify-between ${isMenuOpen ? "p-3 pr-4" : "pl-3 pr-1 md:pr-0 p-0"}`}>
 
                     {/* Logo Section */}
-                    <a href="/" className="flex items-center gap-3 group shrink-0">
+                    <Link href="/" className="flex items-center gap-3 group shrink-0">
                         <div className="w-9 h-9 md:w-10 md:h-10 bg-neutral-800 rounded-full flex items-center justify-center overflow-hidden shadow-sm border border-neutral-700 relative">
                             <Image src="/logo/logo2.jpg" alt="Logo" fill className="object-cover" />
                         </div>
                         <span className={`font-[family-name:var(--font-faculty)] font-medium text-lg tracking-tight text-white group-hover:text-brand-orange transition-colors ${isMenuOpen ? "block" : "hidden sm:block"}`}>
                             The Toasted Media
                         </span>
-                    </a>
+                    </Link>
 
                     {/* Desktop Horizontal Links (Visible only when menu is closed on Desktop) */}
                     {!isMenuOpen && (
                         <div className="hidden md:flex items-center gap-1 mx-4">
                             {links.map((link) => (
-                                <a
+                                <Link
                                     key={link.name}
                                     href={link.href}
                                     className="px-4 py-2 rounded-full text-sm font-medium text-neutral-400 hover:text-white hover:bg-white/5 transition-all"
                                 >
                                     {link.name}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     )}
@@ -114,16 +113,17 @@ export default function Navbar({ pattern, setPattern, carouselLayout = 'cinemati
                         {/* 'Let's Talk' Button - Visible on mobile now too, but distinct style */}
                         <AnimatePresence>
                             {!isMenuOpen && (
-                                <motion.a
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.8 }}
-                                    href="/#contact"
-                                    className="flex bg-white text-neutral-900 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold items-center gap-2 hover:bg-neutral-200 transition-colors mr-1 whitespace-nowrap"
-                                >
-                                    <span>Let&apos;s Talk</span>
-                                    <ArrowRight size={14} className="-rotate-45 md:rotate-0" />
-                                </motion.a>
+                                <Link href="/#contact" legacyBehavior passHref>
+                                    <motion.a
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        className="flex bg-white text-neutral-900 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold items-center gap-2 hover:bg-neutral-200 transition-colors mr-1 whitespace-nowrap cursor-pointer"
+                                    >
+                                        <span>Let&apos;s Talk</span>
+                                        <ArrowRight size={14} className="-rotate-45 md:rotate-0" />
+                                    </motion.a>
+                                </Link>
                             )}
                         </AnimatePresence>
 
@@ -173,23 +173,23 @@ export default function Navbar({ pattern, setPattern, carouselLayout = 'cinemati
                             <div className="p-4 pt-2 flex flex-col md:flex-row gap-6">
                                 {/* Navigation Links List */}
                                 <div className="flex flex-col gap-2 flex-1">
-                                    {[...links, { name: "Contact", href: "/#contact" }].map((link, i) => (
-                                        <motion.a
-                                            key={link.name}
-                                            href={link.href}
-                                            initial={{ x: -20, opacity: 0 }}
-                                            animate={{ x: 0, opacity: 1 }}
-                                            transition={{ delay: 0.1 + i * 0.05 }}
-                                            onClick={() => setIsMenuOpen(false)}
-                                            className="group flex items-center justify-between p-4 rounded-3xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer bg-white/5 md:bg-transparent"
-                                        >
-                                            <span className="text-lg md:text-2xl font-serif text-neutral-300 group-hover:text-white font-[family-name:var(--font-syne)]">
-                                                {link.name}
-                                            </span>
-                                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">
-                                                <ArrowRight size={16} className="text-brand-orange" />
-                                            </div>
-                                        </motion.a>
+                                    {[...links, { name: "Contact", href: "/contact" }].map((link, i) => (
+                                        <Link key={link.name} href={link.href} legacyBehavior passHref>
+                                            <motion.a
+                                                initial={{ x: -20, opacity: 0 }}
+                                                animate={{ x: 0, opacity: 1 }}
+                                                transition={{ delay: 0.1 + i * 0.05 }}
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="group flex items-center justify-between p-4 rounded-3xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer bg-white/5 md:bg-transparent"
+                                            >
+                                                <span className="text-lg md:text-2xl font-serif text-neutral-300 group-hover:text-white font-[family-name:var(--font-syne)]">
+                                                    {link.name}
+                                                </span>
+                                                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">
+                                                    <ArrowRight size={16} className="text-brand-orange" />
+                                                </div>
+                                            </motion.a>
+                                        </Link>
                                     ))}
 
                                     {/* Pattern Toggle Mobile Location */}
