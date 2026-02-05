@@ -119,7 +119,7 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
             <div className="relative flex flex-col items-center">
 
                 {/* --- Animation Container --- */}
-                <div className="relative w-72 h-72 scale-75 origin-center">
+                <div className="relative w-72 h-72 scale-[0.6] origin-center">
 
                     {/* Bread */}
                     <div

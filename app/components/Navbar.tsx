@@ -113,17 +113,19 @@ export default function Navbar({ pattern, setPattern, carouselLayout = 'cinemati
                         {/* 'Let's Talk' Button - Visible on mobile now too, but distinct style */}
                         <AnimatePresence>
                             {!isMenuOpen && (
-                                <Link href="/#contact" legacyBehavior passHref>
-                                    <motion.a
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.8 }}
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
+                                >
+                                    <Link
+                                        href="/#contact"
                                         className="flex bg-white text-neutral-900 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold items-center gap-2 hover:bg-neutral-200 transition-colors mr-1 whitespace-nowrap cursor-pointer"
                                     >
                                         <span>Let&apos;s Talk</span>
                                         <ArrowRight size={14} className="-rotate-45 md:rotate-0" />
-                                    </motion.a>
-                                </Link>
+                                    </Link>
+                                </motion.div>
                             )}
                         </AnimatePresence>
 
@@ -174,13 +176,17 @@ export default function Navbar({ pattern, setPattern, carouselLayout = 'cinemati
                                 {/* Navigation Links List */}
                                 <div className="flex flex-col gap-2 flex-1">
                                     {[...links, { name: "Contact", href: "/contact" }].map((link, i) => (
-                                        <Link key={link.name} href={link.href} legacyBehavior passHref>
-                                            <motion.a
-                                                initial={{ x: -20, opacity: 0 }}
-                                                animate={{ x: 0, opacity: 1 }}
-                                                transition={{ delay: 0.1 + i * 0.05 }}
+                                        <motion.div
+                                            key={link.name}
+                                            initial={{ x: -20, opacity: 0 }}
+                                            animate={{ x: 0, opacity: 1 }}
+                                            transition={{ delay: 0.1 + i * 0.05 }}
+                                            className="w-full"
+                                        >
+                                            <Link
+                                                href={link.href}
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="group flex items-center justify-between p-4 rounded-3xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer bg-white/5 md:bg-transparent"
+                                                className="group flex items-center justify-between p-4 rounded-3xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer bg-white/5 md:bg-transparent w-full"
                                             >
                                                 <span className="text-lg md:text-2xl font-serif text-neutral-300 group-hover:text-white font-[family-name:var(--font-syne)]">
                                                     {link.name}
@@ -188,8 +194,8 @@ export default function Navbar({ pattern, setPattern, carouselLayout = 'cinemati
                                                 <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">
                                                     <ArrowRight size={16} className="text-brand-orange" />
                                                 </div>
-                                            </motion.a>
-                                        </Link>
+                                            </Link>
+                                        </motion.div>
                                     ))}
 
                                     {/* Pattern Toggle Mobile Location */}
