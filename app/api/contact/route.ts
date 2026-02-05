@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 
-// Initialize Resend with your API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend with your API key inside the handler
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Define validation schema for robust input handling
 const contactSchema = z.object({
@@ -26,6 +26,8 @@ export async function POST(request: Request) {
                 { status: 500 }
             );
         }
+
+        const resend = new Resend(process.env.RESEND_API_KEY);
 
         const body = await request.json();
 
