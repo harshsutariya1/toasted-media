@@ -182,8 +182,8 @@ export default function ContactSection() {
                             <ContactDetail
                                 icon={<Mail className="w-5 h-5" />}
                                 label="Email Us"
-                                value="hello@toastedmediaagency.com"
-                                href="mailto:hello@toastedmediaagency.com"
+                                value="toastedmedia3@gmail.com"
+                                href="mailto:toastedmedia3@gmail.com"
                             />
                             <ContactDetail
                                 icon={<Phone className="w-5 h-5" />}

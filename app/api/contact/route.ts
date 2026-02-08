@@ -55,7 +55,7 @@ export async function POST(request: Request) {
         // 4. Send Email via Resend
         // Use environment variables for emails if available, otherwise fallback (with warnings)
         const fromEmail = process.env.RESEND_FROM_EMAIL || 'Toasted Media Form <onboarding@resend.dev>';
-        const toEmail = process.env.CONTACT_EMAIL || 'hello@toastedmediaagency.com';
+        const toEmail = process.env.CONTACT_EMAIL || 'toastedmedia3@gmail.com';
 
         const { data, error } = await resend.emails.send({
             from: fromEmail,
