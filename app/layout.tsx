@@ -39,6 +39,7 @@ const facultyGlyphic = Faculty_Glyphic({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://toastedmediaagency.com"),
   title: "The Toasted Media | Digital Marketing & Social Media Agency",
   description: "A full-service social media and digital marketing agency dedicated to transforming brands into industry icons through creative storytelling and data-driven strategies.",
   keywords: ["Digital Marketing", "Social Media Agency", "SEO", "Web Development", "Branding"],

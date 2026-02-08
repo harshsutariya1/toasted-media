@@ -7,62 +7,62 @@ import { z } from 'zod';
 
 // Define validation schema for robust input handling
 const contactSchema = z.object({
-    name: z.string().min(1, 'Name is required'),
-    email: z.string().email('Invalid email address'),
-    website: z.string().optional(),
-    interest: z.string().optional(),
-    message: z.string().min(1, 'Message is required'),
-    honeypot: z.string().optional(),
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email address'),
+  website: z.string().optional(),
+  interest: z.string().optional(),
+  message: z.string().min(1, 'Message is required'),
+  honeypot: z.string().optional(),
 });
 
 export async function POST(request: Request) {
-    try {
-        // 1. Check Configuration
-        // Ensure the API key is available before proceeding.
-        if (!process.env.RESEND_API_KEY) {
-            console.error('Missing RESEND_API_KEY environment variable');
-            return NextResponse.json(
-                { error: 'Server configuration error' },
-                { status: 500 }
-            );
-        }
+  try {
+    // 1. Check Configuration
+    // Ensure the API key is available before proceeding.
+    if (!process.env.RESEND_API_KEY) {
+      console.error('Missing RESEND_API_KEY environment variable');
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
 
-        const resend = new Resend(process.env.RESEND_API_KEY);
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-        const body = await request.json();
+    const body = await request.json();
 
-        // 2. Validate Input using Zod
-        const result = contactSchema.safeParse(body);
+    // 2. Validate Input using Zod
+    const result = contactSchema.safeParse(body);
 
-        if (!result.success) {
-            // Return the first validation error message
-            const errorMessage = result.error.issues[0]?.message || 'Invalid input';
-            return NextResponse.json(
-                { error: errorMessage },
-                { status: 400 }
-            );
-        }
+    if (!result.success) {
+      // Return the first validation error message
+      const errorMessage = result.error.issues[0]?.message || 'Invalid input';
+      return NextResponse.json(
+        { error: errorMessage },
+        { status: 400 }
+      );
+    }
 
-        const { name, email, website, interest, message, honeypot } = result.data;
+    const { name, email, website, interest, message, honeypot } = result.data;
 
-        // 3. Security: Honeypot Check (Anti-Spam)
-        // If the hidden 'honeypot' field has a value, it's a bot.
-        if (honeypot) {
-            // Silently fail for bots (return success so they don't retry)
-            return NextResponse.json({ success: true }, { status: 200 });
-        }
+    // 3. Security: Honeypot Check (Anti-Spam)
+    // If the hidden 'honeypot' field has a value, it's a bot.
+    if (honeypot) {
+      // Silently fail for bots (return success so they don't retry)
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
 
-        // 4. Send Email via Resend
-        // Use environment variables for emails if available, otherwise fallback (with warnings)
-        const fromEmail = process.env.RESEND_FROM_EMAIL || 'Toasted Media Form <onboarding@resend.dev>';
-        const toEmail = process.env.CONTACT_EMAIL || 'toastedmedia3@gmail.com';
+    // 4. Send Email via Resend
+    // Use environment variables for emails if available, otherwise fallback (with warnings)
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'Toasted Media Form <onboarding@resend.dev>';
+    const toEmail = process.env.CONTACT_EMAIL || 'toastedmedia3@gmail.com';
 
-        const { data, error } = await resend.emails.send({
-            from: fromEmail,
-            to: [toEmail],
-            replyTo: email,
-            subject: `New Inquiry: ${interest || 'General'} - ${name}`,
-            html: `
+    const { data, error } = await resend.emails.send({
+      from: fromEmail,
+      to: [toEmail],
+      replyTo: email,
+      subject: `New Inquiry: ${interest || 'General'} - ${name}`,
+      html: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -140,24 +140,24 @@ export async function POST(request: Request) {
         </body>
         </html>
       `,
-        });
+    });
 
-        if (error) {
-            console.error('Resend API Error:', error);
-            return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
-        }
-
-        console.log('Email sent successfully:', data);
-
-        return NextResponse.json(
-            { success: true, message: 'Message sent successfully!' },
-            { status: 200 }
-        );
-    } catch (error) {
-        console.error('Contact API Internal Error:', error);
-        return NextResponse.json(
-            { error: 'Internal Server Error' },
-            { status: 500 }
-        );
+    if (error) {
+      console.error('Resend API Error:', error);
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
     }
+
+
+
+    return NextResponse.json(
+      { success: true, message: 'Message sent successfully!' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Contact API Internal Error:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
 }
