@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Outfit, Oswald, Syne, DM_Serif_Display, Faculty_Glyphic } from "next/font/google"; // Frequently used fonts
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 import ScrollToTop from "./components/ScrollToTop";
@@ -66,6 +67,7 @@ export default function RootLayout({
       >
         {children}
         <ScrollToTop />
+        <GoogleAnalytics gaId={process.env.GA_ID || ""} />
       </body>
     </html>
   );
