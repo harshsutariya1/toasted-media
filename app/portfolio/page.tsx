@@ -5,59 +5,9 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-
-// Portfolio Data
-const projects = [
-    {
-        id: 1,
-        title: "Lumina Financial",
-        category: "FinTech",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2340",
-        className: "md:col-span-2 md:row-span-2",
-        description: "Reimagining the future of digital banking with a user-centric dashboard."
-    },
-    {
-        id: 2,
-        title: "Vogue Estate",
-        category: "Real Estate",
-        image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=2173",
-        className: "md:col-span-1 md:row-span-2",
-        description: "Immersive 3D property tours for luxury market listings."
-    },
-    {
-        id: 3,
-        title: "Bloom Wellness",
-        category: "Healthcare",
-        image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2340",
-        className: "md:col-span-1 md:row-span-1",
-        description: "Patient-first digital care platform."
-    },
-    {
-        id: 4,
-        title: "Urban Threads",
-        category: "E-Commerce",
-        image: "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=2340",
-        description: "High-conversion storefront for modern streetwear.",
-        className: "md:col-span-1 md:row-span-1",
-    },
-    {
-        id: 5,
-        title: "Nova SaaS",
-        category: "Tech",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426",
-        description: "Scalable analytics dashboard for enterprise teams.",
-        className: "md:col-span-2 md:row-span-1",
-    },
-    {
-        id: 6,
-        title: "Global Logistics",
-        category: "Logistics",
-        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2340",
-        description: "Connecting the world with streamlined logistics solutions.",
-        className: "md:col-span-1 md:row-span-1",
-    }
-];
+import Link from "next/link";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { projects } from "@/app/data/portfolio";
 
 export default function PortfolioPage() {
     const [pattern, setPattern] = useState<'dots' | 'grid' | 'lines'>('grid');
@@ -79,13 +29,70 @@ export default function PortfolioPage() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[300px]">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[350px]">
                         {projects.map((project, i) => (
                             <PortfolioCard key={project.id} project={project} index={i} />
                         ))}
                     </div>
                 </div>
             </section>
+
+            {/* NEW: Process Section */}
+            <section className="py-32 bg-neutral-900 border-y border-white/5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,theme(colors.brand.orange/5%),transparent_50%)]" />
+
+                <div className="max-w-[90rem] mx-auto px-6 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-start">
+                        <div>
+                            <span className="text-brand-orange font-mono tracking-wider uppercase text-sm mb-4 block">How We Work</span>
+                            <h2 className="text-4xl md:text-6xl font-black font-[family-name:var(--font-faculty)] mb-8 leading-tight">
+                                From concept to <br />
+                                <span className="text-neutral-500">market dominance.</span>
+                            </h2>
+                            <p className="text-neutral-400 text-lg leading-relaxed max-w-md">
+                                We don't just build websites; we build business assets. Our proven methodology ensures every pixel serves a purpose.
+                            </p>
+                        </div>
+
+                        <div className="grid gap-8">
+                            {[
+                                {
+                                    step: "01",
+                                    title: "Discovery & Strategy",
+                                    desc: "We dive deep into your business model, audience, and competitors to craft a roadmap for success."
+                                },
+                                {
+                                    step: "02",
+                                    title: "Design & Identity",
+                                    desc: "Creating a visual language that resonates. We design interfaces that are beautiful, intuitive, and conversion-focused."
+                                },
+                                {
+                                    step: "03",
+                                    title: "Development",
+                                    desc: "Clean, semantic, and high-performance code. We build scalable systems using the latest tech stacks."
+                                },
+                                {
+                                    step: "04",
+                                    title: "Launch & Growth",
+                                    desc: "Rigorous testing, SEO optimization, and a seamless launch. We ensure you hit the ground running."
+                                }
+                            ].map((phase, i) => (
+                                <div key={i} className="group flex gap-6 p-6 rounded-2xl border border-white/5 hover:bg-white/5 transition-colors">
+                                    <span className="text-2xl font-black text-brand-orange/50 font-[family-name:var(--font-faculty)] group-hover:text-brand-orange transition-colors">
+                                        {phase.step}
+                                    </span>
+                                    <div>
+                                        <h3 className="text-xl font-bold font-[family-name:var(--font-syne)] mb-2">{phase.title}</h3>
+                                        <p className="text-neutral-400 text-sm leading-relaxed">{phase.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
 
             <Footer />
         </main>
@@ -94,33 +101,37 @@ export default function PortfolioPage() {
 
 function PortfolioCard({ project, index }: { project: any, index: number }) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className={`group relative overflow-hidden rounded-3xl bg-neutral-900 border border-white/5 cursor-pointer ${project.className}`}
-        >
-            <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
-            />
+        <Link href={`/portfolio/${project.slug}`} className={`block ${project.className}`}>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative h-full w-full overflow-hidden rounded-3xl bg-neutral-900 border border-white/5 cursor-pointer"
+            >
+                <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
+                />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent p-8 flex flex-col justify-end">
-                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-mono uppercase tracking-widest text-brand-orange bg-brand-orange/10 px-2 py-1 rounded">
-                            {project.category}
-                        </span>
-                        <ArrowUpRight className="text-white opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent p-8 flex flex-col justify-end">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-xs font-mono uppercase tracking-widest text-brand-orange bg-brand-orange/10 px-2 py-1 rounded">
+                                {project.category}
+                            </span>
+                            <div className="bg-white text-black p-2 rounded-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                                <ArrowUpRight size={16} />
+                            </div>
+                        </div>
+                        <h3 className="text-3xl font-bold text-white mb-2 font-[family-name:var(--font-syne)]">{project.title}</h3>
+                        <p className="text-stone-400 text-sm max-w-[90%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                            {project.description}
+                        </p>
                     </div>
-                    <h3 className="text-3xl font-bold text-white mb-2 font-[family-name:var(--font-syne)]">{project.title}</h3>
-                    <p className="text-stone-400 text-sm max-w-[90%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        {project.description}
-                    </p>
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        </Link>
     );
 }

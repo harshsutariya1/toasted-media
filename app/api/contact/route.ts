@@ -148,9 +148,34 @@ export async function POST(request: Request) {
     }
 
 
+    let contactAdded = false;
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
+
+    if (audienceId) {
+      try {
+
+        const nameParts = name.trim().split(/\s+/);
+        const firstName = nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : undefined;
+
+        await resend.contacts.create({
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          unsubscribed: false,
+          audienceId: audienceId,
+        });
+        contactAdded = true;
+      } catch (contactError) {
+        console.error('Failed to add contact to Resend Audience:', contactError);
+        // We do NOT fail the request here; the email was sent successfully.
+      }
+    } else {
+      console.warn('RESEND_AUDIENCE_ID is not set. Contact was not added to audience.');
+    }
 
     return NextResponse.json(
-      { success: true, message: 'Message sent successfully!' },
+      { success: true, message: 'Message sent successfully!', contactAdded },
       { status: 200 }
     );
   } catch (error) {

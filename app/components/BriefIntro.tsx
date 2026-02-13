@@ -10,6 +10,20 @@ interface BriefIntroProps {
 export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
     const containerRef = useRef<HTMLElement>(null);
     const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+    const [columnBlocks, setColumnBlocks] = useState<number[]>([]);
+
+    useEffect(() => {
+        const updateBlocks = () => {
+            const width = window.innerWidth;
+            const blockSize = width < 768 ? 40 : 60; // Responsive block size
+            const count = Math.ceil(width / blockSize);
+            setColumnBlocks(Array.from({ length: count }, (_, i) => i));
+        };
+
+        updateBlocks();
+        window.addEventListener('resize', updateBlocks);
+        return () => window.removeEventListener('resize', updateBlocks);
+    }, []);
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -172,8 +186,13 @@ export default function BriefIntro({ pattern = 'dots' }: BriefIntroProps) {
                     }}
                 >
                     {/* Generate pixel columns for animated reveal */}
-                    {Array.from({ length: 20 }).map((_, i) => (
-                        <PixelColumn key={i} index={i} scrollProgress={scrollYProgress} />
+                    {columnBlocks.map((_, i) => (
+                        <PixelColumn
+                            key={i}
+                            index={i}
+                            totalColumns={columnBlocks.length}
+                            scrollProgress={scrollYProgress}
+                        />
                     ))}
                 </motion.div>
             </div>
@@ -186,12 +205,25 @@ import { MotionValue } from "framer-motion";
 interface PixelColumnProps {
     index: number;
     scrollProgress: MotionValue<number>;
+    totalColumns: number;
 }
 
-function PixelColumn({ index, scrollProgress }: PixelColumnProps) {
+function PixelColumn({ index, scrollProgress, totalColumns }: PixelColumnProps) {
+    // Dynamic stagger based on total columns to ensure animation completes within scroll range
+    // Target range: 0.5 to 0.9
+    const totalDuration = 0.4;
+    const blockDuration = 0.2; // How long one block takes to grow
+    const maxStagger = totalDuration - blockDuration; // 0.2
+
+    // Calculate delay for this specific column
+    const delay = (index / totalColumns) * maxStagger;
+
+    const start = 0.5 + delay;
+    const end = start + blockDuration;
+
     const scaleY = useTransform(
         scrollProgress,
-        [0.5 + (index * 0.015), 0.7 + (index * 0.015)],
+        [start, end],
         [0, 1]
     );
 
