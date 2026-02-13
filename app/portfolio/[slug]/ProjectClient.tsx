@@ -77,6 +77,7 @@ export default function ProjectClient({ project }: { project: Project }) {
                             src={project.image}
                             alt={project.title}
                             fill
+                            sizes="100vw"
                             className="object-cover"
                             priority
                         />
@@ -125,6 +126,7 @@ export default function ProjectClient({ project }: { project: Project }) {
                                         src={img}
                                         alt={`${project.title} screenshot ${i + 1}`}
                                         fill
+                                        sizes="100vw"
                                         className="object-cover"
                                     />
                                 </div>

@@ -25,67 +25,52 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
     const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
     useEffect(() => {
-        let isMounted = true;
-        let imagesLoadedCount = 0;
-
-        // Critical assets to preload (Logo only)
-        const criticalImages = [
-            "/logo/logo2.jpg"
-        ];
-
-        const checkGlobalLoad = () => {
-            if (imagesLoadedCount >= criticalImages.length && document.readyState === 'complete') {
-                if (isMounted) setIsLoaded(true);
-            }
-        };
-
-        // 1. Preload Images
-        criticalImages.forEach(src => {
-            const img = new window.Image();
-            img.src = src;
-            img.onload = () => {
-                imagesLoadedCount++;
-                checkGlobalLoad();
-            };
-            img.onerror = () => {
-                imagesLoadedCount++; // Count error as done to avoid blocking
-                checkGlobalLoad();
-            };
-        });
-
-        // 2. Window Load Fallback (in case cached or other assets)
-        const handleWindowLoad = () => {
-            checkGlobalLoad();
-        };
-
-        if (document.readyState === 'complete') {
-            checkGlobalLoad();
-        } else {
-            window.addEventListener('load', handleWindowLoad);
-        }
-
-        // 3. Fallback Timeout (Force load after 8s if something gets stuck)
+        // Fallback Timeout (Force load after 8s if something gets stuck)
         const fallbackTimer = setTimeout(() => {
-            if (isMounted) setIsLoaded(true);
+            setIsLoaded(true);
         }, 8000);
 
         return () => {
-            isMounted = false;
-            window.removeEventListener('load', handleWindowLoad);
             clearTimeout(fallbackTimer);
         };
     }, []);
 
     // Animation Sequence Controller
     useEffect(() => {
-        // Start Sequence
-        const t1 = setTimeout(() => setPhase('lowering'), 500);
-        const t2 = setTimeout(() => setPhase('toasting'), 1000);
+        let t1: NodeJS.Timeout;
+        let t2: NodeJS.Timeout;
+        let tMin: NodeJS.Timeout;
 
-        // Ensure user sees the toasting animation for at least a moment (2.5s total splash time minimum)
-        const tMin = setTimeout(() => setMinTimeElapsed(true), 2500);
+        // Force start sequence
+        const startSequence = () => {
+            t1 = setTimeout(() => {
+                setPhase(p => p === 'hover' ? 'lowering' : p);
+            }, 500);
 
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(tMin); };
+            t2 = setTimeout(() => {
+                setPhase(p => (p === 'hover' || p === 'lowering') ? 'toasting' : p);
+            }, 1000);
+
+            // Ensure user sees the toasting animation for at least a moment (2.5s total splash time minimum)
+            tMin = setTimeout(() => setMinTimeElapsed(true), 2500);
+        };
+
+        startSequence();
+
+        // Safety Valve: If still hovering after 2 seconds, force toasting
+        const safetyTimer = setTimeout(() => {
+            setPhase(p => {
+                if (p === 'hover' || p === 'lowering') return 'toasting';
+                return p;
+            });
+        }, 2000);
+
+        return () => {
+            clearTimeout(t1);
+            clearTimeout(t2);
+            clearTimeout(tMin);
+            clearTimeout(safetyTimer);
+        };
     }, []);
 
     // Watch for Transition to Popped
@@ -145,18 +130,21 @@ const SplashScreen = ({ onFinish }: SplashScreenProps) => {
               transform transition-all duration-300 relative z-10
               ${phase === 'popped' || phase === 'fading' ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
             `}>
-                            <div className="flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
+                            <div className="relative flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-lg overflow-hidden p-2 ring-4 ring-orange-600/20">
                                 <Image
                                     src="/logo/logo2.jpg"
                                     alt="Toasted Media Logo"
                                     fill
+                                    sizes="64px"
                                     priority
                                     className="object-contain rounded-3xl"
+                                    onLoad={() => setIsLoaded(true)}
                                     onError={(e) => {
                                         // Next/Image onError handling
                                         const target = e.target as HTMLElement;
                                         target.style.display = 'none';
                                         target.parentElement?.parentElement?.classList.remove('p-2');
+                                        setIsLoaded(true); // Proceed even if error
                                     }}
                                 />
                             </div>

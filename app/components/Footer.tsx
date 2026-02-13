@@ -44,7 +44,7 @@ export default function Footer() {
                     <div className="space-y-6">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden relative">
-                                <Image src="/logo/logo.jpg" alt="Logo" fill className="object-cover" />
+                                <Image src="/logo/logo.jpg" alt="Logo" fill sizes="40px" className="object-cover" />
                             </div>
                             <span className="font-[family-name:var(--font-faculty)] font-medium text-lg tracking-wide">THE TOASTED MEDIA</span>
                         </div>

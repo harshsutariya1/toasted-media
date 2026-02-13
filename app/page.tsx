@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-neutral-900 text-white font-sans selection:bg-brand-orange/30">
+    <main className="relative min-h-screen bg-neutral-900 text-white font-sans selection:bg-brand-orange/30">
       <AnimatePresence mode="wait">
         {showSplash && (
           <SplashScreen key="splash" onFinish={handleSplashFinish} />

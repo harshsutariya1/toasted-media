@@ -28,9 +28,7 @@
 
 /* 3. Base Styles */
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+
 
   body {
     /* Use the new theme variables here */
