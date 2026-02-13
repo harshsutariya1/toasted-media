@@ -4,6 +4,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 import ScrollToTop from "./components/ScrollToTop";
+import DeveloperCredit from "./components/DeveloperCredit";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -68,6 +69,7 @@ export default function RootLayout({
       >
         {children}
         <ScrollToTop />
+        <DeveloperCredit />
         <GoogleAnalytics gaId={process.env.GA_ID || ""} />
       </body>
     </html>
