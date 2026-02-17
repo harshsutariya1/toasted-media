@@ -13,6 +13,7 @@ export default function Footer() {
             links: [
                 { name: "About Us", href: "/#about" },
                 { name: "Our Team", href: "/#founders" },
+                { name: "Blogs", href: "/blog" },
                 { name: "Careers", href: "#" },
                 { name: "Contact", href: "/contact" }
             ]
