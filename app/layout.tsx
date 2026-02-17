@@ -63,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" className="scroll-smooth scroll-pt-24">
       <body
         className={`${inter.variable} ${outfit.variable} ${oswald.variable} ${syne.variable} ${dmSerifDisplay.variable} ${facultyGlyphic.variable} antialiased bg-white text-neutral-900`}
       >
