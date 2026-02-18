@@ -38,7 +38,11 @@ async function getPost(slug: string) {
     readingTime,
     showTableOfContents,
     "author": author->name,
-    "authorImage": author->image
+    "authorImage": author->image,
+    seoTitle,
+    seoDescription,
+    seoKeywords,
+    seoImage
   }`
     const data = await client.fetch(query, { slug })
     return data
@@ -71,14 +75,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         }
     }
 
-    const ogImage = post.mainImage ? urlFor(post.mainImage).width(1200).height(630).url() : undefined
+    const title = post.seoTitle || post.title
+    const description = post.seoDescription || post.excerpt || post.title
+    const ogImage = post.seoImage
+        ? urlFor(post.seoImage).width(1200).height(630).url()
+        : (post.mainImage ? urlFor(post.mainImage).width(1200).height(630).url() : undefined)
 
     return {
-        title: `${post.title} | The Toasted Media`,
-        description: post.excerpt || post.title,
+        title: `${title} | The Toasted Media`,
+        description: description,
+        keywords: post.seoKeywords || [],
         openGraph: {
-            title: post.title,
-            description: post.excerpt || post.title,
+            title: title,
+            description: description,
             type: 'article',
             publishedTime: post.publishedAt,
             authors: [post.author],
@@ -86,8 +95,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         },
         twitter: {
             card: 'summary_large_image',
-            title: post.title,
-            description: post.excerpt || post.title,
+            title: title,
+            description: description,
             images: ogImage ? [ogImage] : [],
         },
     }
